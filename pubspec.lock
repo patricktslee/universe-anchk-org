@@ -100,7 +100,7 @@ packages:
     source: hosted
     version: "7.1.0"
   build_web_compilers:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: build_web_compilers
       url: "https://pub.dartlang.org"
