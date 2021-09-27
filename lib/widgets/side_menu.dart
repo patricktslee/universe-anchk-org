@@ -18,7 +18,7 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
+//    double _width = MediaQuery.of(context).size.width;
 
     return Container(
       decoration: customBoxDecoration(),
@@ -28,8 +28,9 @@ class SideMenu extends StatelessWidget {
           if (ResponsiveWidget.isSmallScreen(context))
             Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 Row(
@@ -47,12 +48,16 @@ class SideMenu extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 2,
-                      child: Text('test'),
+                      child: OrganizationText(
+                        size: 20,
+                        weight: FontWeight.bold,
+                        color: dark,
+                      ),
                     ),
 //                    SizedBox(width: _width / 48),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
               ],
@@ -60,24 +65,42 @@ class SideMenu extends StatelessWidget {
           Divider(
             color: lightGrey.withOpacity(.1),
           ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: sideMenuItemRoutes
-                .map((item) => SideMenuItem(
-                    itemName: item.name,
-                    onTap: () {
-                      if (item.route == authenticationPageRoute) {
-                        Get.offAllNamed(authenticationPageRoute);
-                      } else if (!menuController.isActive(item.name)) {
-                        menuController.changeActiveItemTo(item.name);
-                        if (ResponsiveWidget.isSmallScreen(context)) Get.back();
-                        navigationController.navigateTo(item.route);
-                      }
-                    }))
-                .toList(),
-          )
+          MenuList(
+              menuController: menuController,
+              navigationController: navigationController)
         ],
       ),
+    );
+  }
+}
+
+class MenuList extends StatelessWidget {
+  const MenuList({
+    Key? key,
+    required this.menuController,
+    required this.navigationController,
+  }) : super(key: key);
+
+  final MenuController menuController;
+  final NavigationController navigationController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: sideMenuItemRoutes
+          .map((item) => SideMenuItem(
+              itemName: item.name,
+              onTap: () {
+                if (item.route == authenticationPageRoute) {
+                  Get.offAllNamed(authenticationPageRoute);
+                } else if (!menuController.isActive(item.name)) {
+                  menuController.changeActiveItemTo(item.name);
+                  if (ResponsiveWidget.isSmallScreen(context)) Get.back();
+                  navigationController.navigateTo(item.route);
+                }
+              }))
+          .toList(),
     );
   }
 }

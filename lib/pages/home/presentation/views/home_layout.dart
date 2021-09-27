@@ -45,6 +45,8 @@ class HomeLayout extends GetResponsiveView<HomeController> {
   }
 
   Container webScreen() {
+    final MenuController menuController = Get.find();
+    final NavigationController navigationController = Get.find();
     bool smallScreen = screen.width < 650;
     print(
         "screen.width is ${screen.width.toString()} /n smallScreen is ${smallScreen.toString()})");
@@ -115,9 +117,6 @@ class HomeLayout extends GetResponsiveView<HomeController> {
             ],
           ),
         ),
-        body: const Center(
-          child: Text('My Page!'),
-        ),
         drawer: smallScreen
             ? const Drawer(
                 // Add a ListView to the drawer. This ensures the user can scroll
@@ -126,6 +125,26 @@ class HomeLayout extends GetResponsiveView<HomeController> {
                 child: SideMenu(),
               )
             : null,
+        body: Center(
+          child: Row(
+            children: [
+              Container(
+                child: !smallScreen
+                    ? Expanded(
+                        flex: 1,
+                        child: MenuList(
+                            menuController: menuController,
+                            navigationController: navigationController),
+                      )
+                    : null,
+              ),
+              const Expanded(
+                flex: 3,
+                child: Center(child: Text('My Page!')),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
