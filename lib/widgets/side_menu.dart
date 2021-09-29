@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universe/constants/metadata.dart';
 import 'package:universe/constants/style.dart';
 import 'package:universe/helpers/responsiveness.dart';
+import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
 import 'package:universe/pages/home/presentation/controllers/menu_controller.dart';
 import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
 import 'package:universe/routing/routes.dart';
@@ -86,6 +87,8 @@ class MenuList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.find();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: sideMenuItemRoutes
@@ -94,10 +97,10 @@ class MenuList extends StatelessWidget {
               onTap: () {
                 if (item.route == authenticationPageRoute) {
                   Get.offAllNamed(authenticationPageRoute);
-                } else if (!menuController.isActive(item.name)) {
-                  menuController.changeActiveItemTo(item.name);
+                } else if (!controller.isActive(item.name)) {
+                  controller.changeActiveItemTo(item.name);
                   if (ResponsiveWidget.isSmallScreen(context)) Get.back();
-                  navigationController.navigateTo(item.route);
+                  controller.navigateTo(item.route);
                 }
               }))
           .toList(),

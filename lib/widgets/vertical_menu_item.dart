@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universe/constants/style.dart';
+import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
 import 'package:universe/pages/home/presentation/controllers/menu_controller.dart';
 
 import 'custom_text.dart';
@@ -11,7 +12,7 @@ class VertticalMenuItem extends StatelessWidget {
   const VertticalMenuItem(
       {Key? key, required this.itemName, required this.onTap})
       : super(key: key);
-  static MenuController menuController = Get.find();
+  static HomeController menuController = Get.find();
 
   @override
   Widget build(BuildContext context) {

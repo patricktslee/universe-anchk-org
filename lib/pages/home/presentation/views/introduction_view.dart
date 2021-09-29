@@ -11,7 +11,7 @@ import 'package:universe/widgets/custom_text.dart';
 import 'package:get/get.dart';
 import 'package:universe/pages/home/presentation/controllers/menu_controller.dart';
 
-class OverviewPage extends StatelessWidget {
+class IntroductionPage extends StatelessWidget {
   static HomeController menuController = Get.find();
   @override
   Widget build(BuildContext context) {

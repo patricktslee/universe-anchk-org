@@ -19,6 +19,7 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
+          fontFamily: 'NotoSans',
           fontSize: size, // default is 16,
           color: color, // default is Colors.black,
           fontWeight: weight), // default is FontWeight.normal

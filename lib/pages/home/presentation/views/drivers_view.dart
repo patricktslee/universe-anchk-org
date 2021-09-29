@@ -1,13 +1,14 @@
 import 'package:universe/constants/style.dart';
 import 'package:flutter/material.dart';
 import 'package:universe/helpers/responsiveness.dart';
+import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
 import 'package:universe/pages/home/presentation/controllers/menu_controller.dart';
 import 'package:universe/widgets/custom_text.dart';
 import 'package:get/get.dart';
 
 class DriversPage extends StatelessWidget {
   const DriversPage({Key? key}) : super(key: key);
-  static MenuController menuController = Get.find();
+  static HomeController menuController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,11 @@ class DriversPage extends StatelessWidget {
           ),
           Expanded(
               child: ListView(
-            children: [Container()],
+            children: [
+              Container(
+                child: Text('Driver'),
+              )
+            ],
           )),
         ],
       ),

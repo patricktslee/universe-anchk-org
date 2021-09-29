@@ -7,6 +7,7 @@ import 'package:universe/constants/metadata.dart';
 import 'package:universe/constants/style.dart';
 
 import 'package:universe/pages/home/presentation/widgets/custom_widgets.dart';
+import 'package:universe/routing/router.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:universe/widgets/custom_box_decoration.dart';
 import 'package:universe/widgets/custom_text.dart';
@@ -125,25 +126,33 @@ class HomeLayout extends GetResponsiveView<HomeController> {
                 child: SideMenu(),
               )
             : null,
-        body: Center(
-          child: Row(
-            children: [
-              Container(
-                child: !smallScreen
-                    ? Expanded(
-                        flex: 1,
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              child: !smallScreen
+                  ? Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
                         child: MenuList(
                             menuController: menuController,
                             navigationController: navigationController),
-                      )
-                    : null,
+                      ),
+                    )
+                  : null,
+            ),
+            Expanded(
+              flex: 3,
+              child: Navigator(
+                key: controller.navigatorKey,
+                onGenerateRoute: generateRoute,
+                initialRoute: introductionPageRoute,
               ),
-              const Expanded(
-                flex: 3,
-                child: Center(child: Text('My Page!')),
-              )
-            ],
-          ),
+              //Center(child: Text('My Page!')),
+            )
+          ],
         ),
       ),
     );
