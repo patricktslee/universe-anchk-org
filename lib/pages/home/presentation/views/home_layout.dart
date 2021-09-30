@@ -48,7 +48,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
   Container webScreen() {
     final MenuController menuController = Get.find();
     final NavigationController navigationController = Get.find();
-    bool smallScreen = screen.width < 650;
+    bool smallScreen = screen.width < 600;
     print(
         "screen.width is ${screen.width.toString()} /n smallScreen is ${smallScreen.toString()})");
     TargetPlatform.android;
@@ -74,7 +74,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
                 ),
               ),
               OrganizationText(
-                size: 20,
+                size: 28,
                 weight: FontWeight.bold,
                 color: dark,
               ),

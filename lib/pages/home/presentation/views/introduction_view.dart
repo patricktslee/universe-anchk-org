@@ -16,7 +16,7 @@ class IntroductionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
       child: Container(
         child: Column(
           children: [
@@ -25,8 +25,7 @@ class IntroductionPage extends StatelessWidget {
                 children: [
                   Container(
                       margin: EdgeInsets.only(
-                          top:
-                              ResponsiveWidget.isSmallScreen(context) ? 56 : 6),
+                          top: ResponsiveWidget.isSmallScreen(context) ? 0 : 6),
                       child: CustomText(
                         text: menuController.activeItem.value,
                         size: 24,
