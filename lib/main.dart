@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: '萬國宣道詠團',
       theme: ThemeData(
-        scaffoldBackgroundColor: light,
+        scaffoldBackgroundColor: oceanBlue,
         textTheme: GoogleFonts.mulishTextTheme(Theme.of(context).textTheme)
             .apply(bodyColor: Colors.black),
         pageTransitionsTheme: const PageTransitionsTheme(builders: {

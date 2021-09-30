@@ -16,7 +16,7 @@ class IntroductionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
+      padding: const EdgeInsets.fromLTRB(8, 88, 8, 8),
       child: Container(
         child: Column(
           children: [
