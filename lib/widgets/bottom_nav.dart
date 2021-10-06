@@ -3,7 +3,7 @@ import 'package:universe/pages/home/presentation/controllers/navigation_controll
 import 'package:universe/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart';
+import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 
 class BottomNavigation extends StatelessWidget {
   BottomNavigation(BuildContext context, GlobalKey<ScaffoldState> key)
@@ -34,7 +34,7 @@ class BottomNavigation extends StatelessWidget {
         if (sideMenuItemRoutes[value].route == authenticationPageRoute) {
           Get.offAllNamed(authenticationPageRoute);
           menuController.changeSelectedIndex(0);
-          menuController.changeActiveItemTo(overviewPageDisplayName);
+          menuController.changeActiveItemTo(introductionPageDisplayName);
         } else {
           menuController.changeActiveItemTo(sideMenuItemRoutes[value].name);
           navigationController.navigateTo(sideMenuItemRoutes[value].route);

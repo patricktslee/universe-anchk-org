@@ -2,7 +2,7 @@ import 'package:universe/constants/style.dart';
 import 'package:flutter/material.dart';
 import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart';
+import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 import 'package:universe/widgets/custom_text.dart';
 import 'package:get/get.dart';
 

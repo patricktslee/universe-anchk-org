@@ -9,7 +9,7 @@ import 'package:universe/pages/home/presentation/widgets/revenue_section_large.d
 import 'package:universe/pages/home/presentation/widgets/revenue_section_small.dart';
 import 'package:universe/widgets/custom_text.dart';
 import 'package:get/get.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart';
+import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 
 class OverviewPage extends StatelessWidget {
   static HomeController menuController = Get.find();

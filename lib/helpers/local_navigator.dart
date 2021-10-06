@@ -9,5 +9,5 @@ NavigationController navigationController = Get.find();
 Navigator localNavigator() => Navigator(
       key: navigationController.navigatorKey,
       onGenerateRoute: generateRoute,
-      initialRoute: overviewPageRoute,
+      initialRoute: introductionPageDisplayName,
     );

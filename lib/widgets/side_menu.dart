@@ -3,7 +3,7 @@ import 'package:universe/constants/metadata.dart';
 import 'package:universe/constants/style.dart';
 import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart';
+import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:universe/widgets/custom_box_decoration.dart';

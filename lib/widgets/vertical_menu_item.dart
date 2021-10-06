@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universe/constants/style.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart';
+import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 
 import 'custom_text.dart';
 
@@ -55,8 +55,8 @@ class VertticalMenuItem extends StatelessWidget {
                                 child: CustomText(
                               text: itemName,
                               color: menuController.isHovering(itemName)
-                                  ? Colors.white
-                                  : lightGrey,
+                                  ? menuHoverColor
+                                  : menuColor,
                               size: 16,
                               weight: FontWeight.normal,
                             ))
@@ -64,7 +64,7 @@ class VertticalMenuItem extends StatelessWidget {
                             Flexible(
                                 child: CustomText(
                               text: itemName,
-                              color: Colors.white,
+                              color: menuActiveColor,
                               size: 18,
                               weight: FontWeight.bold,
                             ))

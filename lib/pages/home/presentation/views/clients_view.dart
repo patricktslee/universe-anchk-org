@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/widgets/custom_text.dart';
 import 'package:get/get.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart';
+import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 
 class ClientsPage extends StatelessWidget {
   const ClientsPage({Key? key}) : super(key: key);

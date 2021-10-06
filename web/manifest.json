@@ -1,11 +1,11 @@
 {
-    "name": "universe",
-    "short_name": "universe",
+    "name": "萬國宣道詠團",
+    "short_name": "萬國宣道詠團",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "萬國宣道詠團-音樂事奉團隊",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -22,18 +22,39 @@ class HomeController extends SuperController<CasesModel> {
   var hoverItem = "".obs;
   var selectedIndex = 0.obs;
 
+  RxList anchkOrganizationItem = [].obs;
+  RxList anchkMissionItem = [].obs;
+  var conductorMessagetext = ''.obs;
+  var preachersMessagetext = ''.obs;
+  RxList contactInfoItem = [].obs;
+  RxList requirementItem = [].obs;
+  RxList practiceTimeItem = [].obs;
+  RxList practicePlaceItem = [].obs;
+  RxList eventHistoryItem1 = [].obs;
+  RxList eventHistoryItem2 = [].obs;
+
   /// When the controller is initialized, make the http request
   @override
   void onInit() {
     super.onInit();
+    anchkOrganizationItem.addAll(anchkOrganization.toList());
+    anchkMissionItem.addAll(anchkMission.toList());
+    conductorMessagetext.value = conductorMessage;
+    preachersMessagetext.value = preachersMessage;
+    contactInfoItem.addAll(contactList.toList());
+    requirementItem.addAll(requirementList.toList());
+    practiceTimeItem.addAll(practiceTime.toList());
+    practicePlaceItem.addAll(practicePlace.toList());
+    eventHistoryItem1.addAll(anchkorgEventCategory1);
+    eventHistoryItem2.addAll(anchkorgEventCategory2);
     // show loading on start, data on success
     // and error message on error with 0 boilerplate
-    homeRepository.getCases().then((data) {
-      print(data.toJson().toString());
-      change(data, status: RxStatus.success());
-    }, onError: (err) {
-      change(null, status: RxStatus.error(err.toString()));
-    });
+    //homeRepository.getCases().then((data) {
+    //  print(data.toJson().toString());
+    //  change(data, status: RxStatus.success());
+    //}, onError: (err) {
+    //  change(null, status: RxStatus.error(err.toString()));
+    //});
 //    appwriteLogin();
   }
 
@@ -50,7 +71,7 @@ class HomeController extends SuperController<CasesModel> {
 
   changeActiveItemTo(String itemName) {
     itemName == authenticationPageDisplayName
-        ? activeItem.value = overviewPageDisplayName
+        ? activeItem.value = introductionPageDisplayName
         : activeItem.value = itemName;
   }
 
@@ -64,12 +85,26 @@ class HomeController extends SuperController<CasesModel> {
 
   Widget returnIconFor(String itemName) {
     switch (itemName) {
-      case overviewPageDisplayName:
-        return _customIcon(Icons.trending_up, itemName);
-      case driversPageDisplayName:
+      case introductionPageDisplayName:
+        return _customIcon(Icons.call_made, itemName);
+      case missionPageDisplayName:
+        return _customIcon(Icons.check_box_sharp, itemName);
+      case conductorPageDisplayName:
         return _customIcon(Icons.drive_eta, itemName);
-      case clientsPageDisplayName:
+      case preachersPageDisplayName:
         return _customIcon(Icons.people_alt_outlined, itemName);
+      case historyPageDisplayName:
+        return _customIcon(Icons.history, itemName);
+      case videoPageDisplayName:
+        return _customIcon(Icons.video_collection, itemName);
+      case practicePageDisplayName:
+        return _customIcon(Icons.list, itemName);
+      case requirementPageDisplayName:
+        return _customIcon(Icons.notifications, itemName);
+      case applicationtPageDisplayName:
+        return _customIcon(Icons.run_circle, itemName);
+      case contactPageDisplayName:
+        return _customIcon(Icons.add_business, itemName);
 //      case covid19PageDisplayName:
 //        return _customIcon(Icons.bug_report, itemName);
       case authenticationPageDisplayName:
@@ -80,11 +115,11 @@ class HomeController extends SuperController<CasesModel> {
   }
 
   Widget _customIcon(IconData icon, String itemName) {
-    if (isActive(itemName)) return Icon(icon, size: 22, color: dark);
+    if (isActive(itemName)) return Icon(icon, size: 22, color: menuActiveColor);
 
     return Icon(
       icon,
-      color: isHovering(itemName) ? dark : lightGrey,
+      color: isHovering(itemName) ? menuHoverColor : menuColor,
     );
   }
 

@@ -1,25 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:universe/pages/home/presentation/views/clients_view.dart';
-import 'package:universe/pages/home/presentation/views/drivers_view.dart';
-// import 'package:universe/pages/home/presentation/views/home_view.dart';
+import 'package:universe/pages/home/presentation/views/application_view.dart';
+import 'package:universe/pages/home/presentation/views/contact_view.dart';
+import 'package:universe/pages/home/presentation/views/history_view.dart';
 import 'package:universe/pages/home/presentation/views/introduction_view.dart';
-import 'package:universe/pages/home/presentation/views/overview_view.dart';
+import 'package:universe/pages/home/presentation/views/mission_view.dart';
+import 'package:universe/pages/home/presentation/views/conductor_view.dart';
+import 'package:universe/pages/home/presentation/views/practice_view.dart';
+import 'package:universe/pages/home/presentation/views/preachers_view.dart';
+import 'package:universe/pages/home/presentation/views/requirement_view.dart';
+import 'package:universe/pages/home/presentation/views/video_view.dart';
 import 'package:universe/routing/routes.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case introductionPageRoute:
       return _getPageRoute(IntroductionPage());
-    case overviewPageRoute:
-      return _getPageRoute(OverviewPage());
-    case driversPageRoute:
-      return _getPageRoute(DriversPage());
-    case clientsPageRoute:
-      return _getPageRoute(ClientsPage());
+    case missionPageRoute:
+      return _getPageRoute(MissionPage());
+    case conductorPageRoute:
+      return _getPageRoute(ConductorPage());
+    case preachersPageRoute:
+      return _getPageRoute(PreachersPage());
+    case historyPageRoute:
+      return _getPageRoute(HistoryPage());
+    case videoPageRoute:
+      return _getPageRoute(VideoPage());
+    case practicePageRoute:
+      return _getPageRoute(PracticePage());
+    case requirementPageRoute:
+      return _getPageRoute(RequirementPage());
+    case applicationPageRoute:
+      return _getPageRoute(ApplicationPage());
+    case contactPageRoute:
+      return _getPageRoute(ContactPage());
 //    case covid19PageRoute:
 //      return _getPageRoute(HomeView());
     default:
-      return _getPageRoute(OverviewPage());
+      return _getPageRoute(IntroductionPage());
   }
 }
 

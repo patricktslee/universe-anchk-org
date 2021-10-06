@@ -14,7 +14,7 @@ import 'package:universe/widgets/custom_text.dart';
 import 'package:universe/widgets/organization_text.dart';
 import 'package:universe/widgets/side_menu.dart';
 import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart';
+import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 
 import '../../../../shared/AppConstants.dart';
 import '../controllers/home_controller.dart';
@@ -74,7 +74,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
                 ),
               ),
               OrganizationText(
-                size: 28,
+                size: 26,
                 weight: FontWeight.bold,
                 color: dark,
               ),
@@ -88,7 +88,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
                 width: 8,
               ),
               CustomText(
-                text: "Guest",
+                text: "訪客",
                 color: dark,
                 size: 16,
                 weight: FontWeight.normal,
@@ -134,11 +134,13 @@ class HomeLayout extends GetResponsiveView<HomeController> {
               child: !smallScreen
                   ? Expanded(
                       flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
-                        child: MenuList(
-                            menuController: menuController,
-                            navigationController: navigationController),
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
+                          child: MenuList(
+                              menuController: menuController,
+                              navigationController: navigationController),
+                        ),
                       ),
                     )
                   : null,
