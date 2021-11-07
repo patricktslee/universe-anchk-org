@@ -11,9 +11,14 @@ class YoutubeModel {
   final int id;
   final String youtubeId;
   final String youtubeTitle;
+  final String thumbnailImage;
 
-  const YoutubeModel(
-      {required this.youtubeTitle, required this.id, required this.youtubeId});
+  const YoutubeModel({
+    required this.youtubeTitle,
+    required this.id,
+    required this.youtubeId,
+    required this.thumbnailImage,
+  });
 }
 
 class VideoPlayer extends StatefulWidget {
@@ -24,20 +29,68 @@ class VideoPlayer extends StatefulWidget {
   _VideoPlayerState createState() => _VideoPlayerState();
 }
 
+//get image from https://img.youtube.com/vi/b53oI2p-UrI/0.jpg
 class _VideoPlayerState extends State<VideoPlayer> {
   late YoutubePlayerController _ytbPlayerController;
-  List<YoutubeModel> videosList = [
-    YoutubeModel(id: 1, youtubeId: 'gCwHitVRirI', youtubeTitle: "祝福"),
-    YoutubeModel(id: 2, youtubeId: '7pc4rNCmEqo', youtubeTitle: "不動搖的國度"),
+  late ScrollController _scrollController;
+  bool _showBackToTopButton = false;
+  List<YoutubeModel> videosList = const [
     YoutubeModel(
-        id: 3, youtubeId: 'UXP9sR0A0vQ', youtubeTitle: "全心全意愛上帝 2014年7月"),
-    YoutubeModel(id: 4, youtubeId: 'C2szYJuQymI', youtubeTitle: "敬拜頌歌"),
-    YoutubeModel(id: 5, youtubeId: 'CkjbpbRrRYo', youtubeTitle: "靠近我 2014年7月"),
+        id: 1,
+        youtubeId: 'Hp8P_CXOQ68',
+        youtubeTitle: "萬國宣道詠團30周年音樂會招募",
+        thumbnailImage: "Hp8P_CXOQ68.jpg"),
+    YoutubeModel(
+        id: 2,
+        youtubeId: 'b53oI2p-UrI',
+        youtubeTitle: "朋友請聽 2019",
+        thumbnailImage: "b53oI2p-UrI.jpg"),
+    YoutubeModel(
+        id: 3,
+        youtubeId: 'ArJj0pMqJls',
+        youtubeTitle: "同來讚美救主",
+        thumbnailImage: "ArJj0pMqJls.jpg"),
+    YoutubeModel(
+        id: 4,
+        youtubeId: 'UXP9sR0A0vQ',
+        youtubeTitle: "全心全意愛上帝 2014年7月",
+        thumbnailImage: "UXP9sR0A0vQ.jpg"),
+    YoutubeModel(
+        id: 5,
+        youtubeId: 'C2szYJuQymI',
+        youtubeTitle: "敬拜頌歌",
+        thumbnailImage: "C2szYJuQymI.jpg"),
+    YoutubeModel(
+        id: 6,
+        youtubeId: 'CkjbpbRrRYo',
+        youtubeTitle: "靠近我 2014年7月",
+        thumbnailImage: "CkjbpbRrRYo.jpg"),
+    YoutubeModel(
+        id: 7,
+        youtubeId: 'gCwHitVRirI',
+        youtubeTitle: "祝福",
+        thumbnailImage: "gCwHitVRirI.jpg"),
+    YoutubeModel(
+        id: 8,
+        youtubeId: '7pc4rNCmEqo',
+        youtubeTitle: "不動搖的國度",
+        thumbnailImage: "7pc4rNCmEqo.jpg"),
   ];
 
   @override
   void initState() {
     super.initState();
+
+    _scrollController = ScrollController()
+      ..addListener(() {
+        setState(() {
+          if (_scrollController.offset >= 400) {
+            _showBackToTopButton = true; // show the back-to-top button
+          } else {
+            _showBackToTopButton = false; // hide the back-to-top button
+          }
+        });
+      });
 
     _setOrientation([
       DeviceOrientation.landscapeRight,
@@ -50,7 +103,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       setState(() {
         _ytbPlayerController = YoutubePlayerController(
           initialVideoId: videosList[0].youtubeId,
-          params: YoutubePlayerParams(
+          params: const YoutubePlayerParams(
             showFullscreenButton: true,
           ),
         );
@@ -74,56 +127,85 @@ class _VideoPlayerState extends State<VideoPlayer> {
     SystemChrome.setPreferredOrientations(orientations);
   }
 
+  void _scrollToTop() {
+    _scrollController.animateTo(0,
+        duration: Duration(seconds: 1), curve: Curves.linear);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: ResponsiveWidget.isSmallScreen(context)
-          ? Column(
-              children: [
-                _buildYtbView(),
-                _buildMoreVideoTitle(),
-                _buildMoreVideosView(),
-              ],
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: _buildYtbView(),
+    return
+        //Scaffold(
+        //  backgroundColor: Colors.transparent,
+        //  body:
+        ResponsiveWidget.isSmallScreen(context) ||
+                ResponsiveWidget.isSmallMediumScreen(context)
+            ? SingleChildScrollView(
+                controller: _scrollController,
+                child: Column(
+                  children: [
+                    // const Text("data"),
+                    _buildYtbView(),
+                    _buildMoreVideoTitle(),
+                    _buildMoreVideosNewView(),
+                  ],
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: SizedBox(
-                          height: 30,
-                          child: _buildMoreVideoTitle(),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 5,
-                        child: _buildMoreVideosView(),
-                      ),
-                    ],
+              )
+
+            //Column(
+            //    children: [
+            //      _buildYtbView(),
+            //      _buildMoreVideoTitle(),
+            //      _buildMoreVideosView(),
+            //    ],
+            //  )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: _buildYtbView(),
+                    ),
                   ),
-                ),
-              ],
-            ),
-    );
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: SizedBox(
+                            height: 50,
+                            child: _buildMoreVideoTitle(),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: SingleChildScrollView(
+                            controller: _scrollController,
+                            child: _buildMoreVideosNewView(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+    // );
   }
 
   _buildYtbView() {
-    return AspectRatio(
-      aspectRatio: 16 / 9,
-      child: _ytbPlayerController != null
-          ? YoutubePlayerIFrame(controller: _ytbPlayerController)
-          : const Center(child: CircularProgressIndicator()),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height / 3,
+      child: AspectRatio(
+        aspectRatio: 16 / 9,
+        child: _ytbPlayerController != null
+            ? YoutubePlayerIFrame(controller: _ytbPlayerController)
+            : const Center(child: CircularProgressIndicator()),
+      ),
     );
   }
 
@@ -133,10 +215,86 @@ class _VideoPlayerState extends State<VideoPlayer> {
           vertical: 0, horizontal: 8), //EdgeInsets.fromLTRB(14, 10, 182, 10),
       child: CustomText(
         text: "更多影片",
-        size: 16,
+        size: standardTextSize,
         weight: FontWeight.bold,
         color: blackColor,
       ),
+    );
+  }
+
+  _buildMoreVideosNewView() {
+    return Column(
+      children: <Widget>[
+        ...videosList.map((e) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height / 3,
+            child: AspectRatio(
+              aspectRatio: 16 / 13,
+              child: GestureDetector(
+                onTap: () {
+                  _scrollToTop();
+                  final _newCode = e.youtubeId;
+                  _ytbPlayerController.load(_newCode);
+                  _ytbPlayerController.stop();
+                  _ytbPlayerController.play();
+                },
+                child: AspectRatio(
+                  aspectRatio: 16 / 13,
+                  child: Column(
+                    children: [
+                      CustomText(
+                        text: e.youtubeTitle,
+                        size: standardTextSize,
+                        weight: FontWeight.bold,
+                        color: blackColor,
+                      ),
+                      Expanded(
+                        flex: 9,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 5,
+                            margin: const EdgeInsets.symmetric(vertical: 7),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(18),
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: <Widget>[
+                                  Positioned(
+                                      child: Image.asset(
+                                    'assets/images/${e.thumbnailImage}',
+                                    fit: BoxFit.cover,
+                                  )
+                                      //CachedNetworkImage(
+                                      //  imageUrl:
+                                      //      "https://img.youtube.com/vi/${videosList[index].youtubeId}/0.jpg",
+                                      //  fit: BoxFit.cover,
+                                      //),
+                                      ),
+                                  Positioned(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Image.asset(
+                                        'assets/images/ytbPlayBotton.png',
+                                        height: 30,
+                                        width: 30,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ],
     );
   }
 
@@ -160,7 +318,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
                     children: [
                       CustomText(
                         text: videosList[index].youtubeTitle,
-                        size: 16,
+                        size: standardTextSize,
                         weight: FontWeight.bold,
                         color: blackColor,
                       ),
@@ -177,12 +335,16 @@ class _VideoPlayerState extends State<VideoPlayer> {
                                 fit: StackFit.expand,
                                 children: <Widget>[
                                   Positioned(
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://img.youtube.com/vi/${videosList[index].youtubeId}/0.jpg",
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                                      child: Image.asset(
+                                    'assets/images/${videosList[index].thumbnailImage}',
+                                    fit: BoxFit.cover,
+                                  )
+                                      //CachedNetworkImage(
+                                      //  imageUrl:
+                                      //      "https://img.youtube.com/vi/${videosList[index].youtubeId}/0.jpg",
+                                      //  fit: BoxFit.cover,
+                                      //),
+                                      ),
                                   Positioned(
                                     child: Align(
                                       alignment: Alignment.center,

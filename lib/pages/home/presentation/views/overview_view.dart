@@ -29,7 +29,7 @@ class OverviewPage extends StatelessWidget {
                               ResponsiveWidget.isSmallScreen(context) ? 56 : 6),
                       child: CustomText(
                         text: menuController.activeItem.value,
-                        size: 24,
+                        size: standardTextSize,
                         weight: FontWeight.bold,
                         color: blackColor,
                       )),

@@ -55,7 +55,7 @@ class HorizontalMenuItem extends StatelessWidget {
                       color: menuController.isHovering(itemName)
                           ? menuHoverColor
                           : menuColor,
-                      size: 16,
+                      size: standardTextSize,
                       weight: FontWeight.normal,
                     ))
                   else
@@ -63,7 +63,7 @@ class HorizontalMenuItem extends StatelessWidget {
                         child: CustomText(
                       text: itemName,
                       color: menuActiveColor,
-                      size: 18,
+                      size: standardTextSize,
                       weight: FontWeight.bold,
                     ))
                 ],

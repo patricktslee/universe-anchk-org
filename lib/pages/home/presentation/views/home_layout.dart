@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:universe/constants/metadata.dart';
 import 'package:universe/constants/style.dart';
+import 'package:universe/helpers/responsiveness.dart';
 
 import 'package:universe/pages/home/presentation/widgets/custom_widgets.dart';
 import 'package:universe/routing/router.dart';
@@ -58,65 +59,9 @@ class HomeLayout extends GetResponsiveView<HomeController> {
         backgroundColor: Colors.transparent,
 //        key: scaffoldKey,
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: dark),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          title: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Expanded(
-                flex: 0,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: SizedBox(height: 40, child: Image.asset(logoPath)),
-                ),
-              ),
-              OrganizationText(
-                size: 26,
-                weight: FontWeight.bold,
-                color: dark,
-              ),
-              Expanded(child: Container()),
-              Container(
-                width: 1,
-                height: 22,
-                color: dark,
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              CustomText(
-                text: "訪客",
-                color: dark,
-                size: 16,
-                weight: FontWeight.normal,
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: active.withOpacity(.5),
-                    borderRadius: BorderRadius.circular(30)),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30)),
-                  padding: const EdgeInsets.all(2),
-                  margin: const EdgeInsets.all(2),
-                  child: CircleAvatar(
-                    backgroundColor: light,
-                    child: Icon(
-                      Icons.person_outline,
-                      color: dark,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(100.0),
+          child: HomeAppBar(),
         ),
         drawer: smallScreen
             ? const Drawer(
@@ -150,7 +95,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
               child: Navigator(
                 key: controller.navigatorKey,
                 onGenerateRoute: generateRoute,
-                initialRoute: introductionPageRoute,
+                initialRoute: whatNewsPageRoute,
               ),
               //Center(child: Text('My Page!')),
             )
@@ -240,6 +185,101 @@ class HomeLayout extends GetResponsiveView<HomeController> {
             },
           ),
         ),
+      ),
+    );
+  }
+}
+
+class HomeAppBar extends StatelessWidget {
+  const HomeAppBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      iconTheme: IconThemeData(color: dark),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      title: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 1,
+            child: SizedBox(
+              width: 120,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(height: 40, child: Image.asset(logoPath)),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  OrganizationText(
+                    size: standardTextSize,
+                    weight: FontWeight.bold,
+                    color: dark,
+                  ),
+                ],
+              ),
+            ),
+          ),
+//             Expanded(child: Container()),
+//          const SizedBox(
+//            width: 8,
+//          ),
+          SizedBox(
+            width: ResponsiveWidget.isSmallScreen(context)
+                ? 100
+                : ResponsiveWidget.isSmallScreen(context)
+                    ? 150
+                    : 200,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+//                Container(
+//                  width: 1,
+//                  height: 22,
+//                  color: dark,
+//                ),
+//                const SizedBox(
+//                  width: 8,
+//                ),
+                CustomText(
+                  text: "訪客",
+                  color: dark,
+                  size: standardTextSize,
+                  weight: FontWeight.normal,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: active.withOpacity(.5),
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)),
+                    padding: const EdgeInsets.all(2),
+                    margin: const EdgeInsets.all(2),
+                    child: CircleAvatar(
+                      backgroundColor: light,
+                      child: Icon(
+                        Icons.person_outline,
+                        color: dark,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -74,14 +74,14 @@ class RequirementPage extends StatelessWidget {
                                     : CustomText(
                                         text:
                                             '${(menuController.requirementItem.indexOf(item) + 1).toString()}.  ',
-                                        size: 22,
+                                        size: standardTextSize,
                                         weight: FontWeight.bold,
                                         color: blackColor,
                                       ),
                                 Expanded(
                                   child: CustomText(
                                     text: item.text.toString(),
-                                    size: 22,
+                                    size: standardTextSize,
                                     weight: FontWeight.bold,
                                     color: blackColor,
                                   ),

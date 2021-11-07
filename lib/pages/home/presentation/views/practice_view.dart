@@ -74,7 +74,7 @@ class PracticePage extends StatelessWidget {
                               ),
                               CustomText(
                                   text: "鳴謝宣道浸信會提供地圖相片",
-                                  size: 16,
+                                  size: 12,
                                   color: dark,
                                   weight: FontWeight.normal)
                             ],
@@ -98,7 +98,7 @@ class PracticePage extends StatelessWidget {
       children: [
         CustomText(
           text: '練習地點',
-          size: 24,
+          size: standardTextSize,
           weight: FontWeight.bold,
           color: redWine,
         ),
@@ -110,7 +110,7 @@ class PracticePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: CustomText(
                       text: item.text.toString(),
-                      size: 22,
+                      size: standardTextSize,
                       weight: FontWeight.bold,
                       color: blackColor,
                     ),
@@ -127,7 +127,7 @@ class PracticePage extends StatelessWidget {
       children: [
         CustomText(
           text: '練習詩間',
-          size: 24,
+          size: standardTextSize,
           weight: FontWeight.bold,
           color: redWine,
         ),
@@ -139,7 +139,7 @@ class PracticePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: CustomText(
                       text: item.text.toString(),
-                      size: 22,
+                      size: standardTextSize,
                       weight: FontWeight.bold,
                       color: blackColor,
                     ),

@@ -12,6 +12,9 @@ Color strongpink = const Color.fromRGBO(199, 21, 133, 1);
 Color menuHoverColor = dark;
 Color menuActiveColor = dark;
 Color menuColor = Colors.grey.shade100;
+double smallestTextSize = 10;
+double smallTextSize = 11;
+double standardTextSize = 14;
 
 EdgeInsets customMainTitleEdgeInsets() =>
     const EdgeInsets.fromLTRB(8, 75, 8, 8);

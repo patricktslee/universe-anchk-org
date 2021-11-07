@@ -9,3 +9,5 @@ String preachersPhoto = "assets/images/preachers.jpg";
 String welcomePhoto = "assets/images/IMG_1393.JPG";
 String requirementPhoto = "assets/images/IMG_1392.JPG";
 String mapPhoto = "assets/images/map.jpg";
+String whatNews1 = "assets/images/whatnews1.jpeg";
+String whatNewsBG = "assets/images/whatnewsBG.jpeg";

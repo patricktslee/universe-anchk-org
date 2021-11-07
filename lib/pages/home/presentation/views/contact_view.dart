@@ -25,7 +25,7 @@ class ContactPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 3.5,
+                  height: MediaQuery.of(context).size.height / 4,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.asset(welcomePhoto)),
@@ -54,7 +54,7 @@ class ContactPage extends StatelessWidget {
                                 padding: const EdgeInsets.all(8.0),
                                 child: CustomText(
                                   text: item.name.toString(),
-                                  size: 22,
+                                  size: standardTextSize,
                                   weight: FontWeight.bold,
                                   color: blackColor,
                                 ),
@@ -80,7 +80,7 @@ class ContactPage extends StatelessWidget {
                                   },
                                   child: CustomText(
                                     text: item.telephone.toString(),
-                                    size: 22,
+                                    size: standardTextSize,
                                     weight: FontWeight.bold,
                                     color: blackColor,
                                   ),
@@ -109,7 +109,7 @@ class ContactPage extends StatelessWidget {
                                   },
                                   child: CustomText(
                                     text: item.url.toString(),
-                                    size: 22,
+                                    size: standardTextSize,
                                     weight: FontWeight.bold,
                                     color: blackColor,
                                   ),
@@ -136,7 +136,7 @@ class ContactPage extends StatelessWidget {
                                   },
                                   child: CustomText(
                                     text: item.email.toString(),
-                                    size: 22,
+                                    size: standardTextSize,
                                     weight: FontWeight.bold,
                                     color: blackColor,
                                   ),
@@ -166,7 +166,7 @@ class ContactPage extends StatelessWidget {
                                   },
                                   child: CustomText(
                                     text: item.name.toString(),
-                                    size: 22,
+                                    size: standardTextSize,
                                     weight: FontWeight.bold,
                                     color: blackColor,
                                   ),

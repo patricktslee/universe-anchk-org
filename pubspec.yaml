@@ -46,7 +46,7 @@ dependencies:
 #  data_table_2: ^2.0.3
   youtube_player_iframe: ^2.2.2
   cached_network_image: ^3.1.0
-
+  drop_cap_text: ^1.1.3
 
 dev_dependencies:
   flutter_test:
@@ -93,8 +93,8 @@ flutter:
   fonts:
     - family: NotoSans
       fonts:
-         - asset: assets/google_fonts/NotoSansHK-Regular.otf
-         - asset: assets/google_fonts/NotoSansHK-Bold.otf
+         - asset: assets/google_fonts/NotoSansTC-Regular.otf
+         - asset: assets/google_fonts/NotoSansTC-Bold.otf
            weight: 700
   #         style: italic
   #   - family: Trajan Pro

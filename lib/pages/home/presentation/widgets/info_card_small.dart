@@ -34,13 +34,13 @@ class InfoCardSmall extends StatelessWidget {
               children: [
                 CustomText(
                   text: title,
-                  size: 24,
+                  size: standardTextSize,
                   weight: FontWeight.w300,
                   color: isActive ? active : lightGrey,
                 ),
                 CustomText(
                   text: value,
-                  size: 24,
+                  size: standardTextSize,
                   weight: FontWeight.bold,
                   color: isActive ? active : dark,
                 )

@@ -74,7 +74,7 @@ class HistoryPage extends StatelessWidget {
                     children: [
                       CustomText(
                         text: item.name.toString(),
-                        size: 22,
+                        size: standardTextSize,
                         weight: FontWeight.bold,
                         color: strongpink,
                       ),
@@ -91,7 +91,7 @@ class HistoryPage extends StatelessWidget {
                                       width: 150,
                                       child: CustomText(
                                         text: event.year.toString(),
-                                        size: 22,
+                                        size: standardTextSize,
                                         weight: FontWeight.bold,
                                         color: blackColor,
                                       ),
@@ -100,7 +100,7 @@ class HistoryPage extends StatelessWidget {
                                       flex: 1,
                                       child: CustomText(
                                         text: event.event.toString(),
-                                        size: 22,
+                                        size: standardTextSize,
                                         weight: FontWeight.bold,
                                         color: blackColor,
                                       ),
@@ -138,7 +138,7 @@ class HistoryPage extends StatelessWidget {
                     children: [
                       CustomText(
                         text: item.name.toString(),
-                        size: 22,
+                        size: standardTextSize,
                         weight: FontWeight.bold,
                         color: strongpink,
                       ),
@@ -155,7 +155,7 @@ class HistoryPage extends StatelessWidget {
                                       width: 150,
                                       child: CustomText(
                                         text: event.year.toString(),
-                                        size: 22,
+                                        size: standardTextSize,
                                         weight: FontWeight.bold,
                                         color: blackColor,
                                       ),
@@ -164,7 +164,7 @@ class HistoryPage extends StatelessWidget {
                                       flex: 1,
                                       child: CustomText(
                                         text: event.event.toString(),
-                                        size: 22,
+                                        size: standardTextSize,
                                         weight: FontWeight.bold,
                                         color: blackColor,
                                       ),

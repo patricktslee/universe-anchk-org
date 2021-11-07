@@ -27,7 +27,7 @@ class MainTitle extends StatelessWidget {
                 top: ResponsiveWidget.isSmallScreen(context) ? 0 : 6),
             child: CustomText(
               text: menuController.activeItem.value,
-              size: 24,
+              size: standardTextSize,
               weight: FontWeight.bold,
               color: redWine,
             ),
@@ -44,12 +44,12 @@ class MainTitle extends StatelessWidget {
               children: const [
                 CustomText(
                     text: "所以，你們要去，使萬民作我的門徒，奉父、子、聖靈的名給他們施浸。",
-                    size: 16,
+                    size: 12,
                     color: Colors.red,
                     weight: FontWeight.normal),
                 CustomText(
                     text: "馬太福音 28:19",
-                    size: 16,
+                    size: 12,
                     color: Colors.red,
                     weight: FontWeight.normal),
               ],

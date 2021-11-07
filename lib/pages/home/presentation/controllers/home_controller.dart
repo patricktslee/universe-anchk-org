@@ -17,10 +17,12 @@ class HomeController extends SuperController<CasesModel> {
   final IHomeRepository homeRepository;
 
   RxString sessionId = ''.obs;
-  var activeItem = introductionPageDisplayName.obs;
+  var activeItem = whatNewsPageDisplayName.obs;
 
   var hoverItem = "".obs;
   var selectedIndex = 0.obs;
+
+  RxList whatNewsItem = [].obs;
 
   RxList anchkOrganizationItem = [].obs;
   RxList anchkMissionItem = [].obs;
@@ -37,6 +39,7 @@ class HomeController extends SuperController<CasesModel> {
   @override
   void onInit() {
     super.onInit();
+    whatNewsItem.addAll(whatNewsItemList.toList());
     anchkOrganizationItem.addAll(anchkOrganization.toList());
     anchkMissionItem.addAll(anchkMission.toList());
     conductorMessagetext.value = conductorMessage;
@@ -71,7 +74,7 @@ class HomeController extends SuperController<CasesModel> {
 
   changeActiveItemTo(String itemName) {
     itemName == authenticationPageDisplayName
-        ? activeItem.value = introductionPageDisplayName
+        ? activeItem.value = whatNewsPageDisplayName
         : activeItem.value = itemName;
   }
 
@@ -85,10 +88,14 @@ class HomeController extends SuperController<CasesModel> {
 
   Widget returnIconFor(String itemName) {
     switch (itemName) {
+      case whatNewsPageDisplayName:
+        return _customIcon(Icons.info, itemName);
       case introductionPageDisplayName:
         return _customIcon(Icons.call_made, itemName);
       case missionPageDisplayName:
         return _customIcon(Icons.check_box_sharp, itemName);
+      case leadersPageDisplayName:
+        return _customIcon(Icons.leaderboard, itemName);
       case conductorPageDisplayName:
         return _customIcon(Icons.drive_eta, itemName);
       case preachersPageDisplayName:

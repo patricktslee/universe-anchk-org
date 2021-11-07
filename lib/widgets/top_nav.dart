@@ -31,7 +31,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                 child: CustomText(
                   text: "Dash",
                   color: lightGrey,
-                  size: 20,
+                  size: standardTextSize,
                   weight: FontWeight.bold,
                 )),
             Expanded(child: Container()),
@@ -75,7 +75,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
             CustomText(
               text: "Santos Enoque",
               color: lightGrey,
-              size: 16,
+              size: standardTextSize,
               weight: FontWeight.normal,
             ),
             SizedBox(

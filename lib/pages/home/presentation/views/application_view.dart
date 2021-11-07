@@ -41,7 +41,7 @@ class ApplicationPage extends StatelessWidget {
                 mainAxisSpacing: 4,
                 crossAxisCount: ResponsiveWidget.isSmallScreen(context) ? 1 : 2,
                 childAspectRatio:
-                    ResponsiveWidget.isSmallScreen(context) ? 4 : 2.5,
+                    ResponsiveWidget.isSmallScreen(context) ? 3.25 : 2.5,
                 children: [
                   CustomTextFeildInput(
                     customController: nameController,
@@ -135,8 +135,24 @@ class ApplicationPage extends StatelessWidget {
                   if (_formKey.currentState!.validate()) {
                     // If the form is valid, display a snackbar. In the real world,
                     // you'd often call a server or save the information in a database.
-                    body =
-                        '姓名:${nameController.text.toString()};聯絡電話:${phoneController.text.toString()};電郵:${emailController.text.toString()};性別:${genderController.text.toString()};所屬教會:${churchController.text.toString()};信主年齡:${yearInHIMController.text.toString()};接受浸禮年份:${yearInBaptistController.text.toString()};教會事奉經驗:${churchServiceController.text.toString()};教會詩班年齡:${yearInChurchChoirController.text.toString()};參加其他合唱團名稱:${otherChoirController.text.toString()};其他合唱團詩班年齡:${yearInOtherChoirController.text.toString()};聲部:${partController.text.toString()};音樂專長（指揮/樂器）:${musicTalentController.text.toString()};其他專長:${otherTalentController.text.toString()};Thank You!';
+//                    body =
+//                        '姓名:${nameController.text.toString()};聯絡電話:${phoneController.text.toString()};電郵:${emailController.text.toString()};性別:${genderController.text.toString()};所屬教會:${churchController.text.toString()};信主年齡:${yearInHIMController.text.toString()};接受浸禮年份:${yearInBaptistController.text.toString()};教會事奉經驗:${churchServiceController.text.toString()};教會詩班年齡:${yearInChurchChoirController.text.toString()};參加其他合唱團名稱:${otherChoirController.text.toString()};其他合唱團詩班年齡:${yearInOtherChoirController.text.toString()};聲部:${partController.text.toString()};音樂專長（指揮/樂器）:${musicTalentController.text.toString()};其他專長:${otherTalentController.text.toString()};Thank You!';
+                    body = '''
+                        姓名:${nameController.text.toString()};
+                        聯絡電話:${phoneController.text.toString()};
+                        電郵:${emailController.text.toString()};
+                        性別:${genderController.text.toString()};
+                        所屬教會:${churchController.text.toString()};
+                        信主年齡:${yearInHIMController.text.toString()};
+                        接受浸禮年份:${yearInBaptistController.text.toString()};
+                        教會事奉經驗:${churchServiceController.text.toString()};
+                        教會詩班年齡:${yearInChurchChoirController.text.toString()};
+                        參加其他合唱團名稱:${otherChoirController.text.toString()};
+                        其他合唱團詩班年齡:${yearInOtherChoirController.text.toString()};
+                        聲部:${partController.text.toString()};
+                        音樂專長（指揮/樂器）:${musicTalentController.text.toString()};
+                        其他專長:${otherTalentController.text.toString()};
+                        Thank You!''';
 
                     //ScaffoldMessenger.of(context).showSnackBar(
                     //  SnackBar(
@@ -160,7 +176,7 @@ class ApplicationPage extends StatelessWidget {
                 },
                 child: CustomText(
                     text: '電郵給我們',
-                    size: 24,
+                    size: standardTextSize,
                     color: dark,
                     weight: FontWeight.normal),
               ),
@@ -495,15 +511,15 @@ class MyRadioOption<T> extends StatelessWidget {
 
     return Container(
       width: ResponsiveWidget.isSmallScreen(context)
-          ? 22
+          ? 27
           : ResponsiveWidget.isMediumScreen(context)
-              ? 26
-              : 34,
+              ? 29
+              : 36,
       height: ResponsiveWidget.isSmallScreen(context)
-          ? 22
+          ? 27
           : ResponsiveWidget.isMediumScreen(context)
-              ? 26
-              : 34,
+              ? 29
+              : 36,
       decoration: ShapeDecoration(
         shape: const CircleBorder(
           side: BorderSide(
@@ -513,35 +529,45 @@ class MyRadioOption<T> extends StatelessWidget {
         color: isSelected ? Colors.cyan : Colors.white,
       ),
       child: Center(
-        child: Text(
-          value.toString(),
-          style: TextStyle(
-            fontFamily: 'NotoSans',
-            color: isSelected ? Colors.white : dark,
-            fontSize: ResponsiveWidget.isSmallScreen(context)
-                ? 14
-                : ResponsiveWidget.isMediumScreen(context)
-                    ? 16
-                    : 22,
+          child: CustomText(
+              text: value.toString(),
+              size: standardTextSize,
+              color: isSelected ? Colors.white : dark,
+              weight: FontWeight.normal)
+          //Text(
+          //  value.toString(),
+          //  style: TextStyle(
+          //    fontFamily: 'NotoSans',
+          //    color: isSelected ? Colors.white : dark,
+          //    fontSize: ResponsiveWidget.isSmallScreen(context)
+          //        ? 14
+          //        : ResponsiveWidget.isMediumScreen(context)
+          //            ? 16
+          //            : 22,
+          //  ),
+          //),
           ),
-        ),
-      ),
     );
   }
 
   Widget _buildText(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontFamily: 'NotoSans',
+    return CustomText(
+        text: text,
+        size: standardTextSize,
         color: Colors.black,
-        fontSize: ResponsiveWidget.isSmallScreen(context)
-            ? 16
-            : ResponsiveWidget.isMediumScreen(context)
-                ? 18
-                : 24,
-      ),
-    );
+        weight: FontWeight.normal);
+    //Text(
+    //  text,
+    //  style: TextStyle(
+    //    fontFamily: 'NotoSans',
+    //    color: Colors.black,
+    //    fontSize: ResponsiveWidget.isSmallScreen(context)
+    //        ? 16
+    //        : ResponsiveWidget.isMediumScreen(context)
+    //            ? 18
+    //            : 24,
+    //  ),
+    //);
   }
 
   @override

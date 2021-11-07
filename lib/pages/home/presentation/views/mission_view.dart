@@ -27,7 +27,7 @@ class MissionPage extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: CustomText(
                             text: item.text.toString(),
-                            size: 22,
+                            size: standardTextSize,
                             weight: FontWeight.bold,
                             color: blackColor,
                           ),

@@ -40,7 +40,7 @@ class ConductorPage extends StatelessWidget {
                   children: [
                     CustomText(
                       text: menuController.conductorMessagetext.value,
-                      size: 22,
+                      size: standardTextSize,
                       weight: FontWeight.bold,
                       color: blackColor,
                     )
