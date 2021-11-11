@@ -4,7 +4,7 @@ import 'package:universe/constants/style.dart';
 import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
 //import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
-import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
+//import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:universe/widgets/custom_box_decoration.dart';
 import 'package:universe/widgets/organization_text.dart';
@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
   static HomeController menuController = Get.find();
-  static NavigationController navigationController = Get.find();
+//  static NavigationController navigationController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +66,9 @@ class SideMenu extends StatelessWidget {
             color: lightGrey.withOpacity(.1),
           ),
           MenuList(
-              menuController: menuController,
-              navigationController: navigationController)
+            menuController: menuController,
+          )
+          // navigationController: navigationController)
         ],
       ),
     );
@@ -78,11 +79,11 @@ class MenuList extends StatelessWidget {
   const MenuList({
     Key? key,
     required this.menuController,
-    required this.navigationController,
+    // required this.navigationController,
   }) : super(key: key);
 
   final HomeController menuController;
-  final NavigationController navigationController;
+  //final NavigationController navigationController;
 
   @override
   Widget build(BuildContext context) {

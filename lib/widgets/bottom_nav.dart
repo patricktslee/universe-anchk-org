@@ -1,6 +1,6 @@
 import 'package:universe/constants/style.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
-import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
+//import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +13,7 @@ class BottomNavigation extends StatelessWidget {
 //  final MenuItem currentTab;
 //  final ValueChanged<MenuItem> onSelectTab;
   static HomeController menuController = Get.find();
-  static NavigationController navigationController = Get.find();
+//  static NavigationController navigationController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class BottomNavigation extends StatelessWidget {
           menuController.changeActiveItemTo(introductionPageDisplayName);
         } else {
           menuController.changeActiveItemTo(sideMenuItemRoutes[value].name);
-          navigationController.navigateTo(sideMenuItemRoutes[value].route);
+          menuController.navigateTo(sideMenuItemRoutes[value].route);
         }
       },
     );

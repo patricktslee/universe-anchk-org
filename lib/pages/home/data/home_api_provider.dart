@@ -9,6 +9,7 @@ abstract class IHomeProvider {
 }
 
 class HomeProvider extends GetConnect implements IHomeProvider {
+  @override
   ApiService apiService = ApiService.instance;
   @override
   void onInit() {

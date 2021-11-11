@@ -9,10 +9,11 @@ abstract class IAuthProvider {
 }
 
 class AuthProvider extends GetConnect implements IAuthProvider {
+  @override
   ApiService? apiService = ApiService.instance;
   @override
   void onInit() {
-    print("AuthProvider Oninit");
+    print("AuthProvider OnInit");
 //   httpClient.defaultDecoder = CasesModel.fromJson;
 //   httpClient.baseUrl = 'https://api.covid19api.com';
   }

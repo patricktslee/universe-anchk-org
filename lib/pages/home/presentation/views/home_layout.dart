@@ -14,7 +14,7 @@ import 'package:universe/widgets/custom_box_decoration.dart';
 import 'package:universe/widgets/custom_text.dart';
 import 'package:universe/widgets/organization_text.dart';
 import 'package:universe/widgets/side_menu.dart';
-import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
+//import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
 //import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 
 import '../../../../shared/app_constants.dart';
@@ -27,7 +27,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   static HomeController menuController = Get.find();
-  static NavigationController navigationController = Get.find();
+//  static NavigationController navigationController = Get.find();
 
   HomeLayout({Key? key}) : super(key: key);
 
@@ -50,7 +50,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
 
   Container webScreen() {
 //    final MenuController menuController = Get.find();
-    final NavigationController navigationController = Get.find();
+//    final NavigationController navigationController = Get.find();
     bool smallScreen = screen.width < 600;
     print(
         "screen.width is ${screen.width.toString()} /n smallScreen is ${smallScreen.toString()})");
@@ -85,8 +85,9 @@ class HomeLayout extends GetResponsiveView<HomeController> {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
                           child: MenuList(
-                              menuController: menuController,
-                              navigationController: navigationController),
+                            menuController: menuController,
+                          ),
+                          // navigationController: menuController),
                         ),
                       ),
                     )

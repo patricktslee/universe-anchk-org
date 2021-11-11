@@ -22,9 +22,13 @@ class HomeRepository implements IHomeRepository {
   String _error = '';
   bool _loading = false;
 
+  @override
   String get error => _error;
+  @override
   bool get isLoading => _loading;
+  @override
   User get user => _user;
+  @override
   Status get status => _status;
 
   @override
@@ -37,6 +41,7 @@ class HomeRepository implements IHomeRepository {
     }
   }
 
+  @override
   Future signup(
       {String name = 'name',
       String email = 'name@email.com',
@@ -74,6 +79,7 @@ class HomeRepository implements IHomeRepository {
     }
   }
 
+  @override
   Future logout({String sessionId = 'null'}) async {
     print("logout Appwrite connection using HomeRepository");
     _status = Status.authenticating;
@@ -89,6 +95,7 @@ class HomeRepository implements IHomeRepository {
     }
   }
 
+  @override
   Future getUserSession() async {
     print("getUserSession Appwrite connection using HomeRepository");
     try {

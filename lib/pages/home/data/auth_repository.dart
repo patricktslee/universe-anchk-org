@@ -23,10 +23,15 @@ class AuthRepository implements IAuthRepository {
   bool _loading = false;
   Session _session = Session();
 
+  @override
   String get error => _error;
+  @override
   bool get isLoading => _loading;
+  @override
   User get user => _user;
+  @override
   Status get status => _status;
+  @override
   Session get session => _session;
 
   IAuthProvider? _provider;
@@ -54,6 +59,7 @@ class AuthRepository implements IAuthRepository {
   //  return _instance;
   //}
 
+  @override
   Future signup(
       {String name = 'name',
       String email = 'name@email.com',
@@ -101,6 +107,7 @@ class AuthRepository implements IAuthRepository {
     }
   }
 
+  @override
   Future logout({String sessionId = 'null'}) async {
     print("logout Appwrite connection using AuthRepository");
     _status = Status.authenticating;
@@ -119,6 +126,7 @@ class AuthRepository implements IAuthRepository {
     }
   }
 
+  @override
   Future getUserSession() async {
     print("getUserSession Appwrite connection using AuthRepository");
     try {
@@ -169,10 +177,12 @@ class AuthRepository implements IAuthRepository {
     _user = _user.copyWith(prefs: prefs);
   }
 
+  @override
   Future getInitialsAvatar(String name) async {
     return true;
   }
 
+  @override
   Future updatePrefs(Map<String, dynamic> data) async {
     return true;
   }
