@@ -16,33 +16,33 @@ import 'package:universe/routing/routes.dart';
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case whatNewsPageRoute:
-      return _getPageRoute(WhatNewsPage());
+      return _getPageRoute(const WhatNewsPage());
     case introductionPageRoute:
-      return _getPageRoute(IntroductionPage());
+      return _getPageRoute(const IntroductionPage());
     case missionPageRoute:
-      return _getPageRoute(MissionPage());
+      return _getPageRoute(const MissionPage());
     case leadersPageRoute:
-      return _getPageRoute(LeadersPage());
+      return _getPageRoute(const LeadersPage());
     case conductorPageRoute:
-      return _getPageRoute(ConductorPage());
+      return _getPageRoute(const ConductorPage());
     case preachersPageRoute:
-      return _getPageRoute(PreachersPage());
+      return _getPageRoute(const PreachersPage());
     case historyPageRoute:
-      return _getPageRoute(HistoryPage());
+      return _getPageRoute(const HistoryPage());
     case videoPageRoute:
-      return _getPageRoute(VideoPage());
+      return _getPageRoute(const VideoPage());
     case practicePageRoute:
-      return _getPageRoute(PracticePage());
+      return _getPageRoute(const PracticePage());
     case requirementPageRoute:
-      return _getPageRoute(RequirementPage());
+      return _getPageRoute(const RequirementPage());
     case applicationPageRoute:
       return _getPageRoute(ApplicationPage());
     case contactPageRoute:
-      return _getPageRoute(ContactPage());
+      return _getPageRoute(const ContactPage());
 //    case covid19PageRoute:
 //      return _getPageRoute(HomeView());
     default:
-      return _getPageRoute(WhatNewsPage());
+      return _getPageRoute(const WhatNewsPage());
   }
 }
 

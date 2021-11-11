@@ -1,5 +1,5 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:universe/shared/AppConstants.dart';
+import 'package:universe/shared/app_constants.dart';
 
 class ApiService {
   static late final ApiService _instance;

@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 
 class PreachersPage extends StatelessWidget {
   static HomeController menuController = Get.find();
+
+  const PreachersPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double size = 14;

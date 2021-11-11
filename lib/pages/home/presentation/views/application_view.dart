@@ -1,4 +1,3 @@
-import 'package:universe/constants/metadata.dart';
 import 'package:universe/constants/style.dart';
 import 'package:flutter/material.dart';
 import 'package:universe/helpers/responsiveness.dart';
@@ -26,6 +25,8 @@ class ApplicationPage extends StatelessWidget {
   final partController = TextEditingController();
   final musicTalentController = TextEditingController();
   final otherTalentController = TextEditingController();
+
+  ApplicationPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -127,7 +128,7 @@ class ApplicationPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
                 onPressed: () async {
                   String body = "";
@@ -499,12 +500,13 @@ class MyRadioOption<T> extends StatelessWidget {
   final ValueChanged<T?> onChanged;
 
   const MyRadioOption({
+    Key? key,
     required this.value,
     required this.groupValue,
     required this.label,
     required this.text,
     required this.onChanged,
-  });
+  }) : super(key: key);
 
   Widget _buildLabel(BuildContext context) {
     final bool isSelected = value == groupValue;
@@ -578,7 +580,7 @@ class MyRadioOption<T> extends StatelessWidget {
         onTap: () => onChanged(value),
         splashColor: Colors.cyan.withOpacity(0.5),
         child: Padding(
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           child: Row(
             children: [
               _buildLabel(context),

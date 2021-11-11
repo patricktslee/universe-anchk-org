@@ -1,6 +1,6 @@
 enum Status {
-  Uninitialized,
-  Authenticated,
-  Authenticating,
-  Unauthenticated,
+  uninitialized,
+  authenticated,
+  authenticating,
+  unauthenticated,
 }

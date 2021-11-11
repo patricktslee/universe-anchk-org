@@ -15,7 +15,7 @@ import 'package:universe/shared/enum.dart';
 //import 'home_api_provider.dart';
 
 class AuthRepository implements IAuthRepository {
-  Status _status = Status.Uninitialized;
+  Status _status = Status.uninitialized;
   User _user = User(
       registration: DateTime.now(),
       prefs: UserPrefs(lastLoggedIn: DateTime.now()));
@@ -59,7 +59,7 @@ class AuthRepository implements IAuthRepository {
       String email = 'name@email.com',
       String password = 'password'}) async {
     print("signup Appwrite connection using AuthRepository");
-    _status = Status.Authenticating;
+    _status = Status.authenticating;
     try {
       await _provider!.apiService!
           .signup(name: name, email: email, password: password)
@@ -68,7 +68,7 @@ class AuthRepository implements IAuthRepository {
     } on AppwriteException catch (e) {
       print('AuthRepository signup error ' + e.message!);
       _error = e.message!;
-      _status = Status.Unauthenticated;
+      _status = Status.unauthenticated;
       return false;
     }
   }
@@ -78,7 +78,7 @@ class AuthRepository implements IAuthRepository {
       {String email = 'name@email.com', String password = 'password'}) async {
     bool userExisted = true;
     print("login Appwrite connection using AuthRepository");
-    _status = Status.Authenticating;
+    _status = Status.authenticating;
     userExisted = _user.name == "Null name" ? false : true;
     print('AuthRepository login userExisted is ' + userExisted.toString());
     try {
@@ -88,7 +88,7 @@ class AuthRepository implements IAuthRepository {
         print('res.data for Session is' + res.data.toString());
         _session = Session.fromMap(res.data);
         print('_session is' + _session.toString());
-        _status = Status.Authenticated;
+        _status = Status.authenticated;
       });
 //      getUserSession();
 
@@ -96,17 +96,17 @@ class AuthRepository implements IAuthRepository {
     } on AppwriteException catch (e) {
       print('AuthRepository login error ' + e.message!);
       _error = e.message!;
-      _status = Status.Unauthenticated;
+      _status = Status.unauthenticated;
       return false;
     }
   }
 
   Future logout({String sessionId = 'null'}) async {
     print("logout Appwrite connection using AuthRepository");
-    _status = Status.Authenticating;
+    _status = Status.authenticating;
     try {
       await _provider!.apiService!.logout(sessionId: sessionId);
-      _status = Status.Uninitialized;
+      _status = Status.uninitialized;
       _user = User(
           registration: DateTime.now(),
           prefs: UserPrefs(lastLoggedIn: DateTime.now()));
@@ -114,7 +114,7 @@ class AuthRepository implements IAuthRepository {
     } on AppwriteException catch (e) {
       print('AuthRepository signup error ' + e.message!);
       _error = e.message!;
-      _status = Status.Unauthenticated;
+      _status = Status.unauthenticated;
       return false;
     }
   }
@@ -127,11 +127,11 @@ class AuthRepository implements IAuthRepository {
         _user = User.fromMap(res.data);
         print('_user is' + _user.toString());
         _saveUserPrefs();
-        _status = Status.Authenticated;
+        _status = Status.authenticated;
       });
       return true;
     } on AppwriteException catch (e) {
-      _status = Status.Unauthenticated;
+      _status = Status.unauthenticated;
       _error = e.message!;
       return false;
     } finally {

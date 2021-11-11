@@ -1,17 +1,18 @@
 import 'package:universe/constants/style.dart';
+import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
 import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
+//import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 
 class BottomNavigation extends StatelessWidget {
-  BottomNavigation(BuildContext context, GlobalKey<ScaffoldState> key)
+  const BottomNavigation(BuildContext context, GlobalKey<ScaffoldState> key)
       : super(key: key);
 
 //  final MenuItem currentTab;
 //  final ValueChanged<MenuItem> onSelectTab;
-  static MenuController menuController = Get.find();
+  static HomeController menuController = Get.find();
   static NavigationController navigationController = Get.find();
 
   @override

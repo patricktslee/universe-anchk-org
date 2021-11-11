@@ -71,11 +71,11 @@ class Custom1OutlinedButton extends StatelessWidget {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         textStyle: textStyle,
-        side: BorderSide(
+        side: const BorderSide(
           color: Colors.deepPurple,
           width: 3,
         ),
-        shape: StadiumBorder(),
+        shape: const StadiumBorder(),
       ),
       onPressed: () => function, // Get.toNamed(path),
       child: CustomTextWidget(
@@ -108,11 +108,11 @@ class CustomOutlinedButton extends StatelessWidget {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         textStyle: textStyle,
-        side: BorderSide(
+        side: const BorderSide(
           color: Colors.deepPurple,
           width: 3,
         ),
-        shape: StadiumBorder(),
+        shape: const StadiumBorder(),
       ),
       onPressed: () => function() ?? Get.toNamed(path),
       child: CustomTextWidget(

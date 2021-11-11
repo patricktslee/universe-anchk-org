@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:universe/constants/style.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
+//import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 
 import 'custom_text.dart';
 
@@ -42,34 +42,32 @@ class VertticalMenuItem extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: menuController.returnIconFor(itemName),
-                          ),
-                          if (!menuController.isActive(itemName))
-                            Flexible(
-                                child: CustomText(
-                              text: itemName,
-                              color: menuController.isHovering(itemName)
-                                  ? menuHoverColor
-                                  : menuColor,
-                              size: standardTextSize,
-                              weight: FontWeight.normal,
-                            ))
-                          else
-                            Flexible(
-                                child: CustomText(
-                              text: itemName,
-                              color: menuActiveColor,
-                              size: standardTextSize,
-                              weight: FontWeight.bold,
-                            ))
-                        ],
-                      ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: menuController.returnIconFor(itemName),
+                        ),
+                        if (!menuController.isActive(itemName))
+                          Flexible(
+                              child: CustomText(
+                            text: itemName,
+                            color: menuController.isHovering(itemName)
+                                ? menuHoverColor
+                                : menuColor,
+                            size: standardTextSize,
+                            weight: FontWeight.normal,
+                          ))
+                        else
+                          Flexible(
+                              child: CustomText(
+                            text: itemName,
+                            color: menuActiveColor,
+                            size: standardTextSize,
+                            weight: FontWeight.bold,
+                          ))
+                      ],
                     ),
                   ),
                 ],

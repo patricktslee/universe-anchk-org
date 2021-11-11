@@ -15,7 +15,7 @@ import 'home_api_provider.dart';
 class HomeRepository implements IHomeRepository {
   HomeRepository({required this.provider});
   final IHomeProvider provider;
-  Status _status = Status.Uninitialized;
+  Status _status = Status.uninitialized;
   User _user = User(
       registration: DateTime.now(),
       prefs: UserPrefs(lastLoggedIn: DateTime.now()));
@@ -42,7 +42,7 @@ class HomeRepository implements IHomeRepository {
       String email = 'name@email.com',
       String password = 'password'}) async {
     print("signup Appwrite connection using HomeRepository");
-    _status = Status.Authenticating;
+    _status = Status.authenticating;
     try {
       await provider.apiService
           .signup(name: name, email: email, password: password)
@@ -51,7 +51,7 @@ class HomeRepository implements IHomeRepository {
     } on AppwriteException catch (e) {
       print('HomeRepository signup error ' + e.message!);
       _error = e.message!;
-      _status = Status.Unauthenticated;
+      _status = Status.unauthenticated;
       return false;
     }
   }
@@ -60,7 +60,7 @@ class HomeRepository implements IHomeRepository {
   Future login(
       {String email = 'name@email.com', String password = 'password'}) async {
     print("login Appwrite connection using HomeRepository");
-    _status = Status.Authenticating;
+    _status = Status.authenticating;
     try {
       await provider.apiService
           .login(email: email, password: password)
@@ -69,22 +69,22 @@ class HomeRepository implements IHomeRepository {
     } on AppwriteException catch (e) {
       print('HomeRepository login error ' + e.message!);
       _error = e.message!;
-      _status = Status.Unauthenticated;
+      _status = Status.unauthenticated;
       return false;
     }
   }
 
   Future logout({String sessionId = 'null'}) async {
     print("logout Appwrite connection using HomeRepository");
-    _status = Status.Authenticating;
+    _status = Status.authenticating;
     try {
       await provider.apiService.logout(sessionId: sessionId);
-      _status = Status.Uninitialized;
+      _status = Status.uninitialized;
       return true;
     } on AppwriteException catch (e) {
       print('HomeRepository signup error ' + e.message!);
       _error = e.message!;
-      _status = Status.Unauthenticated;
+      _status = Status.unauthenticated;
       return false;
     }
   }
@@ -96,10 +96,10 @@ class HomeRepository implements IHomeRepository {
         print('res.data is' + res.data.toString());
         _user = User.fromMap(res.data);
         _saveUserPrefs();
-        _status = Status.Authenticated;
+        _status = Status.authenticated;
       });
     } on AppwriteException catch (e) {
-      _status = Status.Unauthenticated;
+      _status = Status.unauthenticated;
       _error = e.message!;
     } finally {
       _loading = false;

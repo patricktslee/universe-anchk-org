@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:universe/constants/style.dart';
-import 'package:universe/layout.dart';
+//import 'package:universe/layout.dart';
 import 'package:universe/pages/404/error.dart';
 import 'package:universe/pages/authentication/authentication.dart';
 import 'package:universe/pages/home/bindings/home_binding.dart';
 import 'package:universe/pages/home/presentation/views/home_layout.dart';
-//import 'package:universe/pages/home/presentation/views/home_view.dart';
 import 'package:universe/routing/routes.dart';
 
 void main() {
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
       initialRoute: rootRoute,
       unknownRoute: GetPage(
           name: '/not-found',
-          page: () => PageNotFound(),
+          page: () => const PageNotFound(),
           transition: Transition.fadeIn),
       getPages: [
         GetPage(

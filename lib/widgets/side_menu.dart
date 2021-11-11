@@ -3,18 +3,17 @@ import 'package:universe/constants/metadata.dart';
 import 'package:universe/constants/style.dart';
 import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
+//import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:universe/widgets/custom_box_decoration.dart';
-import 'package:universe/widgets/custom_text.dart';
 import 'package:universe/widgets/organization_text.dart';
 import 'package:universe/widgets/side_menu_item.dart';
 import 'package:get/get.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
-  static MenuController menuController = Get.find();
+  static HomeController menuController = Get.find();
   static NavigationController navigationController = Get.find();
 
   @override
@@ -82,7 +81,7 @@ class MenuList extends StatelessWidget {
     required this.navigationController,
   }) : super(key: key);
 
-  final MenuController menuController;
+  final HomeController menuController;
   final NavigationController navigationController;
 
   @override

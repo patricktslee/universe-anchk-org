@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
 
 class AuthView extends GetView<AuthController> {
+  const AuthView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         image: DecorationImage(
           fit: BoxFit.cover,
@@ -31,46 +33,49 @@ class AuthView extends GetView<AuthController> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 100,
                   ),
                   Text(
                     'email'.tr,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 30,
                     ),
                   ),
                   Text(
                     '${state!.email}',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 30, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     'name'.tr,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 30,
                     ),
                   ),
                   Text(
                     '${state.name}',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 30, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     'session_id'.tr,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 30,
                     ),
                   ),
                   Text(
                     '${state.id}',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 30, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                 ],

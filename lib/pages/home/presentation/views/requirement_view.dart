@@ -6,10 +6,11 @@ import 'package:universe/pages/home/presentation/controllers/home_controller.dar
 import 'package:universe/pages/home/presentation/widgets/main_title.dart';
 import 'package:universe/widgets/custom_text.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class RequirementPage extends StatelessWidget {
   static HomeController menuController = Get.find();
+
+  const RequirementPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     print('requirement ${MediaQuery.of(context).size.width - 760 - 400}');

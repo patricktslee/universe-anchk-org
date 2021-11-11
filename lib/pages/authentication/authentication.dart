@@ -52,7 +52,7 @@ class AuthenticationPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               TextField(
@@ -110,7 +110,7 @@ class AuthenticationPage extends StatelessWidget {
                       color: active, borderRadius: BorderRadius.circular(20)),
                   alignment: Alignment.center,
                   width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                   child: const CustomText(
                     text: "Login",
                     color: Colors.white,

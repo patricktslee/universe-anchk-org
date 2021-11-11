@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:universe/pages/home/data/ApiService.dart';
+import 'package:universe/pages/home/data/api_service.dart';
 import '../domain/entity/cases_model.dart';
 
 // ignore: one_member_abstracts

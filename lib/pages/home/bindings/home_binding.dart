@@ -3,7 +3,7 @@ import 'package:universe/pages/home/data/auth_api_provider.dart';
 import 'package:universe/pages/home/data/auth_repository.dart';
 import 'package:universe/pages/home/domain/adapters/auth_repository_adapter.dart';
 import 'package:universe/pages/home/presentation/controllers/auth_controller.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
+//import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
 import 'package:universe/pages/home/presentation/controllers/profile_controller.dart';
 import 'package:universe/pages/home/data/home_api_provider.dart';
@@ -24,6 +24,6 @@ class HomeBinding extends Bindings {
     Get.lazyPut(() => AuthController(authRepository: Get.find()));
     Get.lazyPut(() => ProfileController(authRepository: Get.find()));
     Get.lazyPut(() => NavigationController());
-    Get.lazyPut(() => MenuController());
+    //  Get.lazyPut(() => MenuController());
   }
 }

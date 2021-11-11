@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 
 class ConductorPage extends StatelessWidget {
   static HomeController menuController = Get.find();
+
+  const ConductorPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(

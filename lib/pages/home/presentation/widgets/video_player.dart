@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+//import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +22,7 @@ class YoutubeModel {
 }
 
 class VideoPlayer extends StatefulWidget {
-  VideoPlayer({Key? key, required this.title}) : super(key: key);
+  const VideoPlayer({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -33,7 +33,6 @@ class VideoPlayer extends StatefulWidget {
 class _VideoPlayerState extends State<VideoPlayer> {
   late YoutubePlayerController _ytbPlayerController;
   late ScrollController _scrollController;
-  bool _showBackToTopButton = false;
   List<YoutubeModel> videosList = const [
     YoutubeModel(
         id: 1,
@@ -85,9 +84,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
       ..addListener(() {
         setState(() {
           if (_scrollController.offset >= 400) {
-            _showBackToTopButton = true; // show the back-to-top button
+// show the back-to-top button
           } else {
-            _showBackToTopButton = false; // hide the back-to-top button
+// hide the back-to-top button
           }
         });
       });
@@ -129,7 +128,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   void _scrollToTop() {
     _scrollController.animateTo(0,
-        duration: Duration(seconds: 1), curve: Curves.linear);
+        duration: const Duration(seconds: 1), curve: Curves.linear);
   }
 
   @override
@@ -202,9 +201,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
       height: MediaQuery.of(context).size.height / 3,
       child: AspectRatio(
         aspectRatio: 16 / 9,
-        child: _ytbPlayerController != null
-            ? YoutubePlayerIFrame(controller: _ytbPlayerController)
-            : const Center(child: CircularProgressIndicator()),
+        child:
+            //_ytbPlayerController != null
+            //    ? YoutubePlayerIFrame(controller: _ytbPlayerController)
+            //    : const Center(child: CircularProgressIndicator()),
+            YoutubePlayerIFrame(controller: _ytbPlayerController),
       ),
     );
   }
@@ -295,78 +296,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
           );
         }).toList(),
       ],
-    );
-  }
-
-  _buildMoreVideosView() {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15),
-        child: ListView.builder(
-            itemCount: videosList.length,
-            physics: const AlwaysScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  final _newCode = videosList[index].youtubeId;
-                  _ytbPlayerController.load(_newCode);
-                  _ytbPlayerController.stop();
-                },
-                child: AspectRatio(
-                  aspectRatio: 16 / 13,
-                  child: Column(
-                    children: [
-                      CustomText(
-                        text: videosList[index].youtubeTitle,
-                        size: standardTextSize,
-                        weight: FontWeight.bold,
-                        color: blackColor,
-                      ),
-                      Expanded(
-                        flex: 9,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 5,
-                            margin: const EdgeInsets.symmetric(vertical: 7),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(18),
-                              child: Stack(
-                                fit: StackFit.expand,
-                                children: <Widget>[
-                                  Positioned(
-                                      child: Image.asset(
-                                    'assets/images/${videosList[index].thumbnailImage}',
-                                    fit: BoxFit.cover,
-                                  )
-                                      //CachedNetworkImage(
-                                      //  imageUrl:
-                                      //      "https://img.youtube.com/vi/${videosList[index].youtubeId}/0.jpg",
-                                      //  fit: BoxFit.cover,
-                                      //),
-                                      ),
-                                  Positioned(
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Image.asset(
-                                        'assets/images/ytbPlayBotton.png',
-                                        height: 30,
-                                        width: 30,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }),
-      ),
     );
   }
 }

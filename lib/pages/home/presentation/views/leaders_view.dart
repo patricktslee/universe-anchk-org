@@ -1,5 +1,3 @@
-import 'package:drop_cap_text/drop_cap_text.dart';
-import 'package:universe/constants/metadata.dart';
 import 'package:universe/constants/style.dart';
 import 'package:flutter/material.dart';
 import 'package:universe/helpers/responsiveness.dart';
@@ -11,6 +9,8 @@ import 'package:get/get.dart';
 
 class LeadersPage extends StatelessWidget {
   static HomeController menuController = Get.find();
+
+  const LeadersPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

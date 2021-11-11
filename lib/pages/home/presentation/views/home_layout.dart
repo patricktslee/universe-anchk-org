@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 import 'package:universe/constants/metadata.dart';
 import 'package:universe/constants/style.dart';
 import 'package:universe/helpers/responsiveness.dart';
@@ -15,9 +15,9 @@ import 'package:universe/widgets/custom_text.dart';
 import 'package:universe/widgets/organization_text.dart';
 import 'package:universe/widgets/side_menu.dart';
 import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
-import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
+//import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 
-import '../../../../shared/AppConstants.dart';
+import '../../../../shared/app_constants.dart';
 import '../controllers/home_controller.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -26,8 +26,10 @@ class HomeLayout extends GetResponsiveView<HomeController> {
 //  HomeLayout(this.platform);
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
-  static MenuController menuController = Get.find();
+  static HomeController menuController = Get.find();
   static NavigationController navigationController = Get.find();
+
+  HomeLayout({Key? key}) : super(key: key);
 
   void _countryPath() async {
     Get.toNamed(AppConstants.countryPath);
@@ -47,7 +49,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
   }
 
   Container webScreen() {
-    final MenuController menuController = Get.find();
+//    final MenuController menuController = Get.find();
     final NavigationController navigationController = Get.find();
     bool smallScreen = screen.width < 600;
     print(
@@ -107,7 +109,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
 
   Container iPhoneScreen() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         image: DecorationImage(
           fit: BoxFit.cover,
@@ -136,7 +138,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 100,
                       ),
                       CustomTextWidget(
@@ -147,7 +149,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
                         text: '${state!.global.totalConfirmed}',
                         textStyle: AppConstants.mobileDataTextStyle,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       CustomTextWidget(
@@ -158,7 +160,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
                         text: '${state.global.totalDeaths}',
                         textStyle: AppConstants.mobileDataTextStyle,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       CustomOutlinedButton(
@@ -168,7 +170,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
                         path: AppConstants.countryPath,
                         function: _countryPath,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       CustomOutlinedButton(

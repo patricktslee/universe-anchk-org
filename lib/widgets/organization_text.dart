@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:universe/constants/metadata.dart';
-import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/widgets/custom_text.dart';
 
 class OrganizationText extends StatelessWidget {
