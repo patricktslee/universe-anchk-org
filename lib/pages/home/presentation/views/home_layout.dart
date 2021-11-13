@@ -10,6 +10,7 @@ import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/pages/home/presentation/widgets/custom_widgets.dart';
 import 'package:universe/routing/router.dart';
 import 'package:universe/routing/routes.dart';
+import 'package:universe/widgets/bottom_nav.dart';
 import 'package:universe/widgets/custom_box_decoration.dart';
 import 'package:universe/widgets/custom_text.dart';
 import 'package:universe/widgets/organization_text.dart';
@@ -109,6 +110,67 @@ class HomeLayout extends GetResponsiveView<HomeController> {
   }
 
   Container iPhoneScreen() {
+//    final MenuController menuController = Get.find();
+//    final NavigationController navigationController = Get.find();
+    bool smallScreen = screen.width < 600;
+    print(
+        "screen.width is ${screen.width.toString()} /n smallScreen is ${smallScreen.toString()})");
+    TargetPlatform.android;
+    return Container(
+      decoration: customBoxDecoration(),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+//        key: scaffoldKey,
+        extendBodyBehindAppBar: true,
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(100.0),
+          child: HomeAppBar(),
+        ),
+        bottomNavigationBar: const BottomNavigation(),
+        //drawer: smallScreen
+        //    ? const Drawer(
+        //        // Add a ListView to the drawer. This ensures the user can scroll
+        //        // through the options in the drawer if there isn't enough vertical
+        //        // space to fit everything.
+        //        child: SideMenu(),
+        //      )
+        //    : null,
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              child: !smallScreen
+                  ? Expanded(
+                      flex: 1,
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
+                          child: MenuList(
+                            menuController: menuController,
+                          ),
+                          // navigationController: menuController),
+                        ),
+                      ),
+                    )
+                  : null,
+            ),
+            Expanded(
+              flex: 3,
+              child: Navigator(
+                key: controller.navigatorKey,
+                onGenerateRoute: generateRoute,
+                initialRoute: whatNewsPageRoute,
+              ),
+              //Center(child: Text('My Page!')),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container iPhoneScreen2() {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,

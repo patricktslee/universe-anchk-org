@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 //import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 
 class BottomNavigation extends StatelessWidget {
-  const BottomNavigation(BuildContext context, GlobalKey<ScaffoldState> key)
-      : super(key: key);
+//  const BottomNavigation(BuildContext context, GlobalKey<ScaffoldState> key)
+  const BottomNavigation({Key? key}) : super(key: key);
 
 //  final MenuItem currentTab;
 //  final ValueChanged<MenuItem> onSelectTab;

@@ -31,7 +31,8 @@ class VideoPlayer extends StatefulWidget {
 
 //get image from https://img.youtube.com/vi/b53oI2p-UrI/0.jpg
 class _VideoPlayerState extends State<VideoPlayer> {
-  late YoutubePlayerController _ytbPlayerController;
+  YoutubePlayerController _ytbPlayerController =
+      YoutubePlayerController(initialVideoId: 'Hp8P_CXOQ68');
   late ScrollController _scrollController;
   List<YoutubeModel> videosList = const [
     YoutubeModel(
