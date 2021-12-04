@@ -15,6 +15,7 @@ Color menuColor = Colors.grey.shade100;
 double smallestTextSize = 10;
 double smallTextSize = 11;
 double standardTextSize = 14;
+double headerTextSize = 18;
 
 EdgeInsets customMainTitleEdgeInsets() =>
     const EdgeInsets.fromLTRB(8, 75, 8, 8);

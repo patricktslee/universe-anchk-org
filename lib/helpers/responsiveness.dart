@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const int largeScreenSize = 1366;
 const int mediumScreenSize = 768;
+const int iPadScreenSize = 1024;
 const int smallSceenSize = 360;
 const int customScreenSize = 1100;
 
@@ -9,6 +10,7 @@ class ResponsiveWidget extends StatelessWidget {
   // the custom screen size is specific to this project
   final Widget largeScreen;
   final Widget mediumScreen;
+  final Widget iPadScreen;
   final Widget smallScreen;
   final Widget customScreen;
 
@@ -18,7 +20,28 @@ class ResponsiveWidget extends StatelessWidget {
     required this.mediumScreen,
     required this.smallScreen,
     required this.customScreen,
+    required this.iPadScreen,
   }) : super(key: key);
+
+  static int getSmallScreenSize() {
+    return smallSceenSize;
+  }
+
+  static int getMediumScreenSize() {
+    return mediumScreenSize;
+  }
+
+  static int getLargeScreenSize() {
+    return largeScreenSize;
+  }
+
+  static int getCustomScreenSize() {
+    return customScreenSize;
+  }
+
+  static bool isiPadScreen(BuildContext context) {
+    return MediaQuery.of(context).size.width <= iPadScreenSize;
+  }
 
   static bool isSmallScreen(BuildContext context) {
     return MediaQuery.of(context).size.width < mediumScreenSize;

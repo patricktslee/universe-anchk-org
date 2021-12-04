@@ -31,8 +31,8 @@ class LeadersPage extends StatelessWidget {
       padding: customMainTitleEdgeInsets(),
       child: Column(
         children: [
-          MainTitle(menuController: menuController),
-          ResponsiveWidget.isSmallScreen(context)
+          const MainTitle(),
+          ResponsiveWidget.isiPadScreen(context)
               ? Expanded(
                   flex: 1,
                   child: SingleChildScrollView(

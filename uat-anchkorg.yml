@@ -13,6 +13,41 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
+  name: devops-anchk-org
+  namespace: default
+spec:
+  secretName: devops-anchk-org-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: devops.anchk.org
+  dnsNames:
+    - devops.anchk.org
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: devops-anchk-https
+  namespace: uat-anchkorg
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`devops.anchk.org`)
+      kind: Rule
+      services:
+        - name: uat-anchkorg-service
+          port: 8080
+  tls:
+    secretName: devops-anchk-org-tls
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
   name: uat-anchk-org
   namespace: default
 spec:
@@ -31,12 +66,11 @@ kind: IngressRoute
 metadata:
   name: uat-anchk-https
   namespace: uat-anchkorg
-
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`devops.anchk.org`)
+    - match: Host(`uat.anchk.org`)
       kind: Rule
       services:
         - name: uat-anchkorg-service
@@ -62,6 +96,26 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: uat-anchk-http
+  namespace: uat-anchkorg
+
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`uat.anchk.org`)
+      kind: Rule
+      services:
+        - name: uat-anchkorg-service
+          port: 8080
+      middlewares:
+        - name: https-redirect
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: devops-anchk-http
   namespace: uat-anchkorg
 
 spec:
@@ -115,5 +169,12 @@ spec:
       - name: uat-anchkorg
         image: patricktslee/uat-anchk-org:uat
         imagePullPolicy: Always
+        resources:
+          limits:
+            memory: 1024Mi
+            cpu: "1"
+          requests:
+            memory: 512Mi
+            cpu: "0.2"
         ports:
         - containerPort: 8080

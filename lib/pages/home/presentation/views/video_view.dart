@@ -14,9 +14,9 @@ class VideoPage extends StatelessWidget {
     return Padding(
       padding: customMainTitleEdgeInsets(),
       child: Column(
-        children: [
-          MainTitle(menuController: menuController),
-          const Expanded(
+        children: const [
+          MainTitle(),
+          Expanded(
             child: VideoPlayer(title: "title"),
           )
         ],

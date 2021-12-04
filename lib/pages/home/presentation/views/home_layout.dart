@@ -52,7 +52,8 @@ class HomeLayout extends GetResponsiveView<HomeController> {
   Container webScreen() {
 //    final MenuController menuController = Get.find();
 //    final NavigationController navigationController = Get.find();
-    bool smallScreen = screen.width < 600;
+//    bool smallScreen = screen.width < 600;
+    bool smallScreen = screen.width < ResponsiveWidget.getMediumScreenSize();
     print(
         "screen.width is ${screen.width.toString()} /n smallScreen is ${smallScreen.toString()})");
     TargetPlatform.android;
@@ -112,7 +113,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
   Container iPhoneScreen() {
 //    final MenuController menuController = Get.find();
 //    final NavigationController navigationController = Get.find();
-    bool smallScreen = screen.width < 600;
+    bool smallScreen = screen.width < ResponsiveWidget.getMediumScreenSize();
     print(
         "screen.width is ${screen.width.toString()} /n smallScreen is ${smallScreen.toString()})");
     TargetPlatform.android;

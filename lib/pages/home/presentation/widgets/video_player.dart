@@ -138,7 +138,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         //Scaffold(
         //  backgroundColor: Colors.transparent,
         //  body:
-        ResponsiveWidget.isSmallScreen(context) ||
+        ResponsiveWidget.isiPadScreen(context) ||
                 ResponsiveWidget.isSmallMediumScreen(context)
             ? SingleChildScrollView(
                 controller: _scrollController,

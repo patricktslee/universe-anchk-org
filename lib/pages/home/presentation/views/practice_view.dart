@@ -17,7 +17,7 @@ class PracticePage extends StatelessWidget {
       padding: customMainTitleEdgeInsets(),
       child: Column(
         children: [
-          MainTitle(menuController: menuController),
+          const MainTitle(),
           Expanded(
             child: ListView(
               children: [

@@ -51,7 +51,7 @@ class MenuItem {
 List<MenuItem> sideMenuItemRoutes = [
   MenuItem(whatNewsPageDisplayName, whatNewsPageRoute),
   MenuItem(introductionPageDisplayName, introductionPageRoute),
-  MenuItem(missionPageDisplayName, missionPageRoute),
+//  MenuItem(missionPageDisplayName, missionPageRoute),
   MenuItem(leadersPageDisplayName, leadersPageRoute),
 //  MenuItem(conductorPageDisplayName, conductorPageRoute),
 //  MenuItem(preachersPageDisplayName, preachersPageRoute),
@@ -260,12 +260,12 @@ class WhatNews {
 }
 
 final List<WhatNews> whatNewsItemList = [
-  WhatNews("2021年", "12月", "02", "中浸神學院培靈會", "學基浸信會", "assets/images/cbtc.jpg",
-      false),
   WhatNews("2021年", "12月", "26", "深恩堂福音主日", "陳白沙中學",
       "assets/images/BountifulGraceChurch.jpg", false),
   WhatNews("2022年", "12月", "04", "恆安浸信會聖樂主日", "恆安浸信會",
       "assets/images/heng_on_baptist_church.png", false),
+  WhatNews("2021年", "12月", "02", "中浸神學院培靈會", "學基浸信會", "assets/images/cbtc.jpg",
+      true),
   WhatNews("2020年", "11月", "29", "恆安浸信會聖樂主日", "恆安浸信會",
       "assets/images/heng_on_baptist_church.png", true),
   WhatNews("2019年", "8月", "02", "海南島聖樂交流", "海南島", "assets/images/IMG_5635.JPG",

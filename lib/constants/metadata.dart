@@ -9,3 +9,4 @@ String requirementPhoto = "assets/images/IMG_1392.JPG";
 String mapPhoto = "assets/images/map.jpg";
 String whatNews1 = "assets/images/whatnews1.jpeg";
 String whatNewsBG = "assets/images/whatnewsBG.jpeg";
+String divider = "assets/images/divider-g8f3e8fda8_640.png";

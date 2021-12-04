@@ -35,7 +35,7 @@ class ApplicationPage extends StatelessWidget {
         padding: customMainTitleEdgeInsets(),
         child: Column(
           children: [
-            MainTitle(menuController: controller),
+            const MainTitle(),
             Expanded(
               child: GridView.count(
                 crossAxisSpacing: 4,

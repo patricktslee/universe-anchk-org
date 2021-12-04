@@ -15,7 +15,7 @@ class WhatNewsPage extends StatelessWidget {
       padding: customMainTitleEdgeInsets(),
       child: Column(
         children: [
-          MainTitle(menuController: menuController),
+          const MainTitle(),
           Expanded(
               child: SingleChildScrollView(
             child: Column(

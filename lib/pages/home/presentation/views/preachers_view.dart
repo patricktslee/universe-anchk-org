@@ -28,7 +28,7 @@ class PreachersPage extends StatelessWidget {
       padding: customMainTitleEdgeInsets(),
       child: Column(
         children: [
-          MainTitle(menuController: menuController),
+          const MainTitle(),
           //ResponsiveWidget.isSmallScreen(context)
           //    ? Expanded(
           //        child: ListView(

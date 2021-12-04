@@ -8,10 +8,11 @@ import 'package:universe/widgets/custom_text.dart';
 class MainTitle extends StatelessWidget {
   const MainTitle({
     Key? key,
-    required this.menuController,
+    //  required this.menuController,
   }) : super(key: key);
 
-  final HomeController menuController;
+//  final HomeController menuController;
+  static HomeController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class MainTitle extends StatelessWidget {
             margin: EdgeInsets.only(
                 top: ResponsiveWidget.isSmallScreen(context) ? 0 : 6),
             child: CustomText(
-              text: menuController.activeItem.value,
+              text: controller.activeItem.value,
               size: standardTextSize,
               weight: FontWeight.bold,
               color: redWine,

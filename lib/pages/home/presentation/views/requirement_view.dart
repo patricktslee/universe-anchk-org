@@ -18,7 +18,7 @@ class RequirementPage extends StatelessWidget {
       padding: customMainTitleEdgeInsets(),
       child: Column(
         children: [
-          MainTitle(menuController: menuController),
+          const MainTitle(),
           Expanded(
             child: ListView(
               children: [
@@ -59,7 +59,8 @@ class RequirementPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 menuController.requirementItem.indexOf(item) ==
-                                        4
+                                        menuController.requirementItem.length -
+                                            1
                                     ? Row(
                                         children: [
                                           const SizedBox(

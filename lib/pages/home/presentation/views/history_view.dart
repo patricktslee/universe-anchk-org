@@ -16,13 +16,13 @@ class HistoryPage extends StatelessWidget {
       padding: customMainTitleEdgeInsets(),
       child: Column(
         children: [
-          MainTitle(menuController: menuController),
+          const MainTitle(),
           Expanded(
             child: ListView(
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                  child: ResponsiveWidget.isSmallScreen(context)
+                  child: ResponsiveWidget.isiPadScreen(context)
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

@@ -17,7 +17,7 @@ class ConductorPage extends StatelessWidget {
       padding: customMainTitleEdgeInsets(),
       child: Column(
         children: [
-          MainTitle(menuController: menuController),
+          const MainTitle(),
           Expanded(
             child: GridView.count(
               crossAxisSpacing: 8,

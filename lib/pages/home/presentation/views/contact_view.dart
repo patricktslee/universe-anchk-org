@@ -19,7 +19,7 @@ class ContactPage extends StatelessWidget {
       padding: customMainTitleEdgeInsets(),
       child: Column(
         children: [
-          MainTitle(menuController: menuController),
+          const MainTitle(),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
             child: Row(
