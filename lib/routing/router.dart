@@ -36,7 +36,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case requirementPageRoute:
       return _getPageRoute(const RequirementPage());
     case applicationPageRoute:
-      return _getPageRoute(ApplicationPage());
+      return _getPageRoute(const ApplicationPage());
     case contactPageRoute:
       return _getPageRoute(const ContactPage());
 //    case covid19PageRoute:

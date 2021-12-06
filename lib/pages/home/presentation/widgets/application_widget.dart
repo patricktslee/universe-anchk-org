@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:universe/constants/metadata.dart';
 import 'package:universe/constants/style.dart';
 import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
-import 'package:universe/pages/home/presentation/views/application_view.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:universe/widgets/custom_text.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -130,98 +128,6 @@ class ApplicationWidget extends StatelessWidget {
         ),
       );
 
-  Widget _applicationForm(BuildContext context) => Form(
-        key: _formKey,
-        child: GridView.count(
-          crossAxisSpacing: 4,
-          mainAxisSpacing: 4,
-          crossAxisCount: ResponsiveWidget.isSmallScreen(context) ? 1 : 2,
-          childAspectRatio:
-              ResponsiveWidget.isSmallScreen(context) ? 3.25 : 2.5,
-          children: [
-            CustomTextFeildInput(
-              customController: nameController,
-              customHintText: "姓名",
-              customIcon: const Icon(Icons.person),
-              isRequired: true,
-            ),
-            CustomPhoneFeildInput(
-              customController: phoneController,
-              customHintText: "聯絡電話",
-              customIcon: const Icon(Icons.phone),
-            ),
-            CustomEmailFeildInput(
-              customController: emailController,
-              customHintText: "電郵",
-              customIcon: const Icon(Icons.email),
-            ),
-            CustomGenderFeildInput(
-              customController: genderController,
-              customHintText: "性別",
-              customIcon: const Icon(Icons.person_search),
-            ),
-            CustomTextFeildInput(
-              customController: churchController,
-              customHintText: "所屬教會",
-              customIcon: const Icon(Icons.people_rounded),
-              isRequired: true,
-            ),
-            CustomNumberFeildInput(
-              customController: yearInHIMController,
-              customHintText: "信主年齡",
-              customIcon: const Icon(Icons.trending_up),
-              isRequired: true,
-            ),
-            CustomNumberFeildInput(
-              customController: yearInBaptistController,
-              customHintText: "接受浸禮年份",
-              customIcon: const Icon(Icons.water),
-              isRequired: true,
-            ),
-            CustomTextFeildInput(
-              customController: churchServiceController,
-              customHintText: "教會事奉經驗",
-              customIcon: const Icon(Icons.miscellaneous_services),
-              isRequired: false,
-            ),
-            CustomNumberFeildInput(
-              customController: yearInChurchChoirController,
-              customHintText: "教會詩班年齡",
-              customIcon: const Icon(Icons.verified),
-              isRequired: false,
-            ),
-            CustomTextFeildInput(
-              customController: otherChoirController,
-              customHintText: "參加其他合唱團名稱",
-              customIcon: const Icon(Icons.near_me),
-              isRequired: false,
-            ),
-            CustomNumberFeildInput(
-              customController: yearInOtherChoirController,
-              customHintText: "其他合唱團詩班年齡",
-              customIcon: const Icon(Icons.mouse_rounded),
-              isRequired: false,
-            ),
-            CustomPartsFieldInput(
-              customController: partController,
-              customHintText: "聲部",
-              customIcon: const Icon(Icons.person_search),
-            ),
-            CustomTextFeildInput(
-              customController: musicTalentController,
-              customHintText: "音樂專長（指揮/樂器）",
-              customIcon: const Icon(Icons.piano),
-              isRequired: false,
-            ),
-            CustomTextFeildInput(
-              customController: otherTalentController,
-              customHintText: "其他專長",
-              customIcon: const Icon(Icons.work_sharp),
-              isRequired: false,
-            ),
-          ],
-        ),
-      );
   Widget _applicationButton() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: ElevatedButton(
