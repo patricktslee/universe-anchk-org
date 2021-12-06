@@ -2,6 +2,7 @@ import 'package:universe/constants/style.dart';
 import 'package:flutter/material.dart';
 import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
+import 'package:universe/pages/home/presentation/widgets/application_widget.dart';
 import 'package:universe/pages/home/presentation/widgets/main_title.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:universe/widgets/custom_text.dart';
@@ -29,116 +30,128 @@ class ApplicationPage extends StatelessWidget {
   ApplicationPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Padding(
+    return _applicationWidget(context);
+  }
+
+  Widget _applicationWidget(BuildContext context) => Padding(
         padding: customMainTitleEdgeInsets(),
         child: Column(
           children: [
             const MainTitle(),
-            Expanded(
-              child: GridView.count(
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 4,
-                crossAxisCount: ResponsiveWidget.isSmallScreen(context) ? 1 : 2,
-                childAspectRatio:
-                    ResponsiveWidget.isSmallScreen(context) ? 3.25 : 2.5,
-                children: [
-                  CustomTextFeildInput(
-                    customController: nameController,
-                    customHintText: "姓名",
-                    customIcon: const Icon(Icons.person),
-                    isRequired: true,
-                  ),
-                  CustomPhoneFeildInput(
-                    customController: phoneController,
-                    customHintText: "聯絡電話",
-                    customIcon: const Icon(Icons.phone),
-                  ),
-                  CustomEmailFeildInput(
-                    customController: emailController,
-                    customHintText: "電郵",
-                    customIcon: const Icon(Icons.email),
-                  ),
-                  CustomGenderFeildInput(
-                    customController: genderController,
-                    customHintText: "性別",
-                    customIcon: const Icon(Icons.person_search),
-                  ),
-                  CustomTextFeildInput(
-                    customController: churchController,
-                    customHintText: "所屬教會",
-                    customIcon: const Icon(Icons.people_rounded),
-                    isRequired: true,
-                  ),
-                  CustomNumberFeildInput(
-                    customController: yearInHIMController,
-                    customHintText: "信主年齡",
-                    customIcon: const Icon(Icons.trending_up),
-                    isRequired: true,
-                  ),
-                  CustomNumberFeildInput(
-                    customController: yearInBaptistController,
-                    customHintText: "接受浸禮年份",
-                    customIcon: const Icon(Icons.water),
-                    isRequired: true,
-                  ),
-                  CustomTextFeildInput(
-                    customController: churchServiceController,
-                    customHintText: "教會事奉經驗",
-                    customIcon: const Icon(Icons.miscellaneous_services),
-                    isRequired: false,
-                  ),
-                  CustomNumberFeildInput(
-                    customController: yearInChurchChoirController,
-                    customHintText: "教會詩班年齡",
-                    customIcon: const Icon(Icons.verified),
-                    isRequired: false,
-                  ),
-                  CustomTextFeildInput(
-                    customController: otherChoirController,
-                    customHintText: "參加其他合唱團名稱",
-                    customIcon: const Icon(Icons.near_me),
-                    isRequired: false,
-                  ),
-                  CustomNumberFeildInput(
-                    customController: yearInOtherChoirController,
-                    customHintText: "其他合唱團詩班年齡",
-                    customIcon: const Icon(Icons.mouse_rounded),
-                    isRequired: false,
-                  ),
-                  CustomPartsFieldInput(
-                    customController: partController,
-                    customHintText: "聲部",
-                    customIcon: const Icon(Icons.person_search),
-                  ),
-                  CustomTextFeildInput(
-                    customController: musicTalentController,
-                    customHintText: "音樂專長（指揮/樂器）",
-                    customIcon: const Icon(Icons.piano),
-                    isRequired: false,
-                  ),
-                  CustomTextFeildInput(
-                    customController: otherTalentController,
-                    customHintText: "其他專長",
-                    customIcon: const Icon(Icons.work_sharp),
-                    isRequired: false,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                onPressed: () async {
-                  String body = "";
+            ApplicationWidget(),
+//            _applicationForm(context),
+//            _applicationButton(),
+          ],
+        ),
+      );
 
-                  if (_formKey.currentState!.validate()) {
-                    // If the form is valid, display a snackbar. In the real world,
-                    // you'd often call a server or save the information in a database.
+  Widget _applicationForm(BuildContext context) => Form(
+        key: _formKey,
+        child: Expanded(
+          child: GridView.count(
+            crossAxisSpacing: 4,
+            mainAxisSpacing: 4,
+            crossAxisCount: ResponsiveWidget.isSmallScreen(context) ? 1 : 2,
+            childAspectRatio:
+                ResponsiveWidget.isSmallScreen(context) ? 3.25 : 2.5,
+            children: [
+              CustomTextFeildInput(
+                customController: nameController,
+                customHintText: "姓名",
+                customIcon: const Icon(Icons.person),
+                isRequired: true,
+              ),
+              CustomPhoneFeildInput(
+                customController: phoneController,
+                customHintText: "聯絡電話",
+                customIcon: const Icon(Icons.phone),
+              ),
+              CustomEmailFeildInput(
+                customController: emailController,
+                customHintText: "電郵",
+                customIcon: const Icon(Icons.email),
+              ),
+              CustomGenderFeildInput(
+                customController: genderController,
+                customHintText: "性別",
+                customIcon: const Icon(Icons.person_search),
+              ),
+              CustomTextFeildInput(
+                customController: churchController,
+                customHintText: "所屬教會",
+                customIcon: const Icon(Icons.people_rounded),
+                isRequired: true,
+              ),
+              CustomNumberFeildInput(
+                customController: yearInHIMController,
+                customHintText: "信主年齡",
+                customIcon: const Icon(Icons.trending_up),
+                isRequired: true,
+              ),
+              CustomNumberFeildInput(
+                customController: yearInBaptistController,
+                customHintText: "接受浸禮年份",
+                customIcon: const Icon(Icons.water),
+                isRequired: true,
+              ),
+              CustomTextFeildInput(
+                customController: churchServiceController,
+                customHintText: "教會事奉經驗",
+                customIcon: const Icon(Icons.miscellaneous_services),
+                isRequired: false,
+              ),
+              CustomNumberFeildInput(
+                customController: yearInChurchChoirController,
+                customHintText: "教會詩班年齡",
+                customIcon: const Icon(Icons.verified),
+                isRequired: false,
+              ),
+              CustomTextFeildInput(
+                customController: otherChoirController,
+                customHintText: "參加其他合唱團名稱",
+                customIcon: const Icon(Icons.near_me),
+                isRequired: false,
+              ),
+              CustomNumberFeildInput(
+                customController: yearInOtherChoirController,
+                customHintText: "其他合唱團詩班年齡",
+                customIcon: const Icon(Icons.mouse_rounded),
+                isRequired: false,
+              ),
+              CustomPartsFieldInput(
+                customController: partController,
+                customHintText: "聲部",
+                customIcon: const Icon(Icons.person_search),
+              ),
+              CustomTextFeildInput(
+                customController: musicTalentController,
+                customHintText: "音樂專長（指揮/樂器）",
+                customIcon: const Icon(Icons.piano),
+                isRequired: false,
+              ),
+              CustomTextFeildInput(
+                customController: otherTalentController,
+                customHintText: "其他專長",
+                customIcon: const Icon(Icons.work_sharp),
+                isRequired: false,
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget _applicationButton() => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: ElevatedButton(
+          onPressed: () async {
+            String body = "";
+
+            if (_formKey.currentState!.validate()) {
+              // If the form is valid, display a snackbar. In the real world,
+              // you'd often call a server or save the information in a database.
 //                    body =
 //                        '姓名:${nameController.text.toString()};聯絡電話:${phoneController.text.toString()};電郵:${emailController.text.toString()};性別:${genderController.text.toString()};所屬教會:${churchController.text.toString()};信主年齡:${yearInHIMController.text.toString()};接受浸禮年份:${yearInBaptistController.text.toString()};教會事奉經驗:${churchServiceController.text.toString()};教會詩班年齡:${yearInChurchChoirController.text.toString()};參加其他合唱團名稱:${otherChoirController.text.toString()};其他合唱團詩班年齡:${yearInOtherChoirController.text.toString()};聲部:${partController.text.toString()};音樂專長（指揮/樂器）:${musicTalentController.text.toString()};其他專長:${otherTalentController.text.toString()};Thank You!';
-                    body = '''
+              body = '''
                         姓名:${nameController.text.toString()};
                         聯絡電話:${phoneController.text.toString()};
                         電郵:${emailController.text.toString()};
@@ -155,38 +168,33 @@ class ApplicationPage extends StatelessWidget {
                         其他專長:${otherTalentController.text.toString()};
                         Thank You!''';
 
-                    //ScaffoldMessenger.of(context).showSnackBar(
-                    //  SnackBar(
-                    //      content: CustomText(
-                    //          text: '開啟電郵軟件',
-                    //          size: 24,
-                    //          color: dark,
-                    //          weight: FontWeight.normal)),
-                    //);
-                    print('body is $body');
-                    if (await canLaunch('mailto:info@anchk.org')) {
-                      await launch(
-                          'mailto:info@anchk.org?subject=關於萬國宣道詠團的團員申請&body=$body');
-                    } else {
-                      throw 'Could not launch info@anchk.org';
-                    }
+              //ScaffoldMessenger.of(context).showSnackBar(
+              //  SnackBar(
+              //      content: CustomText(
+              //          text: '開啟電郵軟件',
+              //          size: 24,
+              //          color: dark,
+              //          weight: FontWeight.normal)),
+              //);
+              print('body is $body');
+              if (await canLaunch('mailto:info@anchk.org')) {
+                await launch(
+                    'mailto:info@anchk.org?subject=關於萬國宣道詠團的團員申請&body=$body');
+              } else {
+                throw 'Could not launch info@anchk.org';
+              }
 
-                    controller.changeActiveItemTo(introductionPageDisplayName);
-                    controller.navigateTo(introductionPageRoute);
-                  }
-                },
-                child: CustomText(
-                    text: '電郵給我們',
-                    size: standardTextSize,
-                    color: dark,
-                    weight: FontWeight.normal),
-              ),
-            ),
-          ],
+              controller.changeActiveItemTo(introductionPageDisplayName);
+              controller.navigateTo(introductionPageRoute);
+            }
+          },
+          child: CustomText(
+              text: '電郵給我們',
+              size: standardTextSize,
+              color: dark,
+              weight: FontWeight.normal),
         ),
-      ),
-    );
-  }
+      );
 }
 
 InputDecoration customInputDecoration(
