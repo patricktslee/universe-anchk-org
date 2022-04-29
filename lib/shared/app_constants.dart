@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static const String project = "60a987dea733b";
+  static const String project = "61b0428203f09";
   static const String endpoint = "https://appwrite.anchk.org/v1";
   static const String bgImage =
       "https://images.pexels.com/photos/3902882/pexels-photo-3902882.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";
   static const String countryPath = '/home/country';
   static const String profilePath = '/profile';
+  static const Color defaultTextColor = Colors.black;
   static const TextStyle desktopTextStyle = TextStyle(
     fontWeight: FontWeight.bold,
     color: Colors.black,

@@ -1,7 +1,8 @@
-import 'dart:ui';
+//import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'package:universe/constants/metadata.dart';
 import 'package:universe/constants/style.dart';
@@ -10,6 +11,7 @@ import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/pages/home/presentation/widgets/custom_widgets.dart';
 import 'package:universe/routing/router.dart';
 import 'package:universe/routing/routes.dart';
+import 'package:universe/shared/enum.dart';
 import 'package:universe/widgets/bottom_nav.dart';
 import 'package:universe/widgets/custom_box_decoration.dart';
 import 'package:universe/widgets/custom_text.dart';
@@ -18,7 +20,8 @@ import 'package:universe/widgets/side_menu.dart';
 //import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
 //import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 
-import '../../../../shared/app_constants.dart';
+import 'package:universe/shared/app_constants.dart';
+//import '../../../../shared/app_constants.dart';
 import '../controllers/home_controller.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -31,6 +34,14 @@ class HomeLayout extends GetResponsiveView<HomeController> {
 //  static NavigationController navigationController = Get.find();
 
   HomeLayout({Key? key}) : super(key: key);
+  final logger = Logger(
+    printer: PrettyPrinter(
+        methodCount: 1,
+        lineLength: 50,
+        errorMethodCount: 3,
+        colors: true,
+        printEmojis: true),
+  );
 
   void _countryPath() async {
     Get.toNamed(AppConstants.countryPath);
@@ -43,19 +54,111 @@ class HomeLayout extends GetResponsiveView<HomeController> {
   @override
 //  Widget build(BuildContext context) {
   Widget builder() {
-//    print("The Platform is ${platform.toString()}");
+//    logger.i("The Platform is ${platform.toString()}");
 //    var isMobile =
 //        platform == TargetPlatform.iOS || platform == TargetPlatform.android;
-    return !kIsWeb ? iPhoneScreen() : webScreen();
+//    logger.i("Starting HomeLayout and check the Login Status");
+//    logger.i("menuController.loginStatus is " +        menuController.loginStatus.toString());
+//    return !kIsWeb ? iPhoneScreen() : webScreen();
+    return Obx(() => controller.dataStatus.value == 'Status.uninitialized'
+        ? splashScreen()
+        : !kIsWeb
+            ? iPhoneScreen()
+            : webScreen());
   }
+//    return Obx(() => controller.dataStatus.value == 'Status.dataUpdated'
+//        ? !kIsWeb
+//            ? iPhoneScreen()
+//            : webScreen()
+//        : splashScreen());
+//  }
+
+  Widget splashScreen() {
+    return Container(
+      decoration: customBoxDecoration(),
+      child: Center(
+        child: screen.width < ResponsiveWidget.getMediumScreenSize()
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  heading(),
+                  slogon(),
+                  logoSizedBox(),
+                  //dataLoading(),
+                ],
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  heading(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      slogon(),
+                      logoSizedBox(),
+                      //dataLoading(),
+                    ],
+                  ),
+//                  SizedBox(
+//                    child: debug(),
+//                  ),
+                ],
+              ),
+      ),
+    );
+  }
+
+  SizedBox slogon() => SizedBox(
+        width: 350,
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.white, width: 10),
+                image: const DecorationImage(
+                    image: NetworkImage(
+                        "https://appwrite.anchk.org/v1/storage/files/slogon/view?project=61b0428203f09&mode=admin"),
+                    fit: BoxFit.cover)),
+          ),
+        ),
+      );
+
+  CustomText heading() => CustomText(
+        text: organizationName,
+        size: 40,
+        weight: FontWeight.bold,
+        textAlign: TextAlign.center,
+      );
+
+  CustomText dataLoading() => const CustomText(
+        text: "數據加載中....",
+        color: AppConstants.defaultTextColor,
+        size: 30,
+        weight: FontWeight.bold,
+        textAlign: TextAlign.center,
+      );
+
+  CustomText debug() => CustomText(
+        text: controller.datalog.value.toString(),
+        size: 30,
+        weight: FontWeight.bold,
+        textAlign: TextAlign.center,
+      );
+
+  SizedBox logoSizedBox() => SizedBox(
+        height: 200,
+        child: Image.asset(logoPath),
+      );
 
   Container webScreen() {
 //    final MenuController menuController = Get.find();
 //    final NavigationController navigationController = Get.find();
 //    bool smallScreen = screen.width < 600;
     bool smallScreen = screen.width < ResponsiveWidget.getMediumScreenSize();
-    print(
-        "screen.width is ${screen.width.toString()} /n smallScreen is ${smallScreen.toString()})");
+//    logger.i(        "screen.width is ${screen.width.toString()} /n smallScreen is ${smallScreen.toString()})");
     TargetPlatform.android;
     return Container(
       decoration: customBoxDecoration(),
@@ -114,7 +217,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
 //    final MenuController menuController = Get.find();
 //    final NavigationController navigationController = Get.find();
     bool smallScreen = screen.width < ResponsiveWidget.getMediumScreenSize();
-    print(
+    logger.i(
         "screen.width is ${screen.width.toString()} /n smallScreen is ${smallScreen.toString()})");
     TargetPlatform.android;
     return Container(
@@ -127,7 +230,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
           preferredSize: Size.fromHeight(100.0),
           child: HomeAppBar(),
         ),
-        bottomNavigationBar: const BottomNavigation(),
+        bottomNavigationBar: BottomNavigation(),
         //drawer: smallScreen
         //    ? const Drawer(
         //        // Add a ListView to the drawer. This ensures the user can scroll
@@ -260,6 +363,7 @@ class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
     Key? key,
   }) : super(key: key);
+  static HomeController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -302,10 +406,28 @@ class HomeAppBar extends StatelessWidget {
                 : ResponsiveWidget.isSmallScreen(context)
                     ? 150
                     : 200,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
+            child: InkWell(
+              onTap: () {
+                print(
+                    "controller.providerBox.value is ${controller.providerBox.value}");
+                print(
+                    "controller.loginStatus.value is ${controller.loginStatus.value}");
+                if ((controller.providerBox.value == "anonymous") ||
+                    (controller.loginStatus.value !=
+                        Status.authenticated.toString())) {
+                  controller.changeActiveItemTo(authenticationPageDisplayName);
+                  if (ResponsiveWidget.isSmallScreen(context)) Get.back();
+                  controller.navigateTo(authenticationPageRoute);
+                } else {
+                  controller.changeActiveItemTo(profilePageDisplayName);
+                  if (ResponsiveWidget.isSmallScreen(context)) Get.back();
+                  controller.navigateTo(profilePageRoute);
+                }
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
 //                Container(
 //                  width: 1,
 //                  height: 22,
@@ -314,35 +436,36 @@ class HomeAppBar extends StatelessWidget {
 //                const SizedBox(
 //                  width: 8,
 //                ),
-                CustomText(
-                  text: "訪客",
-                  color: dark,
-                  size: standardTextSize,
-                  weight: FontWeight.normal,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: active.withOpacity(.5),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30)),
-                    padding: const EdgeInsets.all(2),
-                    margin: const EdgeInsets.all(2),
-                    child: CircleAvatar(
-                      backgroundColor: light,
-                      child: Icon(
-                        Icons.person_outline,
+                  Obx(() => CustomText(
+                        text: controller.displayName.value,
                         color: dark,
+                        size: standardTextSize,
+                        weight: FontWeight.normal,
+                      )),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: active.withOpacity(.5),
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30)),
+                      padding: const EdgeInsets.all(2),
+                      margin: const EdgeInsets.all(2),
+                      child: CircleAvatar(
+                        backgroundColor: light,
+                        child: Icon(
+                          Icons.person_outline,
+                          color: dark,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

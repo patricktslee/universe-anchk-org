@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:universe/constants/style.dart';
 import 'package:flutter/material.dart';
 import 'package:universe/helpers/responsiveness.dart';
@@ -8,9 +9,17 @@ import 'package:universe/pages/home/presentation/widgets/preacher_widget.dart';
 import 'package:get/get.dart';
 
 class LeadersPage extends StatelessWidget {
-  static HomeController menuController = Get.find();
+  static HomeController controller = Get.find();
 
-  const LeadersPage({Key? key}) : super(key: key);
+  LeadersPage({Key? key}) : super(key: key);
+  final logger = Logger(
+    printer: PrettyPrinter(
+        methodCount: 1,
+        lineLength: 50,
+        errorMethodCount: 3,
+        colors: true,
+        printEmojis: true),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +34,7 @@ class LeadersPage extends StatelessWidget {
         : ResponsiveWidget.isMediumScreen(context)
             ? size + 8
             : size + 10;
-    print(
-        "ResponsiveWidget.isSmallMediumScreen(context) is ${ResponsiveWidget.isSmallMediumScreen(context).toString()}");
+    //logger.i("ResponsiveWidget.isSmallMediumScreen(context) is ${ResponsiveWidget.isSmallMediumScreen(context).toString()}");
     return Padding(
       padding: customMainTitleEdgeInsets(),
       child: Column(
@@ -43,7 +51,7 @@ class LeadersPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: ConductorWidget(
-                            menuController: menuController,
+                            controller: controller,
                             responsiveFontSize: responsiveFontSize,
                             width: ResponsiveWidget.isSmallMediumScreen(context)
                                 ? MediaQuery.of(context).size.width / 3 * 2.2
@@ -53,7 +61,7 @@ class LeadersPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: PreacherWidget(
-                            menuController: menuController,
+                            controller: controller,
                             responsiveFontSize: responsiveFontSize,
                             width: ResponsiveWidget.isSmallMediumScreen(context)
                                 ? MediaQuery.of(context).size.width
@@ -76,7 +84,7 @@ class LeadersPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ConductorWidget(
-                              menuController: menuController,
+                              controller: controller,
                               responsiveFontSize: responsiveFontSize,
                               width: MediaQuery.of(context).size.width / 2,
                             ),
@@ -87,7 +95,7 @@ class LeadersPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: PreacherWidget(
-                              menuController: menuController,
+                              controller: controller,
                               responsiveFontSize: responsiveFontSize,
                               width: MediaQuery.of(context).size.width / 1.5,
                             ),

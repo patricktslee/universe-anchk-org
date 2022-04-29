@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:universe/constants/style.dart';
 import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:universe/widgets/custom_text.dart';
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:url_launcher/url_launcher.dart';
 
 class ApplicationWidget extends StatelessWidget {
   ApplicationWidget({Key? key}) : super(key: key);
+  final logger = Logger(
+    printer: PrettyPrinter(
+        methodCount: 1,
+        lineLength: 50,
+        errorMethodCount: 3,
+        colors: true,
+        printEmojis: true),
+  );
   static HomeController controller = Get.find();
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -132,30 +141,47 @@ class ApplicationWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: ElevatedButton(
           onPressed: () async {
-            String body = "";
+//            String body = "";
 
             if (_formKey.currentState!.validate()) {
               // If the form is valid, display a snackbar. In the real world,
               // you'd often call a server or save the information in a database.
 //                    body =
 //                        '姓名:${nameController.text.toString()};聯絡電話:${phoneController.text.toString()};電郵:${emailController.text.toString()};性別:${genderController.text.toString()};所屬教會:${churchController.text.toString()};信主年齡:${yearInHIMController.text.toString()};接受浸禮年份:${yearInBaptistController.text.toString()};教會事奉經驗:${churchServiceController.text.toString()};教會詩班年齡:${yearInChurchChoirController.text.toString()};參加其他合唱團名稱:${otherChoirController.text.toString()};其他合唱團詩班年齡:${yearInOtherChoirController.text.toString()};聲部:${partController.text.toString()};音樂專長（指揮/樂器）:${musicTalentController.text.toString()};其他專長:${otherTalentController.text.toString()};Thank You!';
-              body = '''
-                        姓名:${nameController.text.toString()};
-                        聯絡電話:${phoneController.text.toString()};
-                        電郵:${emailController.text.toString()};
-                        性別:${genderController.text.toString()};
-                        所屬教會:${churchController.text.toString()};
-                        信主年齡:${yearInHIMController.text.toString()};
-                        接受浸禮年份:${yearInBaptistController.text.toString()};
-                        教會事奉經驗:${churchServiceController.text.toString()};
-                        教會詩班年齡:${yearInChurchChoirController.text.toString()};
-                        參加其他合唱團名稱:${otherChoirController.text.toString()};
-                        其他合唱團詩班年齡:${yearInOtherChoirController.text.toString()};
-                        聲部:${partController.text.toString()};
-                        音樂專長（指揮/樂器）:${musicTalentController.text.toString()};
-                        其他專長:${otherTalentController.text.toString()};
-                        Thank You!''';
-
+              Map<dynamic, dynamic> data = {
+                "name": nameController.text.toString(),
+                "phone": phoneController.text.toString(),
+                "email": emailController.text.toString(),
+                "gender": genderController.text.toString(),
+                "church": churchController.text.toString(),
+                "yearInHIM": yearInHIMController.text.toString(),
+                "yearInBaptist": yearInBaptistController.text.toString(),
+                "churchService": churchServiceController.text.toString(),
+                "yearInChurchChoir":
+                    yearInChurchChoirController.text.toString(),
+                "otherChoir": otherChoirController.text.toString(),
+                "yearInOtherChoir": yearInOtherChoirController.text.toString(),
+                "part": partController.text.toString(),
+                "musicTalent": musicTalentController.text.toString(),
+                "otherTalent": otherTalentController.text.toString(),
+              };
+              //body = '''
+              //          姓名:${nameController.text.toString()};
+              //          聯絡電話:${phoneController.text.toString()};
+              //          電郵:${emailController.text.toString()};
+              //          性別:${genderController.text.toString()};
+              //          所屬教會:${churchController.text.toString()};
+              //          信主年齡:${yearInHIMController.text.toString()};
+              //          接受浸禮年份:${yearInBaptistController.text.toString()};
+              //          教會事奉經驗:${churchServiceController.text.toString()};
+              //          教會詩班年齡:${yearInChurchChoirController.text.toString()};
+              //          參加其他合唱團名稱:${otherChoirController.text.toString()};
+              //          其他合唱團詩班年齡:${yearInOtherChoirController.text.toString()};
+              //          聲部:${partController.text.toString()};
+              //          音樂專長（指揮/樂器）:${musicTalentController.text.toString()};
+              //          其他專長:${otherTalentController.text.toString()};
+              //          Thank You!''';
+//
               //ScaffoldMessenger.of(context).showSnackBar(
               //  SnackBar(
               //      content: CustomText(
@@ -164,13 +190,16 @@ class ApplicationWidget extends StatelessWidget {
               //          color: dark,
               //          weight: FontWeight.normal)),
               //);
-              print('body is $body');
-              if (await canLaunch('mailto:info@anchk.org')) {
-                await launch(
-                    'mailto:info@anchk.org?subject=關於萬國宣道詠團的團員申請&body=$body');
-              } else {
-                throw 'Could not launch info@anchk.org';
-              }
+              logger.i('data is $data');
+              logger.i('login status is ${controller.loginStatus.value}');
+              controller.createApplication(data);
+//              logger.i('body is $body');
+//              if (await canLaunch('mailto:info@anchk.org')) {
+//                await launch(
+//                    'mailto:info@anchk.org?subject=關於萬國宣道詠團的團員申請&body=$body');
+//              } else {
+//                throw 'Could not launch info@anchk.org';
+//              }
 
               controller.changeActiveItemTo(introductionPageDisplayName);
               controller.navigateTo(introductionPageRoute);
@@ -280,6 +309,82 @@ class CustomEmailFeildInput extends StatelessWidget {
             return null;
           },
           controller: customController,
+          decoration: customInputDecoration(customHintText, context),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomPasswordFeildInput extends StatelessWidget {
+  const CustomPasswordFeildInput({
+    Key? key,
+    required this.customController,
+    required this.customHintText,
+    required this.customIcon,
+  }) : super(key: key);
+
+  final TextEditingController customController;
+  final String customHintText;
+  final Icon customIcon;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: customFormEdgeInsets(),
+      child: ListTile(
+        leading: customIcon,
+        title: TextFormField(
+          keyboardType: TextInputType.text,
+          obscureText: true,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return '請輸入';
+            }
+            if (value.length < 8) {
+              return '密碼必須至少為 8 個字符';
+            }
+            return null;
+          },
+          controller: customController,
+          decoration: customInputDecoration(customHintText, context),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomConfirmedPasswordFeildInput extends StatelessWidget {
+  const CustomConfirmedPasswordFeildInput({
+    Key? key,
+    required this.passwordController,
+    required this.confirmPasswordController,
+    required this.customHintText,
+    required this.customIcon,
+  }) : super(key: key);
+
+  final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
+  final String customHintText;
+  final Icon customIcon;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: customFormEdgeInsets(),
+      child: ListTile(
+        leading: customIcon,
+        title: TextFormField(
+          keyboardType: TextInputType.text,
+          obscureText: true,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return '請輸入';
+            }
+            if (confirmPasswordController.text != passwordController.text) {
+              return '密碼和確認密碼不同';
+            }
+            return null;
+          },
+          controller: confirmPasswordController,
           decoration: customInputDecoration(customHintText, context),
         ),
       ),
