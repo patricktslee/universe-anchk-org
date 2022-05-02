@@ -30,6 +30,8 @@
 .pub-cache/
 .pub/
 /build/
+lib/constants/appwrite_info.dart
+lib/shared/app_constants.dart
 
 # firebase related
 .firebase/

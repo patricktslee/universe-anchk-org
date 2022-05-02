@@ -2,7 +2,8 @@ import 'package:universe/constants/style.dart';
 import 'package:flutter/material.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
 import 'package:universe/pages/home/presentation/widgets/main_title.dart';
-import 'package:universe/pages/home/presentation/widgets/whatnews_widget.dart';
+import 'package:universe/pages/home/presentation/widgets/what_news_group_widget.dart';
+//import 'package:universe/pages/home/presentation/widgets/whatnews_widget.dart';
 import 'package:get/get.dart';
 
 class WhatNewsPage extends StatelessWidget {
@@ -14,20 +15,21 @@ class WhatNewsPage extends StatelessWidget {
     return Padding(
       padding: customMainTitleEdgeInsets(),
       child: Column(
-        children: [
-          const MainTitle(),
-          Expanded(
-              child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: menuController.whatNewsItem
-                  .map(
-                    (item) => WhatnewsWidget(item: item),
-                  )
-                  .toList(),
-            ),
-          ))
+        children: const [
+          MainTitle(),
+//          Expanded(
+//              child: SingleChildScrollView(
+//            child: Column(
+//              mainAxisSize: MainAxisSize.max,
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              children: menuController.whatNewsItem
+//                  .map(
+//                    (item) => WhatnewsWidget(item: item),
+//                  )
+//                  .toList(),
+//            ),
+//          )),
+          WhatnewsGroupWidget(),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:universe/constants/style.dart';
 //import 'package:universe/layout.dart';
 import 'package:universe/pages/404/error.dart';
@@ -8,9 +9,26 @@ import 'package:universe/pages/authentication/authentication.dart';
 import 'package:universe/pages/home/bindings/home_binding.dart';
 import 'package:universe/pages/home/presentation/views/home_layout.dart';
 import 'package:universe/routing/routes.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
-  runApp(const MyApp());
+//void main() {
+//  runApp(const MyApp());
+//}
+
+Future<void> main() async {
+  await GetStorage.init();
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://456aedcc070640cbb0cfa2b81f22e2d4@o1119479.ingest.sentry.io/6153962';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(const MyApp()),
+  );
+
+  // or define SENTRY_DSN via Dart environment variable (--dart-define)
 }
 
 class MyApp extends StatelessWidget {

@@ -3,35 +3,35 @@ import 'dart:convert';
 // import 'package:flutter/foundation.dart';
 import 'package:universe/pages/home/domain/entity/user_prefs.dart';
 
-class User {
+class LoginUser {
   final String? id;
   final String? name;
   final DateTime? registration;
-  final int? status;
+  final bool? status;
   final String? email;
   final bool? emailVerification;
   final UserPrefs? prefs;
 
-  User({
+  LoginUser({
     this.id = "00000000",
     this.name = "Null name",
     this.registration,
-    this.status = 0,
+    this.status = false,
     this.email = "name@email.com",
     this.emailVerification = false,
     this.prefs,
   });
 
-  User copyWith({
+  LoginUser copyWith({
     String? id,
     String? name,
     DateTime? registration,
-    int? status,
+    bool? status,
     String? email,
     bool? emailVerification,
     UserPrefs? prefs,
   }) {
-    return User(
+    return LoginUser(
       id: id ?? this.id,
       name: name ?? this.name,
       registration: registration ?? this.registration,
@@ -54,9 +54,9 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
-      id: map['id'],
+  factory LoginUser.fromMap(Map<String, dynamic> map) {
+    return LoginUser(
+      id: map['\$id'],
       name: map['name'],
       registration: DateTime.fromMillisecondsSinceEpoch(map['registration']),
       status: map['status'],
@@ -68,7 +68,8 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source));
+  factory LoginUser.fromJson(String source) =>
+      LoginUser.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -79,7 +80,7 @@ class User {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is User &&
+    return other is LoginUser &&
         other.id == id &&
         other.name == name &&
         other.registration == registration &&

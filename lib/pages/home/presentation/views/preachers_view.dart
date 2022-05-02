@@ -7,7 +7,7 @@ import 'package:universe/pages/home/presentation/widgets/preacher_widget.dart';
 import 'package:get/get.dart';
 
 class PreachersPage extends StatelessWidget {
-  static HomeController menuController = Get.find();
+  static HomeController controller = Get.find();
 
   const PreachersPage({Key? key}) : super(key: key);
   @override
@@ -48,7 +48,7 @@ class PreachersPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: PreacherWidget(
-                      menuController: menuController,
+                      controller: controller,
                       responsiveFontSize: responsiveFontSize,
                       width: MediaQuery.of(context).size.width,
                     ),
