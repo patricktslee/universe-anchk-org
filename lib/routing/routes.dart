@@ -72,7 +72,7 @@ List<MenuItem> sideMenuItemRoutes = [
   MenuItem(requirementPageDisplayName, requirementPageRoute),
   MenuItem(applicationtPageDisplayName, applicationPageRoute),
   MenuItem(contactPageDisplayName, contactPageRoute),
-  MenuItem(debugPageDisplayName, debugpageRoute),
+//  MenuItem(debugPageDisplayName, debugpageRoute),
 //  MenuItem(covid19PageDisplayName, covid19PageRoute),
 //  MenuItem(authenticationPageDisplayName, authenticationPageRoute),
 ];
