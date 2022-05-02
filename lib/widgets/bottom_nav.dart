@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:universe/constants/style.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
 //import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
@@ -8,7 +9,15 @@ import 'package:get/get.dart';
 
 class BottomNavigation extends StatelessWidget {
 //  const BottomNavigation(BuildContext context, GlobalKey<ScaffoldState> key)
-  const BottomNavigation({Key? key}) : super(key: key);
+  BottomNavigation({Key? key}) : super(key: key);
+  final logger = Logger(
+    printer: PrettyPrinter(
+        methodCount: 1,
+        lineLength: 50,
+        errorMethodCount: 3,
+        colors: true,
+        printEmojis: true),
+  );
 
 //  final MenuItem currentTab;
 //  final ValueChanged<MenuItem> onSelectTab;
@@ -30,7 +39,7 @@ class BottomNavigation extends StatelessWidget {
       selectedItemColor: active,
       unselectedItemColor: Colors.amber[800],
       onTap: (value) {
-        print("bottomNavigation index is $value");
+        logger.i("bottomNavigation index is $value");
         menuController.changeSelectedIndex(value);
         if (sideMenuItemRoutes[value].route == authenticationPageRoute) {
           Get.offAllNamed(authenticationPageRoute);

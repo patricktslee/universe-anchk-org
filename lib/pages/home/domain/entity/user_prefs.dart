@@ -1,27 +1,38 @@
 import 'dart:convert';
 
+import 'package:logger/logger.dart';
+
 class UserPrefs {
   final int? buildNumber;
   final bool? introSeen;
-  final DateTime? lastLoggedIn;
+//  final DateTime? lastLoggedIn;
   final String? deviceId;
+  final logger = Logger(
+    printer: PrettyPrinter(
+        methodCount: 1,
+        lineLength: 50,
+        errorMethodCount: 3,
+        colors: true,
+        printEmojis: true),
+  );
+
   UserPrefs({
     this.buildNumber = 0,
     this.introSeen = false,
-    this.lastLoggedIn,
+    //  this.lastLoggedIn,
     this.deviceId = '',
   });
 
   UserPrefs copyWith({
     int buildNumber = 0,
     bool introSeen = false,
-    required DateTime lastLoggedIn,
+//    required DateTime lastLoggedIn,
     String deviceId = '',
   }) {
     return UserPrefs(
       buildNumber: buildNumber,
       introSeen: introSeen,
-      lastLoggedIn: lastLoggedIn,
+      //  lastLoggedIn: lastLoggedIn,
       deviceId: deviceId,
     );
   }
@@ -30,18 +41,18 @@ class UserPrefs {
     return {
       'buildNumber': buildNumber,
       'introSeen': introSeen,
-      'lastLoggedIn': lastLoggedIn!.millisecondsSinceEpoch,
+      //  'lastLoggedIn': lastLoggedIn!.millisecondsSinceEpoch,
       'deviceId': deviceId,
     };
   }
 
   factory UserPrefs.fromMap(Map<String, dynamic> map) {
-//    print('map is ' + map.isEmpty.toString());
+//    logger.i('map is ' + map.isEmpty.toString());
 //    UserPrefs __userPrefs;
     return UserPrefs(
       buildNumber: map['buildNumber'],
       introSeen: map['introSeen'],
-      lastLoggedIn: DateTime.fromMillisecondsSinceEpoch(map['lastLoggedIn']),
+      //lastLoggedIn: DateTime.fromMillisecondsSinceEpoch(map['lastLoggedIn']),
       deviceId: map['deviceId'],
     );
 //    return __userPrefs;
@@ -54,7 +65,7 @@ class UserPrefs {
 
   @override
   String toString() {
-    return 'UserPrefs(buildNumber: $buildNumber, introSeen: $introSeen, lastLoggedIn: $lastLoggedIn, deviceId: $deviceId)';
+    return 'UserPrefs(buildNumber: $buildNumber, introSeen: $introSeen,  deviceId: $deviceId)';
   }
 
   @override
@@ -64,7 +75,7 @@ class UserPrefs {
     return other is UserPrefs &&
         other.buildNumber == buildNumber &&
         other.introSeen == introSeen &&
-        other.lastLoggedIn == lastLoggedIn &&
+        //other.lastLoggedIn == lastLoggedIn &&
         other.deviceId == deviceId;
   }
 
@@ -72,7 +83,7 @@ class UserPrefs {
   int get hashCode {
     return buildNumber.hashCode ^
         introSeen.hashCode ^
-        lastLoggedIn.hashCode ^
+        // lastLoggedIn.hashCode ^
         deviceId.hashCode;
   }
 }

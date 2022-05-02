@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({
@@ -54,7 +55,7 @@ class Custom1OutlinedButton extends StatelessWidget {
   final String text;
   final String path;
   final Function function;
-  const Custom1OutlinedButton({
+  Custom1OutlinedButton({
     Key? key,
     required this.mobileTextStyle,
     required this.textStyle,
@@ -64,10 +65,18 @@ class Custom1OutlinedButton extends StatelessWidget {
   }) : super(key: key);
 
   final TextStyle mobileTextStyle;
+  final logger = Logger(
+    printer: PrettyPrinter(
+        methodCount: 1,
+        lineLength: 50,
+        errorMethodCount: 3,
+        colors: true,
+        printEmojis: true),
+  );
 
   @override
   Widget build(BuildContext context) {
-    print('Starting customOutlineButton');
+    logger.i('Starting customOutlineButton');
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         textStyle: textStyle,
@@ -91,7 +100,7 @@ class CustomOutlinedButton extends StatelessWidget {
   final String text;
   final String path;
   final Function() function;
-  const CustomOutlinedButton({
+  CustomOutlinedButton({
     Key? key,
     required this.mobileTextStyle,
     required this.textStyle,
@@ -99,12 +108,20 @@ class CustomOutlinedButton extends StatelessWidget {
     required this.path,
     required this.function,
   }) : super(key: key);
+  final logger = Logger(
+    printer: PrettyPrinter(
+        methodCount: 1,
+        lineLength: 50,
+        errorMethodCount: 3,
+        colors: true,
+        printEmojis: true),
+  );
 
   final TextStyle mobileTextStyle;
 
   @override
   Widget build(BuildContext context) {
-    print('Starting customOutlineButton');
+    logger.i('Starting customOutlineButton');
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         textStyle: textStyle,

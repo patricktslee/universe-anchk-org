@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:universe/pages/home/data/api_service.dart';
 //import '../domain/entity/cases_model.dart';
 
@@ -11,9 +12,17 @@ abstract class IAuthProvider {
 class AuthProvider extends GetConnect implements IAuthProvider {
   @override
   ApiService? apiService = ApiService.instance;
+  final logger = Logger(
+    printer: PrettyPrinter(
+        methodCount: 1,
+        lineLength: 50,
+        errorMethodCount: 3,
+        colors: true,
+        printEmojis: true),
+  );
   @override
   void onInit() {
-    print("AuthProvider OnInit");
+    logger.i("AuthProvider OnInit");
 //   httpClient.defaultDecoder = CasesModel.fromJson;
 //   httpClient.baseUrl = 'https://api.covid19api.com';
   }
