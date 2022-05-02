@@ -19,16 +19,7 @@ class YoutubeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Youtube Player IFrame Demo',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.deepPurple,
-        scaffoldBackgroundColor: Colors.black,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const YoutubeAppDemo(),
-    );
+    return const YoutubeAppDemo();
   }
 }
 
