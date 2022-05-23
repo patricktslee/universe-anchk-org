@@ -327,9 +327,9 @@
     },
     {
       "name": "flutter_inappwebview",
-      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_inappwebview-5.3.2",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_inappwebview-5.4.3+7",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.14"
     },
     {
       "name": "flutter_lints",
@@ -369,9 +369,9 @@
     },
     {
       "name": "get",
-      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/get-4.6.1",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/get-4.6.3",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.16"
     },
     {
       "name": "get_storage",
@@ -651,13 +651,13 @@
     },
     {
       "name": "sentry",
-      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/sentry-6.3.0",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/sentry-6.5.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "sentry_flutter",
-      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/sentry_flutter-6.3.0",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/sentry_flutter-6.5.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -783,7 +783,7 @@
     },
     {
       "name": "url_launcher",
-      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-6.0.18",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-6.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -897,9 +897,9 @@
     },
     {
       "name": "youtube_player_iframe",
-      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/youtube_player_iframe-2.2.2",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/youtube_player_iframe-2.3.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.17"
     },
     {
       "name": "universe",
@@ -908,7 +908,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-05-22T06:47:50.183384Z",
+  "generated": "2022-05-22T08:06:38.093961Z",
   "generator": "pub",
   "generatorVersion": "2.17.1"
 }

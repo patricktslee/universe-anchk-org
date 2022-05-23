@@ -8,7 +8,8 @@ import 'package:universe/constants/style.dart';
 import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
 import 'package:universe/widgets/custom_text.dart';
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ContactWidget extends StatelessWidget {
   const ContactWidget({Key? key}) : super(key: key);
@@ -160,8 +161,10 @@ class ContactWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () async {
-                      if (await canLaunch('tel:${item.telephone.toString()}')) {
-                        await launch('tel:${item.telephone.toString()}');
+                      if (await canLaunchUrlString(
+                          'tel:${item.telephone.toString()}')) {
+                        await launchUrlString(
+                            'tel:${item.telephone.toString()}');
                       } else {
                         throw 'Could not launch ${item.email.toString()}';
                       }
@@ -185,11 +188,11 @@ class ContactWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () async {
-                      if (await canLaunch(item.url.toString())) {
-                        await launch(
+                      if (await canLaunchUrlString(item.url.toString())) {
+                        await launchUrlString(
                           item.url.toString(),
-                          forceSafariVC: true,
-                          forceWebView: true,
+//                          forceSafariVC: true,
+//                          forceWebView: true,
                         );
                       } else {
                         throw 'Could not launch ${item.url.toString()}';
@@ -214,8 +217,9 @@ class ContactWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () async {
-                      if (await canLaunch('mailto:${item.email.toString()}')) {
-                        await launch(
+                      if (await canLaunchUrlString(
+                          'mailto:${item.email.toString()}')) {
+                        await launchUrlString(
                             'mailto:${item.email.toString()}?subject=關於萬國宣道詠團的查詢');
                       } else {
                         throw 'Could not launch ${item.email.toString()}';
@@ -240,11 +244,11 @@ class ContactWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () async {
-                      if (await canLaunch(item.facebook.toString())) {
-                        await launch(
+                      if (await canLaunchUrlString(item.facebook.toString())) {
+                        await launchUrlString(
                           item.facebook.toString(),
-                          forceSafariVC: true,
-                          forceWebView: true,
+                          //forceSafariVC: true,
+                          //forceWebView: true,
                         );
                       } else {
                         throw 'Could not launch ${item.facebook.toString()}';

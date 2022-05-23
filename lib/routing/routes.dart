@@ -52,29 +52,29 @@ const profilePageRoute = "/profile";
 const debugPageDisplayName = "Debug";
 const debugpageRoute = "/debug";
 
-class MenuItem {
+class CustomMenuItem {
   final String name;
   final String route;
 
-  MenuItem(this.name, this.route);
+  CustomMenuItem(this.name, this.route);
 }
 
-List<MenuItem> sideMenuItemRoutes = [
-  MenuItem(whatNewsPageDisplayName, whatNewsPageRoute),
-  MenuItem(introductionPageDisplayName, introductionPageRoute),
-//  MenuItem(missionPageDisplayName, missionPageRoute),
-  MenuItem(leadersPageDisplayName, leadersPageRoute),
-//  MenuItem(conductorPageDisplayName, conductorPageRoute),
-//  MenuItem(preachersPageDisplayName, preachersPageRoute),
-  MenuItem(historyPageDisplayName, historyPageRoute),
-  MenuItem(videoPageDisplayName, videoPageRoute),
-  MenuItem(practicePageDisplayName, practicePageRoute),
-  MenuItem(requirementPageDisplayName, requirementPageRoute),
-  MenuItem(applicationtPageDisplayName, applicationPageRoute),
-  MenuItem(contactPageDisplayName, contactPageRoute),
-//  MenuItem(debugPageDisplayName, debugpageRoute),
-//  MenuItem(covid19PageDisplayName, covid19PageRoute),
-//  MenuItem(authenticationPageDisplayName, authenticationPageRoute),
+List<CustomMenuItem> sideMenuItemRoutes = [
+  CustomMenuItem(whatNewsPageDisplayName, whatNewsPageRoute),
+  CustomMenuItem(introductionPageDisplayName, introductionPageRoute),
+//  CustomMenuItem(missionPageDisplayName, missionPageRoute),
+  CustomMenuItem(leadersPageDisplayName, leadersPageRoute),
+//  CustomMenuItem(conductorPageDisplayName, conductorPageRoute),
+//  CustomMenuItem(preachersPageDisplayName, preachersPageRoute),
+  CustomMenuItem(historyPageDisplayName, historyPageRoute),
+  CustomMenuItem(videoPageDisplayName, videoPageRoute),
+  CustomMenuItem(practicePageDisplayName, practicePageRoute),
+  CustomMenuItem(requirementPageDisplayName, requirementPageRoute),
+  CustomMenuItem(applicationtPageDisplayName, applicationPageRoute),
+  CustomMenuItem(contactPageDisplayName, contactPageRoute),
+//  CustomMenuItem(debugPageDisplayName, debugpageRoute),
+//  CustomMenuItem(covid19PageDisplayName, covid19PageRoute),
+//  CustomMenuItem(authenticationPageDisplayName, authenticationPageRoute),
 ];
 
 //class Paragraph {
