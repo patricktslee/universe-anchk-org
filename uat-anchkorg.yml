@@ -1,0 +1,180 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    kubernetes.io/metadata.name: uat-anchkorg
+  name: uat-anchkorg
+spec:
+  finalizers:
+  - kubernetes
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: devops-anchk-org
+  namespace: default
+spec:
+  secretName: devops-anchk-org-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: devops.anchk.org
+  dnsNames:
+    - devops.anchk.org
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: devops-anchk-https
+  namespace: uat-anchkorg
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`devops.anchk.org`)
+      kind: Rule
+      services:
+        - name: uat-anchkorg-service
+          port: 8080
+  tls:
+    secretName: devops-anchk-org-tls
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: uat-anchk-org
+  namespace: default
+spec:
+  secretName: uat-anchk-org-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: uat.anchk.org
+  dnsNames:
+    - uat.anchk.org
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: uat-anchk-https
+  namespace: uat-anchkorg
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`uat.anchk.org`)
+      kind: Rule
+      services:
+        - name: uat-anchkorg-service
+          port: 8080
+  tls:
+    secretName: uat-anchk-org-tls
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: https-redirect
+  namespace: uat-anchkorg
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: uat-anchk-http
+  namespace: uat-anchkorg
+
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`uat.anchk.org`)
+      kind: Rule
+      services:
+        - name: uat-anchkorg-service
+          port: 8080
+      middlewares:
+        - name: https-redirect
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: devops-anchk-http
+  namespace: uat-anchkorg
+
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`devops.anchk.org`)
+      kind: Rule
+      services:
+        - name: uat-anchkorg-service
+          port: 8080
+      middlewares:
+        - name: https-redirect
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: uat-anchkorg-service
+  namespace: uat-anchkorg
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: uat-anchkorg-app
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uat-anchkorg-app
+  namespace: uat-anchkorg
+spec:
+  selector:
+    matchLabels:
+      app: uat-anchkorg-app
+  replicas: 1 # tells deployment to run 1 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: uat-anchkorg-app
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: uat-anchkorg
+        image: patricktslee/uat-anchk-org:uat
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: 1024Mi
+            cpu: "1"
+          requests:
+            memory: 512Mi
+            cpu: "0.2"
+        ports:
+        - containerPort: 8080

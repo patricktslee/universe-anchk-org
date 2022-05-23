@@ -1,0 +1,128 @@
+import 'dart:async';
+
+import 'package:get/get.dart';
+import 'package:logger/logger.dart';
+import 'package:universe/pages/home/domain/adapters/auth_repository_adapter.dart';
+import 'package:universe/pages/home/domain/entity/user.dart';
+
+//import '../../domain/adapters/repository_adapter.dart';
+//import '../../domain/entity/cases_model.dart';
+
+class AuthController extends SuperController<LoginUser> {
+  AuthController({required this.authRepository});
+  final logger = Logger(
+    printer: PrettyPrinter(
+        methodCount: 1,
+        lineLength: 50,
+        errorMethodCount: 3,
+        colors: true,
+        printEmojis: true),
+  );
+
+  /// inject repo abstraction dependency
+  final IAuthRepository authRepository;
+
+  RxString sessionId = ''.obs;
+
+  /// When the controller is initialized, make the http request
+  @override
+  void onInit() {
+    super.onInit();
+    // show loading on start, data on success
+    // and error message on error with 0 boilerplate
+    appwriteLogin();
+  }
+
+  void appwriteLogin() async {
+    bool isLogin;
+    isLogin = await authRepository.login(
+        email: 'anchkorg@gmail.com', password: 'church2002');
+    logger.i("isLogin is " + isLogin.toString());
+    if (isLogin) {
+      logger.i('homeRepository.user' + authRepository.user.toString());
+      sessionId.value = authRepository.user.id!;
+      logger.i('sessionId.value is ' + sessionId.value);
+      change(authRepository.user, status: RxStatus.success());
+
+//     Future sessionResult = homeRepository.getUserSession();
+//     sessionResult.then((value) {
+//       logger.i('value on homeRepository.getUserSession');
+//       logger.i(value);
+//       logger.i('Starting timer counting down at ${DateTime.now()}');
+//       new Timer(new Duration(seconds: 35), () {
+//         logger.i('Timer at ${DateTime.now()}');
+//         Future result = homeRepository.logout(sessionId: sessionId.value);
+//         result.then((response) {
+//           logger.i(response);
+//         }).catchError((error) {
+//           logger.i(error.response);
+//         });
+//       });
+//     }).catchError((onError) {
+//       logger.i(onError.response);
+//     });
+//   }
+    } else {
+      logger.i('Login error');
+      logger.i(authRepository.error);
+      change(null, status: RxStatus.error(authRepository.error.toString()));
+    }
+  }
+
+  @override
+  void onReady() {
+    logger.i('The build method is done. '
+        'Your controller is ready to call dialogs and snackbars');
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    logger.i('onClose called');
+    super.onClose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    logger.i('the window size did change');
+    super.didChangeMetrics();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    logger.i('platform change ThemeMode');
+    super.didChangePlatformBrightness();
+  }
+
+  @override
+  Future<bool> didPushRoute(String route) {
+    logger.i('the route $route will be open');
+    return super.didPushRoute(route);
+  }
+
+  @override
+  Future<bool> didPopRoute() {
+    logger.i('the current route will be closed');
+    return super.didPopRoute();
+  }
+
+  @override
+  void onDetached() {
+    logger.i('onDetached called');
+  }
+
+  @override
+  void onInactive() {
+    logger.i('onInative called');
+  }
+
+  @override
+  void onPaused() {
+    logger.i('onPaused called');
+  }
+
+  @override
+  void onResumed() {
+    logger.i('onResumed called');
+  }
+}
