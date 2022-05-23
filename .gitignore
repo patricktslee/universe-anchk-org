@@ -8,10 +8,7 @@
 .buildlog/
 .history
 .svn/
-<<<<<<< HEAD
 migrate_working_dir/
-=======
->>>>>>> 6077b954d1085a48aa239ddb1f826fb3e36cb110
 
 # IntelliJ related
 *.iml
@@ -34,14 +31,6 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-<<<<<<< HEAD
-=======
-lib/constants/appwrite_info.dart
-lib/shared/app_constants.dart
-
-# firebase related
-.firebase/
->>>>>>> 6077b954d1085a48aa239ddb1f826fb3e36cb110
 
 # Web related
 lib/generated_plugin_registrant.dart
