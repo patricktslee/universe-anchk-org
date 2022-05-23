@@ -29,11 +29,7 @@ class BottomNavigation extends StatelessWidget {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: [
-<<<<<<< HEAD
         for (CustomMenuItem item in sideMenuItemRoutes)
-=======
-        for (MenuItem item in sideMenuItemRoutes)
->>>>>>> 6077b954d1085a48aa239ddb1f826fb3e36cb110
           BottomNavigationBarItem(
             icon: menuController.returnIconFor(item.name),
             label: item.name,

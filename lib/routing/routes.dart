@@ -52,7 +52,6 @@ const profilePageRoute = "/profile";
 const debugPageDisplayName = "Debug";
 const debugpageRoute = "/debug";
 
-<<<<<<< HEAD
 class CustomMenuItem {
   final String name;
   final String route;
@@ -76,31 +75,6 @@ List<CustomMenuItem> sideMenuItemRoutes = [
 //  CustomMenuItem(debugPageDisplayName, debugpageRoute),
 //  CustomMenuItem(covid19PageDisplayName, covid19PageRoute),
 //  CustomMenuItem(authenticationPageDisplayName, authenticationPageRoute),
-=======
-class MenuItem {
-  final String name;
-  final String route;
-
-  MenuItem(this.name, this.route);
-}
-
-List<MenuItem> sideMenuItemRoutes = [
-  MenuItem(whatNewsPageDisplayName, whatNewsPageRoute),
-  MenuItem(introductionPageDisplayName, introductionPageRoute),
-//  MenuItem(missionPageDisplayName, missionPageRoute),
-  MenuItem(leadersPageDisplayName, leadersPageRoute),
-//  MenuItem(conductorPageDisplayName, conductorPageRoute),
-//  MenuItem(preachersPageDisplayName, preachersPageRoute),
-  MenuItem(historyPageDisplayName, historyPageRoute),
-  MenuItem(videoPageDisplayName, videoPageRoute),
-  MenuItem(practicePageDisplayName, practicePageRoute),
-  MenuItem(requirementPageDisplayName, requirementPageRoute),
-  MenuItem(applicationtPageDisplayName, applicationPageRoute),
-  MenuItem(contactPageDisplayName, contactPageRoute),
-//  MenuItem(debugPageDisplayName, debugpageRoute),
-//  MenuItem(covid19PageDisplayName, covid19PageRoute),
-//  MenuItem(authenticationPageDisplayName, authenticationPageRoute),
->>>>>>> 6077b954d1085a48aa239ddb1f826fb3e36cb110
 ];
 
 //class Paragraph {
