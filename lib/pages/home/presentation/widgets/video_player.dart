@@ -57,7 +57,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
       DeviceOrientation.portraitDown,
     ]);
 
+<<<<<<< HEAD
     WidgetsBinding.instance.addPostFrameCallback((_) {
+=======
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+>>>>>>> 6077b954d1085a48aa239ddb1f826fb3e36cb110
       setState(() {
         _ytbPlayerController = YoutubePlayerController(
           initialVideoId: controller.videosList[0].youtubeId,

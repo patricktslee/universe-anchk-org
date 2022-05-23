@@ -3,5 +3,8 @@
 **/Pods/
 
 # Xcode-related
+<<<<<<< HEAD
 **/dgph
+=======
+>>>>>>> 6077b954d1085a48aa239ddb1f826fb3e36cb110
 **/xcuserdata/
