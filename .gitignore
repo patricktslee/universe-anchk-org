@@ -28,3 +28,4 @@ doc/api/
 
 .firebase\
 public\
+lib\shared\app_constants.dart
