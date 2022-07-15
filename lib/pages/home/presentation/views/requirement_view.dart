@@ -22,7 +22,11 @@ class RequirementPage extends StatelessWidget {
       child: Column(
         children: const [
           MainTitle(),
-          RequirementWidget(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: RequirementWidget(),
+            ),
+          ),
 //          _requirementWidget(context),
         ],
       ),

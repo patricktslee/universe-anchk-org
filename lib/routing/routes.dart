@@ -6,7 +6,6 @@
 //import 'package:universe/pages/home/domain/entity/paragraph_model.dart';
 
 const rootRoute = "/";
-
 const whatNewsPageDisplayName = "最新消息";
 const whatNewsPageRoute = "/whatnews";
 
@@ -58,6 +57,27 @@ class CustomMenuItem {
 
   CustomMenuItem(this.name, this.route);
 }
+
+const anchkORGPageDisplayName = "詠團";
+const anchkORGPageRoute = "/anchkorg";
+
+const chatPageDisplayName = "對話";
+const chatPageRoute = "/chat";
+
+List<CustomMenuItem> mobileBottomNavigatorBarRoutes = [
+  CustomMenuItem(anchkORGPageDisplayName, anchkORGPageRoute),
+  CustomMenuItem(videoPageDisplayName, videoPageRoute),
+  CustomMenuItem(whatNewsPageDisplayName, whatNewsPageRoute),
+  CustomMenuItem(contactPageDisplayName, contactPageRoute),
+  CustomMenuItem(chatPageDisplayName, chatPageRoute),
+];
+List<CustomMenuItem> mobileBottomNavigatorBarGuestRoutes = [
+  CustomMenuItem(anchkORGPageDisplayName, anchkORGPageRoute),
+  CustomMenuItem(videoPageDisplayName, videoPageRoute),
+  CustomMenuItem(whatNewsPageDisplayName, whatNewsPageRoute),
+  CustomMenuItem(contactPageDisplayName, contactPageRoute),
+  CustomMenuItem(applicationtPageDisplayName, applicationPageRoute),
+];
 
 List<CustomMenuItem> sideMenuItemRoutes = [
   CustomMenuItem(whatNewsPageDisplayName, whatNewsPageRoute),

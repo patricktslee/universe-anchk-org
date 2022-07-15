@@ -14,22 +14,14 @@ class WhatNewsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: customMainTitleEdgeInsets(),
-      child: Column(
+      child: Stack(
+        alignment: Alignment.topCenter,
         children: const [
           MainTitle(),
-//          Expanded(
-//              child: SingleChildScrollView(
-//            child: Column(
-//              mainAxisSize: MainAxisSize.max,
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              children: menuController.whatNewsItem
-//                  .map(
-//                    (item) => WhatnewsWidget(item: item),
-//                  )
-//                  .toList(),
-//            ),
-//          )),
-          WhatnewsGroupWidget(),
+          Padding(
+            padding: EdgeInsets.only(top: 80),
+            child: WhatnewsGroupWidget(),
+          ),
         ],
       ),
     );

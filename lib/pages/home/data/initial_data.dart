@@ -1,3 +1,5 @@
+import 'package:universe/pages/home/domain/entity/chat_message.dart';
+import 'package:universe/pages/home/domain/entity/chat_room.dart';
 import 'package:universe/pages/home/domain/entity/event_category_model.dart';
 import 'package:universe/pages/home/domain/entity/event_history_model.dart';
 import 'package:universe/pages/home/domain/entity/organization_info_model.dart';
@@ -6,6 +8,77 @@ import 'package:universe/pages/home/domain/entity/what_news_model.dart';
 import 'package:universe/pages/home/domain/entity/youtube_model.dart';
 
 class InitialData {
+  static List<ChatMessage> chatMessages = [
+    ChatMessage(
+        messageFrom: "yoX8fU67hP",
+        messageTo: "Test2",
+        messageContent: "Hello, Will",
+        messageType: "receiver"),
+    ChatMessage(
+        messageFrom: "yoX8fU67hP",
+        messageTo: "Test2",
+        messageContent: "How have you been?",
+        messageType: "receiver"),
+    ChatMessage(
+        messageFrom: "yoX8fU67hP",
+        messageTo: "Test2",
+        messageContent: "Hey Kriss, I am doing fine dude. wbu?",
+        messageType: "sender"),
+    ChatMessage(
+        messageFrom: "yoX8fU67hP",
+        messageTo: "Test2",
+        messageContent: "ehhhh, doing OK.",
+        messageType: "receiver"),
+    ChatMessage(
+        messageFrom: "yoX8fU67hP",
+        messageTo: "Test2",
+        messageContent: "Is there any thing wrong?",
+        messageType: "sender"),
+  ];
+
+  static List<ChatRoom> chatRooms = [
+    ChatRoom(
+        name: "Jane Russel",
+        messageText: "Awesome Setup",
+        imageURL: "images/userImage1.jpeg",
+        time: "Now"),
+    ChatRoom(
+        name: "Glady's Murphy",
+        messageText: "That's Great",
+        imageURL: "images/userImage2.jpeg",
+        time: "Yesterday"),
+    ChatRoom(
+        name: "Jorge Henry",
+        messageText: "Hey where are you?",
+        imageURL: "images/userImage3.jpeg",
+        time: "31 Mar"),
+    ChatRoom(
+        name: "Philip Fox",
+        messageText: "Busy! Call me in 20 mins",
+        imageURL: "images/userImage4.jpeg",
+        time: "28 Mar"),
+    ChatRoom(
+        name: "Debra Hawkins",
+        messageText: "Thankyou, It's awesome",
+        imageURL: "images/userImage5.jpeg",
+        time: "23 Mar"),
+    ChatRoom(
+        name: "Jacob Pena",
+        messageText: "will update you in evening",
+        imageURL: "images/userImage6.jpeg",
+        time: "17 Mar"),
+    ChatRoom(
+        name: "Andrey Jones",
+        messageText: "Can you please share the file?",
+        imageURL: "images/userImage7.jpeg",
+        time: "24 Feb"),
+    ChatRoom(
+        name: "John Wick",
+        messageText: "How are you?",
+        imageURL: "images/userImage8.jpeg",
+        time: "18 Feb"),
+  ];
+
   static List<EventCategory> anchkorgEventCategory1 = [
     EventCategory(
       '音樂佈道會',

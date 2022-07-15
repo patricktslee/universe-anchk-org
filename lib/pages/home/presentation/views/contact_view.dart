@@ -22,7 +22,11 @@ class ContactPage extends StatelessWidget {
       child: Column(
         children: const [
           MainTitle(),
-          ContactWidget(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: ContactWidget(),
+            ),
+          ),
         ],
       ),
     );

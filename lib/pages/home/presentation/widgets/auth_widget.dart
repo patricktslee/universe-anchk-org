@@ -29,10 +29,16 @@ class AuthWidget extends StatelessWidget {
   final passwordController = TextEditingController();
   final confirmedPasswordController = TextEditingController();
   final emailController = TextEditingController();
-
+//(controller.providerBox == "anonymous")
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
+    return _loginWidget(_width, context);
+
+    //_loginWidget(_width, context);
+  }
+
+  Expanded _loginWidget(double _width, BuildContext context) {
     return Expanded(
       child: SingleChildScrollView(
         child: SizedBox(
@@ -183,12 +189,16 @@ class AuthWidget extends StatelessWidget {
         throw Exception(value);
 //          throw CustomException(value.toString());
       }
-      controller.changeActiveItemTo(profilePageDisplayName);
-      controller.navigateTo(profilePageRoute);
+      _gotoProfilePage();
     }).catchError((onError) {
       print("catchError((onError)  \n${onError.toString()}");
       _showErrorSnackBar(context, onError, code);
     });
+  }
+
+  void _gotoProfilePage() {
+    controller.changeActiveItemTo(profilePageDisplayName);
+    controller.navigateTo(profilePageRoute);
   }
 
   void _showErrorSnackBar(BuildContext context, onError, int code) {
@@ -221,8 +231,9 @@ class AuthWidget extends StatelessWidget {
         throw Exception(value);
 //          throw CustomException(value.toString());
       }
-      controller.changeActiveItemTo(profilePageDisplayName);
-      controller.navigateTo(profilePageRoute);
+      _gotoProfilePage();
+      //controller.changeActiveItemTo(profilePageDisplayName);
+      //controller.navigateTo(profilePageRoute);
     }).catchError((onError) {
       _showErrorSnackBar(context, onError, code);
     });

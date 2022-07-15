@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
       title: '萬國宣道詠團',
       theme: ThemeData(
         scaffoldBackgroundColor: oceanBlue,
-        textTheme: GoogleFonts.mulishTextTheme(Theme.of(context).textTheme)
+        textTheme: GoogleFonts.notoSansTextTheme(Theme.of(context).textTheme)
             .apply(bodyColor: Colors.black),
         pageTransitionsTheme: const PageTransitionsTheme(builders: {
           TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),

@@ -19,35 +19,46 @@ class BottomNavigation extends StatelessWidget {
         printEmojis: true),
   );
 
-//  final MenuItem currentTab;
-//  final ValueChanged<MenuItem> onSelectTab;
-  static HomeController menuController = Get.find();
-//  static NavigationController navigationController = Get.find();
+  static HomeController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    List<CustomMenuItem> _customMenuItem;
+    return Obx(() {
+      (controller.providerBox == "anonymous")
+          ? _customMenuItem = mobileBottomNavigatorBarGuestRoutes
+          : _customMenuItem = mobileBottomNavigatorBarRoutes;
+      return customBottomNavigationBar1(_customMenuItem);
+    });
+  }
+
+  BottomNavigationBar customBottomNavigationBar1(
+      List<CustomMenuItem> customMenuItem) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: [
-        for (CustomMenuItem item in sideMenuItemRoutes)
+        for (CustomMenuItem item in customMenuItem)
           BottomNavigationBarItem(
-            icon: menuController.returnIconFor(item.name),
+            icon: controller.returnIconFor(item.name),
             label: item.name,
           )
       ],
-      currentIndex: menuController.selectedIndex.value,
-      selectedItemColor: active,
-      unselectedItemColor: Colors.amber[800],
+      currentIndex: controller.selectedIndex.value,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
+      backgroundColor: blue,
+      selectedItemColor: blueGreen,
+      unselectedItemColor: lemon,
       onTap: (value) {
         logger.i("bottomNavigation index is $value");
-        menuController.changeSelectedIndex(value);
-        if (sideMenuItemRoutes[value].route == authenticationPageRoute) {
+        controller.changeSelectedIndex(value);
+        if (customMenuItem[value].route == authenticationPageRoute) {
           Get.offAllNamed(authenticationPageRoute);
-          menuController.changeSelectedIndex(0);
-          menuController.changeActiveItemTo(introductionPageDisplayName);
+          controller.changeSelectedIndex(0);
+          controller.changeActiveItemTo(introductionPageDisplayName);
         } else {
-          menuController.changeActiveItemTo(sideMenuItemRoutes[value].name);
-          menuController.navigateTo(sideMenuItemRoutes[value].route);
+          controller.changeActiveItemTo(customMenuItem[value].name);
+          controller.navigateTo(customMenuItem[value].route);
         }
       },
     );

@@ -64,8 +64,11 @@ class ApiService {
     return await account!
         .createSession(email: email, password: password)
         .then((value) {
-      _debug("At ${DateTime.now()} ApiService login($email) success");
-      _debug(value.toMap().toString());
+      _debug(
+          "At ${DateTime.now()} ApiService login($email) value runtimeType " +
+              value.runtimeType.toString());
+      _debug("At ${DateTime.now()} ApiService login($email) success " +
+          value.toMap().toString());
       return value;
     });
   }
@@ -92,22 +95,22 @@ class ApiService {
     return account!
         .create(userId: _userId, name: name, email: email, password: password)
         .then((value) {
-      _debug("ApiService signup() success");
-      _debug(value.toMap().toString());
+      //_debug("ApiService signup() success");
+      //_debug(value.toMap().toString());
       return value;
     });
   }
 
   Future logout({String? sessionId}) async {
-    _debug(
-        "At ${DateTime.now()} logout($sessionId) => ApiService Anonymous logout");
+    //_debug(
+    //    "At ${DateTime.now()} logout($sessionId) => ApiService Anonymous logout");
     dynamic _dynamic =
         //    _debug('Session ID is ' + sessionId);
         account!.deleteSession(sessionId: sessionId!).then((value) {
-      _debug("ApiService Anonymous logout success");
+      //_debug("ApiService Anonymous logout success");
       return value;
     }).catchError((exception, stackTrace) async {
-      _debug("ApiService Anonymous logout fail");
+      //_debug("ApiService Anonymous logout fail");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
@@ -120,14 +123,14 @@ class ApiService {
   }
 
   Future logoutAll() async {
-    _debug(
-        "At ${DateTime.now()} logout() => Starting ApiService Anonymous logout all sessions");
+    //_debug(
+    //    "At ${DateTime.now()} logout() => Starting ApiService Anonymous logout all sessions");
 //    dynamic _dynamic;
     account!.deleteSessions().then((value) {
-      _debug("ApiService Anonymous all sessions logout success");
+      //_debug("ApiService Anonymous all sessions logout success");
       return value;
     }).catchError((exception, stackTrace) async {
-      _debug("ApiService Anonymous all sessions logout fail");
+      //_debug("ApiService Anonymous all sessions logout fail");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
@@ -176,47 +179,87 @@ class ApiService {
   Future<String> get() async {
     //_debug("At ${DateTime.now()} get() => Starting ApiService get()");
     String _result = "result";
-    await account!.get().then((response) {
-      User _response = response;
-      _result = _response.$id;
+    try {
+      await account!.get().then((response) {
+        User _response = response;
+        _result = _response.$id;
+        //_debug(
+        //    "get() response is ${_response.toMap().toString()}\n_result is $_result");
+      });
+      //.catchError((error) {
+      //  _result = error.response["code"].toString();
+      //  _debug(
+      //      "get() error is ${error.response}.\nget() status is ${error.response["code"]}\n_result is $_result");
+      //});
+    } on AppwriteException catch (e) {
+      _result = e.response["code"].toString();
       //_debug(
-      //    "get() response is ${_response.toMap().toString()}\n_result is $_result");
-    }).catchError((error) {
-      _result = error.response["code"].toString();
-      _debug(
-          "get() error is ${error.response}.\nget() status is ${error.response["code"]}\n_result is $_result");
-    });
+      //    "get() error is ${e.response}.\nget() status is ${e.response["code"]}\n_result is $_result");
+    }
     return _result;
   }
 
-  Future<Session> getSession(String? sessionID) async {
+//  Future<Session> getSession(String? sessionID) async {
+//  Future getSession(String? sessionID) async {
+  Future getSession(String? sessionID) async {
     _debug(
         "At ${DateTime.now()} getSession($sessionID) => Starting ApiService getSession()");
-    return account!.getSession(sessionId: sessionID!).then((value) {
-//      _debug("getSession($sessionID) success!");
-      return value;
-    }).catchError((exception, stackTrace) async {
-      _debug("getSession($sessionID) fail!");
-      _debug(stackTrace);
+    String _result = "result";
+
+    try {
+      Future result = account!.getSession(sessionId: sessionID!);
+
+      _debug(
+          "At ${DateTime.now()} getSession($sessionID) result type is ${result.runtimeType}");
+      result.then((response) {
+        _debug("getSession($sessionID) response is");
+        _result = response.toString();
+        _debug("getSession($sessionID) _result is $_result");
+        return response;
+      }).catchError((error) {
+        _debug("getSessions() error is ${(error.response)}");
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("getSession($sessionID) fail! on AppwriteException");
+      _debug(stackTrace.toString());
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-    });
+    } on Exception catch (exception, stackTrace) {
+      _debug("getSession($sessionID) fail! on Exception");
+      _debug(stackTrace.toString());
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
+    _debug(
+        "At ${DateTime.now()} getSession($sessionID) => Completed ApiService getSession()");
   }
 
-  Future getSessions() async {
-    //_debug("At ${DateTime.now()} getSessions()  => Starting ApiService ");
-    return account!.getSessions().then((value) {
-      _debug("getSessions() success!");
-      return value;
-    }).catchError((exception, stackTrace) async {
-      _debug("getSessions() fail!");
-      await Sentry.captureException(
-        exception,
-        stackTrace: stackTrace,
-      );
-    });
+  Future<String> getSessions() async {
+    //_debug(
+    //    "At ${DateTime.now()} getSessions() => Starting ApiService getSessions()");
+    String _result = "result";
+    try {
+      Future result = account!.getSessions();
+      //_debug("getSessions() result for count!.getSessions() is $result");
+      result.then((response) {
+        //_debug("getSessions() response is $response");
+//        _result = response.toString();
+        //_debug("getSessions() _result is $_result");
+      }).catchError((error) {
+        //_debug("getSessions() error is ${(error.response)}");
+      });
+    } on AppwriteException catch (e) {
+      _result = e.response["code"].toString();
+      //_debug(
+      //    "getSessions() error is ${e.response}.\nget() status is ${e.response["code"]}\n_result is $_result");
+    }
+    //_debug(
+    //    "At ${DateTime.now()} getSessions() => Starting ApiService getSessions() result is $_result");
+    return _result;
   }
 
   Future updatePrefs(Map<String, dynamic> data) {
@@ -225,7 +268,7 @@ class ApiService {
       //_debug("updatePrefs() success!");
       return value;
     }).catchError((exception, stackTrace) async {
-      _debug("updatePrefs() fail!");
+      //_debug("updatePrefs() fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
@@ -234,13 +277,13 @@ class ApiService {
   }
 
   Future getInitialsAvatar(String name) {
-    _debug(
-        "At ${DateTime.now()} getInitialsAvatar($name) => Starting ApiService ");
+    //_debug(
+    //    "At ${DateTime.now()} getInitialsAvatar($name) => Starting ApiService ");
     return avatars!.getInitials(name: name, width: 200).then((value) {
-      _debug("getInitialsAvatar($name) success!");
+      //_debug("getInitialsAvatar($name) success!");
       return value;
     }).catchError((exception, stackTrace) async {
-      _debug("getInitialsAvatar($name) fail!");
+      //_debug("getInitialsAvatar($name) fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
@@ -249,12 +292,12 @@ class ApiService {
   }
 
   Future getPrefs() {
-    _debug("At ${DateTime.now()} getPrefs() => Starting ApiService ");
+    //_debug("At ${DateTime.now()} getPrefs() => Starting ApiService ");
     return account!.getPrefs().then((value) {
-      _debug("getPrefs() success!");
+      //_debug("getPrefs() success!");
       return value;
     }).catchError((exception, stackTrace) async {
-      _debug("getPrefs() fail!");
+      //_debug("getPrefs() fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
@@ -329,7 +372,7 @@ class ApiService {
         exception,
         stackTrace: stackTrace,
       );
-      _debug(stackTrace);
+      //_debug(stackTrace);
     });
   }
 
@@ -349,7 +392,7 @@ class ApiService {
         exception,
         stackTrace: stackTrace,
       );
-      _debug(stackTrace);
+      //_debug(stackTrace);
     });
   }
 
@@ -369,7 +412,7 @@ class ApiService {
         exception,
         stackTrace: stackTrace,
       );
-      _debug(stackTrace);
+      //_debug(stackTrace);
     });
   }
 
@@ -389,7 +432,7 @@ class ApiService {
         exception,
         stackTrace: stackTrace,
       );
-      _debug(stackTrace);
+      //_debug(stackTrace);
     });
   }
 
@@ -409,7 +452,7 @@ class ApiService {
         exception,
         stackTrace: stackTrace,
       );
-      _debug(stackTrace);
+      //_debug(stackTrace);
     });
   }
 
@@ -429,7 +472,7 @@ class ApiService {
         exception,
         stackTrace: stackTrace,
       );
-      _debug(stackTrace);
+      //_debug(stackTrace);
     });
   }
 
@@ -449,7 +492,7 @@ class ApiService {
         exception,
         stackTrace: stackTrace,
       );
-      _debug(stackTrace);
+      //_debug(stackTrace);
     });
   }
 
@@ -469,7 +512,7 @@ class ApiService {
         exception,
         stackTrace: stackTrace,
       );
-      _debug(stackTrace);
+      //_debug(stackTrace);
     });
   }
 
@@ -489,7 +532,7 @@ class ApiService {
         exception,
         stackTrace: stackTrace,
       );
-      _debug(stackTrace);
+      //_debug(stackTrace);
     });
   }
 
@@ -509,7 +552,7 @@ class ApiService {
         exception,
         stackTrace: stackTrace,
       );
-      _debug(stackTrace);
+      //_debug(stackTrace);
     });
   }
 
@@ -533,7 +576,7 @@ class ApiService {
         exception,
         stackTrace: stackTrace,
       );
-      _debug(stackTrace);
+      //_debug(stackTrace);
     });
   }
 
@@ -575,14 +618,52 @@ class ApiService {
   }
 
   Future updateAccountPassword(String password, String oldPassword) {
-    _debug(
-        "At ${DateTime.now()} updateAccountPassword() => Trying to ApiService updateAccountPassword");
+    //_debug(
+    //    "At ${DateTime.now()} updateAccountPassword() => Trying to ApiService updateAccountPassword");
     return account!
         .updatePassword(password: password, oldPassword: oldPassword)
         .then((value) {
-      _debug("At ${DateTime.now()} ApiService updateAccountPassword() success");
-      _debug(value.toMap().toString());
+      //_debug("At ${DateTime.now()} ApiService updateAccountPassword() success");
+      //_debug(value.toMap().toString());
       return value;
+    });
+  }
+
+  Future<DocumentList> getChatRooms() {
+    return db!
+        .listDocuments(
+      collectionId: 'chatRoom',
+      limit: 50,
+    )
+        .then((value) {
+      //_debug("getChatRooms information " + value.total.toString());
+      //_debug(value.toString());
+      return value;
+    }).catchError((exception, stackTrace) async {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+      //_debug(stackTrace);
+    });
+  }
+
+  Future<DocumentList> getChatMessages() {
+    return db!
+        .listDocuments(
+      collectionId: 'chatMessage',
+      limit: 50,
+    )
+        .then((value) {
+      //_debug("getChatMessages information " + value.total.toString());
+      //_debug(value.toString());
+      return value;
+    }).catchError((exception, stackTrace) async {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+      //_debug(stackTrace);
     });
   }
 }

@@ -10,7 +10,14 @@ class PracticePage extends StatelessWidget {
     return Padding(
       padding: customMainTitleEdgeInsets(),
       child: Column(
-        children: const [MainTitle(), PracticeWidget()],
+        children: const [
+          MainTitle(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: PracticeWidget(),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -25,43 +25,39 @@ class ContactWidget extends StatelessWidget {
   Widget getContact(BuildContext context) {
     controller.getContactList();
     return Obx(() {
-      return Expanded(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                child: SizedBox(
-                  width: 750,
-                  child: AspectRatio(
-                    aspectRatio: 4 / 3,
-                    child: Image.memory(
-                      controller.contact.value.photoFile as Uint8List,
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+            child: SizedBox(
+              width: 750,
+              child: AspectRatio(
+                aspectRatio: 4 / 3,
+                child: Image.memory(
+                  controller.contact.value.photoFile as Uint8List,
 //                      controller.contactListFile.value,
 //                  controller.preachersMessagePhotoFile.value,
-                      fit: BoxFit.cover,
-                    ),
-                    //AppwriteImageMemory(
-                    //  fileId: controller.contactPhoto.value,
-                    //),
-                    //Container(
-                    //  decoration: BoxDecoration(
-                    //      image: DecorationImage(
-                    //          //                                  image: AssetImage(item.photo.toString()),
-                    //          image: NetworkImage(bgPhoto),
-                    //          fit: BoxFit.cover)),
-                    //),
-                  ),
+                  fit: BoxFit.cover,
                 ),
+                //AppwriteImageMemory(
+                //  fileId: controller.contactPhoto.value,
+                //),
+                //Container(
+                //  decoration: BoxDecoration(
+                //      image: DecorationImage(
+                //          //                                  image: AssetImage(item.photo.toString()),
+                //          image: NetworkImage(bgPhoto),
+                //          fit: BoxFit.cover)),
+                //),
               ),
-              ResponsiveWidget.isiPadScreen(context)
-                  ? _contactColumn()
-                  : _contactRow(),
-            ],
+            ),
           ),
-        ),
+          ResponsiveWidget.isiPadScreen(context)
+              ? _contactColumn()
+              : _contactRow(),
+        ],
       );
     });
   }

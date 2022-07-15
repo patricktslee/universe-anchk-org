@@ -36,32 +36,7 @@ class ProfileWidget extends StatelessWidget {
                     color: blackColor,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      CustomText(
-                        text: "下次登錄時間",
-                        size: standardTextSize,
-                        weight: FontWeight.bold,
-                        color: blackColor,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      CustomText(
-                        text: DateFormat('yyyy-MM-dd kk:mm').format(
-                            DateTime.fromMillisecondsSinceEpoch(
-                                controller.currentSession.expire * 1000)),
-                        size: standardTextSize,
-                        weight: FontWeight.bold,
-                        color: blackColor,
-                      ),
-                    ],
-                  ),
-                )
+                //nextLoginTime()
               ]),
           const SizedBox(
             height: 24,
@@ -180,7 +155,8 @@ class ProfileWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     controller
-                        .userLogout(sessionId: controller.sessionId.value)
+//                        .userLogout(sessionId: controller.sessionId.value)
+                        .userLogout(sessionId: 'current')
                         .then((value) {
                       controller.changeActiveItemTo(whatNewsPageDisplayName);
                       if (ResponsiveWidget.isSmallScreen(context)) Get.back();
@@ -198,6 +174,35 @@ class ProfileWidget extends StatelessWidget {
           )
         ],
       );
+
+  Padding nextLoginTime() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          CustomText(
+            text: "下次登錄時間",
+            size: standardTextSize,
+            weight: FontWeight.bold,
+            color: blackColor,
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          CustomText(
+            text: DateFormat('yyyy-MM-dd kk:mm').format(
+                DateTime.fromMillisecondsSinceEpoch(
+                    controller.currentSession.expire * 1000)),
+            size: standardTextSize,
+            weight: FontWeight.bold,
+            color: blackColor,
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

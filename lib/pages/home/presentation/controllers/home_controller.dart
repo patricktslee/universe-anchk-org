@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:universe/constants/style.dart';
+//import 'package:universe/constants/style.dart';
 import 'package:universe/pages/home/data/initial_data.dart';
 
 import 'package:universe/pages/home/domain/adapters/repository_adapter.dart';
@@ -49,7 +50,7 @@ class HomeController extends SuperController<CasesModel> {
   final RxString _username = ''.obs;
 
   var hoverItem = "".obs;
-  var selectedIndex = 0.obs;
+  var selectedIndex = 2.obs;
   final _loginStatus = "Status.uninitialized".obs;
   var dataStatus = "Status.uninitialized".obs;
   var datalog = "Logging the information".obs;
@@ -132,6 +133,8 @@ class HomeController extends SuperController<CasesModel> {
 //  Rx<Uint8List> practicePhotoFile = Uint8List(0).obs;
   RxList eventHistoryItem1 = [].obs;
   RxList eventHistoryItem2 = [].obs;
+  RxList chatRooms = [].obs;
+  RxList chatMessages = [].obs;
   RxList videosList = [].obs;
   RxList apiLogList = [].obs;
   RxInt tabAuthIndexSelected = 0.obs;
@@ -143,9 +146,9 @@ class HomeController extends SuperController<CasesModel> {
     super.onInit();
 //    loadingData();
     await appwriteLogin();
-    _debug("Starting onInit for subscribe");
+    //_debug("Starting onInit for subscribe");
     await subscribe();
-    _debug("Finished onInit for subscribe");
+    //_debug("Finished onInit for subscribe");
     getLoginStatus();
     // show loading on start, data on success
     // and error message on error with 0 boilerplate
@@ -234,19 +237,31 @@ class HomeController extends SuperController<CasesModel> {
   }
 
   Widget _customIcon(IconData icon, String itemName) {
-    if (isActive(itemName)) return Icon(icon, size: 22, color: menuActiveColor);
+    if (isActive(itemName)) return Icon(icon, size: 22);
 
-    return Icon(
-      icon,
-      color: isHovering(itemName) ? menuHoverColor : menuColor,
-    );
+//    _debug("What is the status of _isWeb ${_isWeb.toString()}");
+
+    return _isWeb
+        ? Icon(
+            icon,
+            color: isHovering(itemName) ? menuHoverColor : menuColor,
+          )
+        : Icon(
+            icon,
+          );
+  }
+
+  bool _isWeb = true;
+
+  void setWebEnv(bool isWeb) {
+    _isWeb = isWeb;
   }
 
   void getLoginStatus() {
 //    _debug("Before getLoginStatus");
 //    _debug(loginStatus.value);
     loginStatus.value = homeRepository.status.toString();
-    datalog.value = homeRepository.apiLog.last;
+//    datalog.value = homeRepository.apiLog.last;
 //    _debug("getLoginStatus ${homeRepository.apiLog.last}");
 //    _debug("After getLoginStatus");
 //    _debug(lo          ginStatus.value);
@@ -261,11 +276,11 @@ class HomeController extends SuperController<CasesModel> {
       //    "At ${DateTime.now()} running A.  isLogin is " + isLogin.toString());
       datalog.value = "A.  isLogin is " + isLogin.toString();
       if (isLogin) {
-        sessionId.value = homeRepository.session.$id;
         //_debug(
         //    "At ${DateTime.now()} Starting to run Logout when isLogin is ${isLogin.toString()}");
         loadingData();
         providerBox();
+//        sessionId.value = homeRepository.session.$id;
         //_debug(
         //    "At ${DateTime.now()} the currentUsername is ${currentUsername.value.toString()}");
         //Timer(const Duration(seconds: 15), () async {
@@ -282,6 +297,9 @@ class HomeController extends SuperController<CasesModel> {
         dataStatus.value = 'Status.unauthenticated';
         //_debug(homeRepository.error);
       }
+    }).catchError((onError) {
+      //_debug(
+      //    "At ${DateTime.now()} running Login error when isLogin is ${onError.toString()}");
     });
   }
 
@@ -314,10 +332,10 @@ class HomeController extends SuperController<CasesModel> {
   Future getWhatNews() async {
     await homeRepository.getWhatNewsDocument().then((value) {
       //_debug(
-      //    "at ${DateTime.now()} getWhatNews length ${whatNews.length.toString()}");
+      //    "at ${DateTime.now()} Start getWhatNews length ${whatNews.length.toString()}");
       whatNews.value = homeRepository.whatNews;
       //_debug(
-      //    "at ${DateTime.now()} getWhatNews length ${whatNews.length.toString()}");
+      //    "at ${DateTime.now()} Finished getWhatNews length ${whatNews.length.toString()}");
     });
   }
 
@@ -450,8 +468,8 @@ class HomeController extends SuperController<CasesModel> {
 
   Future getAnchkorgEventCategory2() async {
     return await homeRepository.getAnchkorgEventCategory2().then((value) {
-      print(
-          'at ${DateTime.now()} Testing on _anchkorgEventCategory2 on getAnchkorgEventCategory2 ${homeRepository.anchkorgEventCategory2.length}');
+      //print(
+      //    'at ${DateTime.now()} Testing on _anchkorgEventCategory2 on getAnchkorgEventCategory2 ${homeRepository.anchkorgEventCategory2.length}');
       eventHistoryItem2.clear();
       eventHistoryItem2.addAll(homeRepository.anchkorgEventCategory2.toList());
       return homeRepository.anchkorgEventCategory2.toList();
@@ -468,8 +486,26 @@ class HomeController extends SuperController<CasesModel> {
     });
   }
 
+  Future getChatRooms() async {
+    return await homeRepository.getChatRooms().then((value) {
+      chatRooms.clear();
+      chatRooms.addAll(homeRepository.chatRooms.toList());
+      return homeRepository.chatRooms;
+    });
+  }
+
+  Future getChatMessages() async {
+    _debug("At ${DateTime.now()} getChatMessages() started ");
+    return await homeRepository.getChatMessages().then((value) {
+      chatMessages.clear();
+      chatMessages.addAll(homeRepository.chatMessages.toList());
+      _debug("At ${DateTime.now()} getChatMessages() finished ");
+      return homeRepository.chatRooms;
+    });
+  }
+
   Future<void> loadingData() async {
-    //_debug("At ${DateTime.now()} running loading data");
+    _debug("At ${DateTime.now()} running loading data");
     await getWhatNews();
     //while (homeRepository.firstTimeLoading) {
     //  _debug(
@@ -479,6 +515,8 @@ class HomeController extends SuperController<CasesModel> {
     //  }
     //}
     dataStatus.value = 'Status.dataUpdated';
+    _debug(
+        "At ${DateTime.now()} running loading data and dataStatus.value is ${dataStatus.value.toString()}");
     getConductor();
     getPreacher();
     getAnchkOrganizationItem();
@@ -487,6 +525,8 @@ class HomeController extends SuperController<CasesModel> {
     getPracticeInfo();
     getContactList();
     videosList.addAll(homeRepository.videoList.toList());
+    getChatRooms();
+    getChatMessages();
 
 //    Timer(const Duration(seconds: 2), () async {
 //      whatNewsItem.addAll(homeRepository.whatNews.toList());
@@ -548,7 +588,7 @@ class HomeController extends SuperController<CasesModel> {
   }
 
   Future userLogout({required String sessionId}) async {
-    return await homeRepository.logoutAll().then((value) {
+    return await homeRepository.logout(sessionId: sessionId).then((value) {
       providerBox();
       return value;
     }).catchError((onError) {

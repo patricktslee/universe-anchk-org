@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:universe/pages/home/presentation/views/anchkorg_view.dart';
 import 'package:universe/pages/home/presentation/views/application_view.dart';
 import 'package:universe/pages/home/presentation/views/auth_view.dart';
+import 'package:universe/pages/home/presentation/views/chat_view.dart';
 import 'package:universe/pages/home/presentation/views/contact_view.dart';
 import 'package:universe/pages/home/presentation/views/debug_view.dart';
 import 'package:universe/pages/home/presentation/views/history_view.dart';
@@ -20,6 +22,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case whatNewsPageRoute:
       return _getPageRoute(const WhatNewsPage());
+    case anchkORGPageRoute:
+      return _getPageRoute(AnchkORGPage());
     case introductionPageRoute:
       return _getPageRoute(const IntroductionPage());
     case missionPageRoute:
@@ -48,6 +52,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(AuthPage());
     case profilePageRoute:
       return _getPageRoute(ProfilePage());
+    case chatPageRoute:
+      return _getPageRoute(ChatPage());
 //    case covid19PageRoute:
 //      return _getPageRoute(HomeView());
     default:

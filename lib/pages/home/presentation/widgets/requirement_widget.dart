@@ -41,41 +41,39 @@ class RequirementWidget extends StatelessWidget {
         });
   }
 
-  Widget _requirementWidget(BuildContext context) => Expanded(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                child: SizedBox(
-                  width: 750,
-                  child: AspectRatio(
-                    aspectRatio: 4 / 3,
-                    child: Image.memory(
-                      controller.requirement.value.photoFile as Uint8List,
+  Widget _requirementWidget(BuildContext context) => Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+            child: SizedBox(
+              width: 750,
+              child: AspectRatio(
+                aspectRatio: 4 / 3,
+                child: Image.memory(
+                  controller.requirement.value.photoFile as Uint8List,
 //                  controller.preachersMessagePhotoFile.value,
-                      fit: BoxFit.cover,
-                    ),
-                    //AppwriteImageMemory(
-                    //  fileId: controller.requirementPhoto.value,
-                    //),
-                    //Container(
-                    //  decoration: BoxDecoration(
-                    //      image: DecorationImage(
-                    //          //                                  image: AssetImage(item.photo.toString()),
-                    //          image: NetworkImage(bgPhoto),
-                    //          fit: BoxFit.cover)),
-                    //),
-                  ),
+                  fit: BoxFit.cover,
                 ),
+                //AppwriteImageMemory(
+                //  fileId: controller.requirementPhoto.value,
+                //),
+                //Container(
+                //  decoration: BoxDecoration(
+                //      image: DecorationImage(
+                //          //                                  image: AssetImage(item.photo.toString()),
+                //          image: NetworkImage(bgPhoto),
+                //          fit: BoxFit.cover)),
+                //),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
 //                    Expanded(
 //                      flex: 1,
 //                      child: SizedBox(
@@ -88,71 +86,69 @@ class RequirementWidget extends StatelessWidget {
 //                            child: Image.asset(requirementPhoto)),
 //                      ),
 //                    ),
-                    SizedBox(
-                        width: ResponsiveWidget.isLargeScreen(context)
-                            ? 200
-                            : ResponsiveWidget.isMediumScreen(context)
-                                ? 100
-                                : 1)
-                  ],
-                ),
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: //requirementItem //
-                    //controller.requirementItem
-                    controller.requirement.value.message!
-                        .map((item) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                SizedBox(
+                    width: ResponsiveWidget.isLargeScreen(context)
+                        ? 200
+                        : ResponsiveWidget.isMediumScreen(context)
+                            ? 100
+                            : 1)
+              ],
+            ),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: //requirementItem //
+                //controller.requirementItem
+                controller.requirement.value.message!
+                    .map((item) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
 //                              requirementItem.indexOf(item) ==
 //                                      requirementItem.length - 1
-                                  //controller.requirementItem
-                                  controller.requirement.value.message!
-                                              .indexOf(item) ==
-                                          // controller.requirementItem
-                                          controller.requirement.value.message!
-                                                  .length -
-                                              1
-                                      ? Row(
-                                          children: [
-                                            const SizedBox(
-                                              width: 32,
-                                            ),
-                                            Icon(Icons.star_border_sharp,
-                                                size: 22, color: blackColor),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                          ],
-                                        )
-                                      : CustomText(
-                                          text: '${(
-                                              //controller.requirementItem
-                                              controller.requirement.value.message!.indexOf(item) + 1).toString()}.  ',
-//                                          '${(requirementItem.indexOf(item) + 1).toString()}.  ',
-                                          size: standardTextSize,
-                                          weight: FontWeight.bold,
-                                          color: blackColor,
+                              //controller.requirementItem
+                              controller.requirement.value.message!
+                                          .indexOf(item) ==
+                                      // controller.requirementItem
+                                      controller.requirement.value.message!
+                                              .length -
+                                          1
+                                  ? Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 32,
                                         ),
-                                  Expanded(
-                                    child: CustomText(
-                                      text: item.text.toString(),
+                                        Icon(Icons.star_border_sharp,
+                                            size: 22, color: blackColor),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                      ],
+                                    )
+                                  : CustomText(
+                                      text: '${(
+                                          //controller.requirementItem
+                                          controller.requirement.value.message!.indexOf(item) + 1).toString()}.  ',
+//                                          '${(requirementItem.indexOf(item) + 1).toString()}.  ',
                                       size: standardTextSize,
                                       weight: FontWeight.bold,
                                       color: blackColor,
                                     ),
-                                  ),
-                                ],
+                              Expanded(
+                                child: CustomText(
+                                  text: item.text.toString(),
+                                  size: standardTextSize,
+                                  weight: FontWeight.bold,
+                                  color: blackColor,
+                                ),
                               ),
-                            ))
-                        .toList(),
-              ),
-            ],
+                            ],
+                          ),
+                        ))
+                    .toList(),
           ),
-        ),
+        ],
       );
 }

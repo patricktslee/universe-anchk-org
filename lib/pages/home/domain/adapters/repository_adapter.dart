@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:universe/pages/home/domain/entity/anchk_organization.dart';
+import 'package:universe/pages/home/domain/entity/chat_message.dart';
+import 'package:universe/pages/home/domain/entity/chat_room.dart';
 import 'package:universe/pages/home/domain/entity/conductor.dart';
 import 'package:universe/pages/home/domain/entity/contact_info.dart';
 import 'package:universe/pages/home/domain/entity/event_category_model.dart';
@@ -46,6 +48,8 @@ abstract class IHomeRepository {
 
   Future getPreachersMessage();
   Future getContactList();
+  Future getChatRooms();
+  Future getChatMessages();
   Future getVideoList();
   Future getAnchkorgEventCategory();
   Future getAnchkorgEventCategory1();
@@ -80,6 +84,8 @@ abstract class IHomeRepository {
   ContactInfo get contact;
 //  List<OrganizationInfo> get contactList;
 //  Uint8List get contactListFile;
+  List<ChatRoom> get chatRooms;
+  List<ChatMessage> get chatMessages;
   List<YoutubeModel> get videoList;
   //String get conductorMessage;
   //String get conductorPhoto;

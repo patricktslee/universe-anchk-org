@@ -9,6 +9,8 @@ import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:universe/pages/home/domain/entity/anchk_organization.dart';
+import 'package:universe/pages/home/domain/entity/chat_message.dart';
+import 'package:universe/pages/home/domain/entity/chat_room.dart';
 import 'package:universe/pages/home/domain/entity/conductor.dart';
 import 'package:universe/pages/home/domain/entity/contact_info.dart';
 import 'package:universe/pages/home/domain/entity/event_category_model.dart';
@@ -32,7 +34,7 @@ class HomeRepository implements IHomeRepository {
   HomeRepository({required this.provider});
   final IHomeProvider provider;
   Status _status = Status.uninitialized;
-  late Session _session;
+  Session? _session;
   LoginUser _user = LoginUser(registration: DateTime.now(), prefs: UserPrefs());
   String _error = '';
   bool _loading = false;
@@ -119,32 +121,17 @@ class HomeRepository implements IHomeRepository {
   @override
   Preacher get preacher => _preacher;
 
-//  String _conductorMessage = InitialData.conductorMessage;
-//  @override
-//  String get conductorMessage => _conductorMessage;
-//
-//  String _conductorPhoto = InitialData.conductorMessage;
-//  @override
-//  String get conductorPhoto => _conductorPhoto;
-
-//  String _preachersMessage = InitialData.preachersMessage;
-//  @override
-//  String get preachersMessage => _preachersMessage;
-//
-//  String _preachersPhoto = InitialData.preachersMessage;
-//  @override
-//  String get preachersPhoto => _preachersPhoto;
   ContactInfo _contact = ContactInfo();
   @override
   ContactInfo get contact => _contact;
 
-//  List<OrganizationInfo> _contactList = InitialData.contactList;
-//  @override
-//  List<OrganizationInfo> get contactList => _contactList;
-//
-//  Uint8List _contactListFile = Uint8List(0);
-//  @override
-//  Uint8List get contactListFile => _contactListFile;
+  late List<ChatRoom> _chatRooms = InitialData.chatRooms;
+  @override
+  List<ChatRoom> get chatRooms => _chatRooms;
+
+  List<ChatMessage> _chatMessages = InitialData.chatMessages;
+  @override
+  List<ChatMessage> get chatMessages => _chatMessages;
 
   List<YoutubeModel> _videoList = InitialData.videosList;
   @override
@@ -167,7 +154,7 @@ class HomeRepository implements IHomeRepository {
   @override
   LoginUser get user => _user;
   @override
-  Session get session => _session;
+  Session get session => _session!;
   @override
   Status get status => _status;
 
@@ -227,16 +214,20 @@ class HomeRepository implements IHomeRepository {
           .login(email: email, password: password)
           .then((value) async {
         //_debug("Login=====\n");
-        Type sessionType = _session.runtimeType;
-        Type valueType = value.runtimeType;
-        if (sessionType == valueType) {
-          //_debug("sessionType  is match");
-          await _getInfo(value);
-          return value;
-        } else {
-          //_debug("sessionType  isn't match");
-          return value;
-        }
+        //Type sessionType = _session.runtimeType;
+        //Type valueType = value.runtimeType;
+        _debug("At ${DateTime.now()} login login($email) value runtimeType " +
+            value.runtimeType.toString() +
+            " _session.runtimeType is ${_session.runtimeType.toString()}");
+        await _getInfo(value);
+        //if (sessionType == valueType) {
+        //  _debug("sessionType  is match");
+        //  await _getInfo(value);
+        //  return value;
+        //} else {
+        //  _debug("sessionType  isn't match");
+        //  return value;
+        //}
       });
     } catch (e) {
       _debug("login on catch (e)\n ${e.toString()}");
@@ -268,32 +259,54 @@ class HomeRepository implements IHomeRepository {
     String loginInfo = "Initial";
     await provider.apiService.get().then((value) async {
       loginInfo = value;
-      //_debug(
-      //    "At ${DateTime.now()} running the result for provider.apiService.get() is $loginInfo");
+      _debug(
+          "At ${DateTime.now()} running the result for provider.apiService.get() is $loginInfo");
       if (loginInfo == "401") {
         //_debug("Running login");
         //_debug("At ${DateTime.now()} running the createAnonymousSession");
         await _loginAnonymous();
       } else {
-        //_debug("Login Provider is $_providerBox");
-        if (_providerBox == "anonymous") {
-          //_debug(
-          //    "At ${DateTime.now()} Running get data and logout first and running the createAnonymousSession");
-          //_debug(
-          //    "At ${DateTime.now()} Running get data only with sessionID $_sessionIDBox");
-          await provider.apiService
-              .getSession(_sessionIDBox)
-              .then((value) async => await _getInfo(value));
-//          await provider.apiService.logoutAll().then((value) async {
-//            await _loginAnonymous();
-//          });
-        } else {
-          //_debug(
-          //    "At ${DateTime.now()} Running get data only with sessionID $_sessionIDBox");
-          await provider.apiService
-              .getSession(_sessionIDBox)
-              .then((value) async => await _getInfo(value));
-        }
+        await getUserSession();
+        dataLoading();
+        _status = Status.authenticated;
+        _apiLog = provider.apiService.apiLog;
+        _isLogin = true;
+
+//        //_debug("Login Provider is $_providerBox");
+//        if (_providerBox == "anonymous") {
+//          //_debug(
+//          //    "At ${DateTime.now()} Running get data and logout first and running the createAnonymousSession");
+//          //_debug(
+//          //    "At ${DateTime.now()} Running get data only with sessionID $_sessionIDBox");
+//          _debug(
+//              "At ${DateTime.now()} Running get data only with sessionID $_sessionIDBox");
+//          await _loginAnonymous();
+//          _debug("At ${DateTime.now()} Running _loginAnonymous");
+//          //await provider.apiService
+//          //    .getSession(_sessionIDBox)
+//          //    .then((value) async {
+//          //  _debug(
+//          //      "At ${DateTime.now()} Running get provider.apiService.getSession result type ${value.runtimeType}");
+//          //  await _getInfo(value);
+//          //}).catchError((onError) {
+//          //  _debug(
+//          //      "At ${DateTime.now()} running provider.apiService.getSession error is ${onError.toString()}");
+//          //});
+////          await provider.apiService.logoutAll().then((value) async {
+////            await _loginAnonymous();
+////          });
+//        } else {
+//          await getUserSession();
+//          dataLoading();
+//          _status = Status.authenticated;
+//          _apiLog = provider.apiService.apiLog;
+//          _isLogin = true;
+//          //_debug(
+//          //    "At ${DateTime.now()} Running get data only with sessionID $_sessionIDBox");
+//          //await provider.apiService
+//          //    .getSession(_sessionIDBox)
+//          //    .then((value) async => await _getInfo(value));
+//        }
       }
     });
     //_debug(
@@ -303,22 +316,38 @@ class HomeRepository implements IHomeRepository {
   Future<void> _loginAnonymous() async {
     try {
       await provider.apiService.createAnonymousSession().then((value) async {
+        _debug("At ${DateTime.now()} Running _loginAnonymous check isLogin");
         await _getInfo(value);
       });
     } on AppwriteException catch (e) {
-      //_debug('HomeRepository login error ' + e.message!);
-      _error = e.message!;
-      _status = Status.unauthenticated;
-      _apiLog = provider.apiService.apiLog;
-      _isLogin = false;
+      _debug('Running HomeRepository login error ' +
+          e.message! +
+          " code " +
+          e.code.toString() +
+          "(e.code == 401) is ${(e.code == 401)}");
+      if (e.code == 401) {
+        _debug('Running HomeRepository checking session type');
+        _isLogin = true;
+        await getUserSession();
+        dataLoading();
+        _status = Status.authenticated;
+        _apiLog = provider.apiService.apiLog;
+        await getSession(_sessionIDBox);
+      } else {
+        _error = e.message!;
+        _status = Status.unauthenticated;
+        _apiLog = provider.apiService.apiLog;
+        _isLogin = false;
+      }
     }
   }
 
   Future<void> _getInfo(value) async {
+    _debug("At ${DateTime.now()} Running _getInfo check isLogin");
     _session = value;
     _isLogin = true;
-    box.write("sessionID", _session.$id);
-    box.write("provider", _session.provider);
+    box.write("sessionID", _session!.$id);
+    box.write("provider", _session!.provider);
     //await getSession(_sessionIDBox);
     await getUserSession();
     dataLoading();
@@ -340,10 +369,11 @@ class HomeRepository implements IHomeRepository {
     getContactList();
     getVideoList();
     getAnchkorgEventCategory();
+    getChatRooms();
   }
 
   @override
-  Future logout({String sessionId = 'null'}) async {
+  Future logout({String sessionId = 'current'}) async {
     logger.i("logout Appwrite connection using HomeRepository");
     _status = Status.authenticating;
     try {
@@ -388,36 +418,32 @@ class HomeRepository implements IHomeRepository {
   //}
 
   @override
-  Future<Session> getSession(String? sessionID) async {
-    getPrefs();
-    //_debug(
-    //    "4.1 getSession by ID $sessionID Appwrite connection using HomeRepository");
+//  Future<Session> getSession(String? sessionID) async {
+  Future getSession(String? sessionID) async {
+    //getPrefs();
+    _debug(
+        "4.1 getSession by ID $sessionID Appwrite connection using HomeRepository");
     try {
       await provider.apiService.getSession(sessionID).then((res) {
-        //_debug('4.2 getSession by ID $sessionID for res.userId');
-        //_debug(res.userId);
+        _debug(
+            '4.2 getSession by ID $sessionID for res.userId is ${res.toString()}');
         _session = res;
-        //_debug('4.2 _session updated.');
+        _debug('4.2 _session updated.');
       });
     } on AppwriteException catch (e) {
       _error = e.message!;
     } finally {
       _loading = false;
     }
-    return _session;
+//    return _session;
   }
 
   @override
   Future getSessions() async {
     //logger.i("getUserSession Appwrite connection using HomeRepository");
+//    SessionList _sessionList;
     try {
-      await provider.apiService.getSessions().then((res) {
-        logger.i('getSessions res.data');
-//        logger.i(res);
-//        logger.i(res['sessions'].toString());
-//        _session = Session.fromMap(res['sessions']);
-        //logger.i('_session is' + _session.toString());
-      });
+      await provider.apiService.getSessions();
     } on AppwriteException catch (e) {
       _error = e.message!;
     } finally {
@@ -428,7 +454,9 @@ class HomeRepository implements IHomeRepository {
   @override
   Future getUserSession() async {
     //logger.i("5.1  getUserSession Appwrite connection using HomeRepository");
+
     try {
+      await getSession("current");
       await provider.apiService.getUserSession().then((res) {
         //logger.i('5.1.2 getUserSession res.data ');
         //logger.i("Loading the data from res \$id " + res.$id.toString());
@@ -574,43 +602,41 @@ class HomeRepository implements IHomeRepository {
           Uint8List _photo = Uint8List(0);
           //_debug(
           //    "At ${DateTime.now()} res.documents.indexOf(element) ${res.documents.indexOf(element).toString()}");
-          //_debug(
-          //    "At ${DateTime.now()} res.documents.indexOf(element) ${_whatNews[res.documents.indexOf(element)].bgPhotoId.toString()} and ${element.data['bgPhotoId'].toString()} and isEqual ${_whatNews[res.documents.indexOf(element)].bgPhotoId == element.data['bgPhotoId']}");
-          //_debug(
-          //    "At ${DateTime.now()} res.documents.indexOf(element) ${_whatNews[res.documents.indexOf(element)].photoId.toString()} and ${element.data['photoId'].toString()} and isEqual ${_whatNews[res.documents.indexOf(element)].photoId == element.data['photoId']}");
 
-          if (_whatNews[res.documents.indexOf(element)].bgPhotoId ==
-              element.data['bgPhotoId']) {
+          if (_whatNews.length != res.documents.indexOf(element) &&
+              _whatNews[res.documents.indexOf(element)].bgPhotoId ==
+                  element.data['bgPhotoId']) {
             _bgPhoto = _whatNews[res.documents.indexOf(element)].bgPhotoFile!;
             //_debug(
-            //    "At ${DateTime.now()} res.documents.indexOf(element) _bgPhoto size is ${_bgPhoto.length}");
+            //    "At ${DateTime.now()} res.documents.indexOf(element) at ${element.$id.toString()} _bgPhoto size is ${_bgPhoto.length}");
           } else {
             await provider.apiService
                 .getFile(element.data['bgPhotoId'], quality: 5)
                 .then((bgPhotofile) async {
               _bgPhoto = bgPhotofile;
               //_debug(
-              //    "At ${DateTime.now()} res.documents.indexOf(element) _bgPhoto size is ${_bgPhoto.length}");
+              //    "At ${DateTime.now()} res.documents.indexOf(element) at ${element.$id.toString()} _bgPhoto size is ${_bgPhoto.length}");
             });
           }
 
-          if (_whatNews[res.documents.indexOf(element)].photoId ==
-              element.data['photoId']) {
+          if (_whatNews.length != res.documents.indexOf(element) &&
+              _whatNews[res.documents.indexOf(element)].photoId ==
+                  element.data['photoId']) {
             _photo = _whatNews[res.documents.indexOf(element)].photoFile!;
             //_debug(
-            //    "At ${DateTime.now()} res.documents.indexOf(element) _photo size is ${_photo.length}");
+            //    "At ${DateTime.now()} res.documents.indexOf(element) at ${element.$id.toString()} _photo size is ${_photo.length}");
           } else {
             await provider.apiService
                 .getFile(element.data['photoId'], quality: 5)
                 .then((photoFile) {
               _photo = photoFile;
               //_debug(
-              //    "At ${DateTime.now()} res.documents.indexOf(element) _photo size is ${_photo.length}");
+              //    "At ${DateTime.now()} res.documents.indexOf(element) at ${element.$id.toString()} _photo size is ${_photo.length}");
             });
           }
 
           //_debug(
-          //    "At ${DateTime.now()} getWhatNews length adding _whatNews ${_whatNews.length.toString()}");
+          //    "At ${DateTime.now()} getWhatNews length at ${element.$id.toString()} adding _whatNews ${_whatNews.length.toString()}");
           _whatNewsTmp.add(WhatNews.fromObject(
               map: element.data, bgPhotoFile: _bgPhoto, photoFile: _photo));
           //_debug(
@@ -639,6 +665,8 @@ class HomeRepository implements IHomeRepository {
           //  });
           //});
         }
+        //_debug(
+        //    "At ${DateTime.now()} getWhatNews Completed to Add new items to _WhatNewsTmp");
         _whatNews = _whatNewsTmp;
         //_debug(
         //    "At ${DateTime.now()} getWhatNews length _whatNews is ${_whatNews.length.toString()}");
@@ -1176,6 +1204,49 @@ class HomeRepository implements IHomeRepository {
   }
 
   @override
+  Future getChatRooms() async {
+    //logger.i("6.11 getVideoList Appwrite connection using HomeRepository");
+    List<ChatRoom> _chatRoomsTmp = [];
+
+    try {
+      await provider.apiService.getChatRooms().then((res) async {
+        for (var element in res.documents) {
+          Uint8List _photoFile = Uint8List(0);
+          await provider.apiService
+              .getFile(element.data['imageURL'])
+              .then((value) => _photoFile = value);
+          _chatRoomsTmp.add(ChatRoom.fromObject(element.data, _photoFile));
+        }
+        //logger.i("Complete to load the contactList Document " +            _contactList.toString());
+      });
+      _chatRooms = _chatRoomsTmp;
+    } on AppwriteException catch (e) {
+      _error = e.message!;
+    } finally {
+      _loading = false;
+    }
+  }
+
+  @override
+  Future getChatMessages() async {
+    //logger.i("6.11 getChatMessages Appwrite connection using HomeRepository");
+    List<ChatMessage> _chatMessageTmp = [];
+    try {
+      await provider.apiService.getChatMessages().then((res) async {
+        for (var element in res.documents) {
+          _chatMessageTmp.add(ChatMessage.fromMap(element.data));
+        }
+        //logger.i("Complete to load the contactList Document " +            _contactList.toString());
+      });
+      _chatMessages = _chatMessageTmp;
+    } on AppwriteException catch (e) {
+      _error = e.message!;
+    } finally {
+      _loading = false;
+    }
+  }
+
+  @override
   void createApplication(Map<dynamic, dynamic> data) async {
     // Future<dynamic> result;
     logger.i(
@@ -1185,7 +1256,7 @@ class HomeRepository implements IHomeRepository {
           ? provider.apiService
               .createAnonymousSession()
               .then((value) => _createApplication(data, value.$id))
-          : _createApplication(data, session.$id);
+          : _createApplication(data, 'current');
     } on AppwriteException catch (e) {
       _error = e.message!;
       logger.i("createApplication error message " + _error);

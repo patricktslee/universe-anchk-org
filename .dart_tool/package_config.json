@@ -15,7 +15,7 @@
     },
     {
       "name": "appwrite",
-      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/appwrite-4.0.2",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/appwrite-5.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -326,6 +326,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "flutter_launcher_icons",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_launcher_icons-0.9.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_lints",
       "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_lints-1.0.4",
       "packageUri": "lib/",
@@ -408,6 +414,12 @@
       "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "image",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/image-3.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
     },
     {
       "name": "intl",
@@ -584,6 +596,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "petitparser",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/petitparser-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
       "name": "platform",
       "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/platform-3.1.0",
       "packageUri": "lib/",
@@ -645,13 +663,13 @@
     },
     {
       "name": "sentry",
-      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/sentry-6.5.1",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/sentry-6.6.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "sentry_flutter",
-      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/sentry_flutter-6.5.1",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/sentry_flutter-6.6.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -884,6 +902,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "xml",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/xml-6.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "yaml",
       "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/yaml-3.1.1",
       "packageUri": "lib/",
@@ -902,7 +926,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-05-23T05:46:43.445698Z",
+  "generated": "2022-07-14T03:38:17.937663Z",
   "generator": "pub",
-  "generatorVersion": "2.17.1"
+  "generatorVersion": "2.17.6"
 }
