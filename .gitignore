@@ -27,5 +27,4 @@ doc/api/
 .flutter-plugins-dependencies
 
 .firebase\
-lib\shared\app_constants.dart
 public\
