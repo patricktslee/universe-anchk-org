@@ -10,6 +10,7 @@ String logoPath = "assets/images/anchk-logo.PNG";
 //String whatNews1 = "assets/images/whatnews1.jpeg";
 //String whatNewsBG = "assets/images/whatnewsBG.jpeg";
 String divider = "assets/images/divider-g8f3e8fda8_640.png";
+String anchkorgBanner = "assets/images/anchkorg-banner.png";
 
 
 
