@@ -19,7 +19,7 @@ class ApiService {
 
   final Client client = Client();
   Account? account;
-  Database? db;
+  Databases? db;
   Avatars? avatars;
   Storage? storage;
   final logger = Logger(
@@ -36,7 +36,7 @@ class ApiService {
     //_debug("At ${DateTime.now()} Initial Appwrite connection using ApiService");
     client.setEndpoint(AppConstants.endpoint).setProject(AppConstants.project);
     account = Account(client);
-    db = Database(client);
+    db = Databases(client, databaseId: 'default');
     avatars = Avatars(client);
     storage = Storage(client);
     realtime = Realtime(client);
@@ -62,7 +62,7 @@ class ApiService {
   Future login({required String email, required String password}) async {
     _debug('login($email) => Trying to ApiService login');
     return await account!
-        .createSession(email: email, password: password)
+        .createEmailSession(email: email, password: password)
         .then((value) {
       _debug(
           "At ${DateTime.now()} ApiService login($email) value runtimeType " +
