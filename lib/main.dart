@@ -10,6 +10,7 @@ import 'package:universe/pages/home/bindings/home_binding.dart';
 import 'package:universe/pages/home/presentation/views/home_layout.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //void main() {
 //  runApp(const MyApp());
