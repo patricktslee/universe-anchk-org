@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:universe/helpers/responsiveness.dart';
+import 'package:universe/constants/style.dart';
 
 class CustomText extends StatelessWidget {
   final String text;
@@ -43,7 +44,7 @@ class CustomText extends StatelessWidget {
       text,
       textAlign: textAlign,
       style: TextStyle(
-          fontFamily: 'NotoSans',
+          fontFamily: defaultFont,
           fontSize: responsiveFontSize, // default is 16,
           color: color, // default is Colors.black,
           fontWeight: weight,

@@ -34,7 +34,7 @@ class OrganizationText extends StatelessWidget {
     //Text(
     //  organizationName,
     //  style: TextStyle(
-    //    fontFamily: 'NotoSans',
+    //    fontFamily: defaultFont,
     //    fontSize: responsiveFontSize, // default is 16,
     //    color: color,
     //    fontWeight: weight,

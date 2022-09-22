@@ -48,7 +48,7 @@ class PreacherWidget extends StatelessWidget {
               dropCapPosition: DropCapPosition.end,
               textAlign: TextAlign.justify,
               style: TextStyle(
-                  fontFamily: 'NotoSans',
+                  fontFamily: defaultFont,
                   fontSize: responsiveFontSize,
                   color: dark,
                   height: 1.5,
@@ -105,7 +105,7 @@ class PreacherWidget extends StatelessWidget {
                   dropCapPosition: DropCapPosition.end,
                   textAlign: TextAlign.justify,
                   style: TextStyle(
-                      fontFamily: 'NotoSans',
+                      fontFamily: defaultFont,
                       fontSize: responsiveFontSize,
                       color: dark,
                       height: 1.5,

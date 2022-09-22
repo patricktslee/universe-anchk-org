@@ -162,7 +162,9 @@ class HomeLayout extends GetResponsiveView<HomeController> {
     TargetPlatform.android;
     return Container(
       decoration: customBoxDecoration(),
-      child: Scaffold(
+      child: SelectionArea( 
+          child:        
+          	Scaffold(
         backgroundColor: Colors.transparent,
 //        key: scaffoldKey,
         extendBodyBehindAppBar: true,
@@ -210,6 +212,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
           ],
         ),
       ),
+    ),
     );
   }
 
