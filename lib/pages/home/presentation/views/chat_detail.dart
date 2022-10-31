@@ -34,6 +34,7 @@ class ChatDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller.getChatMessages();
+    final messageController = TextEditingController();
     return Obx(
       () => Scaffold(
         appBar: AppBar(
@@ -104,7 +105,7 @@ class ChatDetailWidget extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 print(
-                    "getChatMessages() Current User is ${controller.currentUser.id} and message is ${controller.chatMessages[index].messageContent}");
+                    "getChatMessages() Current User is ${controller.currentUser.id}, message is ${controller.chatMessages[index].messageContent}, message type is ${controller.chatMessages[index].messageType}");
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Align(
@@ -112,10 +113,22 @@ class ChatDetailWidget extends StatelessWidget {
                             controller.chatMessages[index].messageFrom
                         ? Alignment.topLeft
                         : Alignment.topRight),
-                    child: TextMessageWidget(
-                      controller: controller,
-                      index: index,
-                    ),
+                    child:
+                        (controller.chatMessages[index].messageType != 'text')
+                            ? (controller.chatMessages[index].messageType !=
+                                    'RichText')
+                                ? PhotoWidget(
+                                    controller: controller,
+                                    index: index,
+                                  )
+                                : RichTextMessageWidget(
+                                    controller: controller,
+                                    index: index,
+                                  )
+                            : TextMessageWidget(
+                                controller: controller,
+                                index: index,
+                              ),
                   ),
                 );
               },
@@ -130,7 +143,14 @@ class ChatDetailWidget extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        controller
+                            .createChatDocument(
+                                messageContent: messageController.text,
+                                messageFrom: controller.currentUser.id,
+                                messageTo: chatRoom.name)
+                            .then((value) => messageController.clear());
+                      },
                       child: Container(
                         height: 30,
                         width: 30,
@@ -148,12 +168,13 @@ class ChatDetailWidget extends StatelessWidget {
                     const SizedBox(
                       width: 15,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: TextField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             hintText: "Write message...",
                             hintStyle: TextStyle(color: Colors.black54),
                             border: InputBorder.none),
+                        controller: messageController,
                       ),
                     ),
                     const SizedBox(
@@ -182,6 +203,60 @@ class ChatDetailWidget extends StatelessWidget {
 
 class TextMessageWidget extends StatelessWidget {
   const TextMessageWidget({
+    Key? key,
+    required this.controller,
+    required this.index,
+  }) : super(key: key);
+
+  final HomeController controller;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: (controller.currentUser.id !=
+                controller.chatMessages[index].messageFrom
+            ? Colors.grey.shade200
+            : Colors.blue[200]),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Text(controller.chatMessages[index].messageContent,
+          style: const TextStyle(fontSize: 15)),
+    );
+  }
+}
+
+class RichTextMessageWidget extends StatelessWidget {
+  const RichTextMessageWidget({
+    Key? key,
+    required this.controller,
+    required this.index,
+  }) : super(key: key);
+
+  final HomeController controller;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: (controller.currentUser.id !=
+                controller.chatMessages[index].messageFrom
+            ? Colors.grey.shade200
+            : Colors.blue[200]),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Text(controller.chatMessages[index].messageContent,
+          style: const TextStyle(fontSize: 15)),
+    );
+  }
+}
+
+class PhotoWidget extends StatelessWidget {
+  const PhotoWidget({
     Key? key,
     required this.controller,
     required this.index,

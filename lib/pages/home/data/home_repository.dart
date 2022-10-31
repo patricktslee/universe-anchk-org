@@ -103,6 +103,10 @@ class HomeRepository implements IHomeRepository {
   //@override
   //List<Paragraph> get anchkMission => _anchkMission;
 
+  late Document _currentChat;
+  @override
+  Document get currentChat => _currentChat;
+
   Conductor _conductor = Conductor(
       name: InitialData.conductorMessage,
       message: InitialData.conductorMessage,
@@ -416,6 +420,33 @@ class HomeRepository implements IHomeRepository {
   //Future unsubscribe() async {
   //  return await provider.apiService.unsubscribe();
   //}
+
+  @override
+  Future createChatDocument({
+    required Map<String, dynamic> data,
+    List<dynamic> readPermission = const ['*'],
+    List<dynamic> writePermission = const ['*'],
+  }) async {
+    _debug(
+        "At ${DateTime.now()} createChatDocument() => Starting ApiService uploadFile");
+    try {
+      await provider.apiService
+          .createDocument(
+        collectionId: 'chatMessage',
+        data: data,
+        readPermission: readPermission,
+        writePermission: writePermission,
+      )
+          .then((res) {
+        _currentChat = res;
+        _debug('4.2 _session updated.');
+      });
+    } on AppwriteException catch (e) {
+      _error = e.message!;
+    } finally {
+      _loading = false;
+    }
+  }
 
   @override
 //  Future<Session> getSession(String? sessionID) async {

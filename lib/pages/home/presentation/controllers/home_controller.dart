@@ -139,6 +139,7 @@ class HomeController extends SuperController<CasesModel> {
   RxList apiLogList = [].obs;
   RxInt tabAuthIndexSelected = 0.obs;
   late RealtimeSubscription subscription;
+  Timer? timer;
 
   /// When the controller is initialized, make the http request
   @override
@@ -158,14 +159,31 @@ class HomeController extends SuperController<CasesModel> {
     //}, onError: (err) {
     //  change(null, status: RxStatus.error(err.toString()));
     //});
+    scheduleTimer();
+  }
+
+  void scheduleTimer() {
+    Timer.periodic(
+      const Duration(seconds: 120),
+      (timer) {
+        // Update user about remaining time
+        _debug("At ${DateTime.now()} restart the subscription");
+        unsubscribe();
+        subscribe();
+      },
+    );
   }
 
   subscribe() {
     //  homeRepository.subscribe();
     subscription = homeRepository.realtime.subscribe(['documents']);
+    _debug("At ${DateTime.now()} subscription subscribed");
+    subscription.printInfo();
     subscription.stream.listen((event) {
-      _debug("subscription event");
+      _debug("At ${DateTime.now()} subscription event start");
       loadingData();
+      _debug(
+          "At ${DateTime.now()} subscription event completed to run loadingData()");
     });
   }
 
@@ -486,6 +504,33 @@ class HomeController extends SuperController<CasesModel> {
     });
   }
 
+  Future createChatDocument({
+    required String messageContent,
+    required String messageFrom,
+    required String messageTo,
+  }) async {
+    List<dynamic> readPermission = const ['*'];
+    List<dynamic> writePermission = const ['*'];
+    Map<String, dynamic> data = {
+      "messageFrom": messageFrom,
+      "messageTo": messageTo,
+      "messageContent": messageContent,
+      "messageType": "text",
+    };
+    return await homeRepository
+        .createChatDocument(
+      data: data,
+      readPermission: readPermission,
+      writePermission: writePermission,
+    )
+        .then((value) {
+      chatMessages.clear();
+      chatMessages.addAll(homeRepository.chatMessages.toList());
+      _debug("At ${DateTime.now()} getChatMessages() finished ");
+      return homeRepository.chatRooms;
+    });
+  }
+
   Future getChatRooms() async {
     return await homeRepository.getChatRooms().then((value) {
       chatRooms.clear();
@@ -615,6 +660,7 @@ class HomeController extends SuperController<CasesModel> {
   void onClose() {
     //_debug('onClose called');
     unsubscribe();
+    timer!.cancel();
     super.onClose();
   }
 

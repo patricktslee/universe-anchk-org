@@ -19,7 +19,7 @@ class ApiService {
 
   final Client client = Client();
   Account? account;
-  Database? db;
+  Databases? db;
   Avatars? avatars;
   Storage? storage;
   final logger = Logger(
@@ -36,7 +36,7 @@ class ApiService {
     //_debug("At ${DateTime.now()} Initial Appwrite connection using ApiService");
     client.setEndpoint(AppConstants.endpoint).setProject(AppConstants.project);
     account = Account(client);
-    db = Database(client);
+    db = Databases(client, databaseId: 'default');
     avatars = Avatars(client);
     storage = Storage(client);
     realtime = Realtime(client);
@@ -62,7 +62,7 @@ class ApiService {
   Future login({required String email, required String password}) async {
     _debug('login($email) => Trying to ApiService login');
     return await account!
-        .createSession(email: email, password: password)
+        .createEmailSession(email: email, password: password)
         .then((value) {
       _debug(
           "At ${DateTime.now()} ApiService login($email) value runtimeType " +
@@ -138,6 +138,79 @@ class ApiService {
       return stackTrace;
     });
 //    return _dynamic;
+  }
+
+  Future<File> uploadFile(
+      {required InputFile inFile,
+      required User user,
+      required String bucketId,
+      String fileId = "unique()"}) async {
+    _debug(
+        "At ${DateTime.now()} uploadFile() => Starting ApiService uploadFile");
+    return storage!.createFile(
+      bucketId: bucketId,
+      fileId: fileId,
+      file: inFile,
+      read: ['*'],
+      write: [user.email.isEmpty ? '*' : "user:${user.$id}", 'role:member'],
+    ).then((file) {
+      _debug("At ${DateTime.now()} uploadFile() => result ${file.toString()}");
+      return file;
+    }).catchError((exception, stackTrace) async {
+      _debug("uploadFile fail!");
+    });
+  }
+
+  Future<Document> createDocument({
+    required String collectionId,
+    required Map<String, dynamic> data,
+    String documentId = "unique()",
+    List<dynamic> readPermission = const ['*'],
+    List<dynamic> writePermission = const ['*'],
+  }) async {
+    _debug(
+        "At ${DateTime.now()} createDocument() => Starting ApiService uploadFile");
+    return db!
+        .createDocument(
+      read: readPermission,
+      write: writePermission,
+      collectionId: collectionId,
+      data: data,
+      documentId: documentId,
+    )
+        .then((document) {
+      _debug(
+          "At ${DateTime.now()} createDocument() => result ${document.toString()}");
+      return document;
+    }).catchError((exception, stackTrace) async {
+      _debug("createDocument fail!");
+    });
+  }
+
+  Future<DocumentList> listDocuments(
+      {List<dynamic> orderTypes = const ['ASC', 'ASC', 'ASC', 'ASC'],
+      List<dynamic> orderAttributes = const [
+        'isCompleted',
+        'year',
+        'month',
+        'day'
+      ],
+      required String collectionId}) {
+    return db!
+        .listDocuments(
+      collectionId: collectionId,
+      limit: 50,
+      orderAttributes: orderAttributes,
+      orderTypes: orderTypes,
+    )
+        .then((value) {
+      return value;
+    }).catchError((exception, stackTrace) async {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    });
   }
 
   Realtime getRealtime() {

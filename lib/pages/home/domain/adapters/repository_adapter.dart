@@ -29,6 +29,11 @@ abstract class IHomeRepository {
   Future updateAccountPassword(String password, String oldPassword);
   Future logout({String sessionId});
   Future logoutAll();
+  Future createChatDocument({
+    required Map<String, dynamic> data,
+    List<dynamic> readPermission = const ['*'],
+    List<dynamic> writePermission = const ['*'],
+  });
   Future createAnonymousSession();
   Future getSession(String? sessionID);
   Future getSessions();
@@ -65,6 +70,7 @@ abstract class IHomeRepository {
   bool get isLogin;
   bool get firstTimeLoading;
   Realtime get realtime;
+  Document get currentChat;
   List<String> get apiLog;
   void addApiLog(String value);
   String get providerBox;
