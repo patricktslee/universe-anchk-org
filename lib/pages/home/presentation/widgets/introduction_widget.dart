@@ -100,55 +100,54 @@ class IntroductionWidget extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: //controller.anchkOrganizationItem
-                controller.introdutcion.value.message!
-                    .toList()
-                    .map(
-                      (item) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Center(
-                              child: CustomText(
-                                text: item.text.toString(),
-                                size: standardTextSize,
-                                weight: FontWeight.bold,
-                                color: blackColor,
-                                textAlign: TextAlign.center,
-                              ),
+            children: controller.introdutcion.value.message!
+                .toList()
+                .map(
+                  (item) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Center(
+                          child: SelectionArea(
+                            child: CustomText(
+                              text: item.text.toString(),
+                              size: standardTextSize,
+                              weight: FontWeight.bold,
+                              color: blackColor,
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                          //controller.anchkOrganizationItem
-                          controller.introdutcion.value.message!
-                                      .toList()
-                                      .indexOf(item) <
-                                  //controller.anchkOrganizationItem
-                                  controller.introdutcion.value.message!
-                                          .toList()
-                                          .length -
-                                      1
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 8,
-                                    bottom: 8,
-                                  ),
-                                  child: Container(
-                                    height: 20,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(divider),
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                )
-                              : Container(),
-                        ],
+                        ),
                       ),
-                    )
-                    .toList(),
+                      controller.introdutcion.value.message!
+                                  .toList()
+                                  .indexOf(item) <
+                              controller.introdutcion.value.message!
+                                      .toList()
+                                      .length -
+                                  1
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                top: 8,
+                                bottom: 8,
+                              ),
+                              child: Container(
+                                height: 20,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(divider),
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                            )
+                          : Container(),
+                    ],
+                  ),
+                )
+                .toList(),
           ),
           const SizedBox(
             height: 24,
@@ -157,99 +156,94 @@ class IntroductionWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             child: Image.memory(
               controller.introdutcion.value.photoFile as Uint8List,
-//                  controller.preachersMessagePhotoFile.value,
               fit: BoxFit.cover,
             ),
-            //AppwriteImageMemory(
-            //  fileId: controller.anchkOrganizationPhoto.value,
-            //  quality: 100,
-            //),
           ),
         ],
       );
     });
   }
 
-  Future<FutureBuilder<List<dynamic>>> newMethod() async {
-    return FutureBuilder<List<dynamic>>(
-        future: controller.getAnchkOrganizationItem().then((value) async {
-          await controller.getPhotoFileId("anchkOrganization").then((photo) {
-            bgPhoto = photo;
+//  Future<FutureBuilder<List<dynamic>>> newMethod() async {
+//    return FutureBuilder<List<dynamic>>(
+//        future: controller.getAnchkOrganizationItem().then((value) async {
+//          await controller.getPhotoFileId("anchkOrganization").then((photo) {
+//            bgPhoto = photo;
+////          return value;
+//          });
 //          return value;
-          });
-          return value;
-        }),
-        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasData) {
-            return Column(
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: snapshot.data!
-                      .map(
-                        (item) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Center(
-                                child: CustomText(
-                                  text: item.text.toString(),
-                                  size: standardTextSize,
-                                  weight: FontWeight.bold,
-                                  color: blackColor,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                            snapshot.data!.indexOf(item) <
-                                    snapshot.data!.length - 1
-                                ? Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 8,
-                                      bottom: 8,
-                                    ),
-                                    child: Container(
-                                      height: 20,
-                                      width: 200,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(divider),
-                                            fit: BoxFit.cover),
-                                      ),
-                                    ),
-                                  )
-                                : Container(),
-                          ],
-                        ),
-                      )
-                      .toList(),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: (snapshot.hasData)
-                      ? AppwriteImageMemory(
-                          fileId: bgPhoto,
-                        )
-                      : Image.asset("assets/images/anchk-logo.PNG"),
-                ),
-              ],
-            );
-            //anchkOrganization(snapshot.data!);
-//            return Text("DATA: ${snapshot.data}");
-          } else if (snapshot.hasError) {
-            return Text("ERROR: ${snapshot.error}");
-          } else {
-            return const Text('None');
-          }
-//          return introductionColumn();
-        });
-  }
+//        }),
+//        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+//          if (snapshot.connectionState == ConnectionState.waiting) {
+//            return const Center(child: CircularProgressIndicator());
+//          } else if (snapshot.hasData) {
+//            return Column(
+//              children: [
+//                Column(
+//                  mainAxisSize: MainAxisSize.min,
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+//                  children: snapshot.data!
+//                      .map(
+//                        (item) => Column(
+//                          crossAxisAlignment: CrossAxisAlignment.center,
+//                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                          children: [
+//                            Padding(
+//                              padding: const EdgeInsets.symmetric(vertical: 8),
+//                              child: Center(
+//                                child: CustomText(
+//                                  text: item.text.toString(),
+//                                  size: standardTextSize,
+//                                  weight: FontWeight.bold,
+//                                  color: blackColor,
+//                                  textAlign: TextAlign.center,
+//                                ),
+//                              ),
+//                            ),
+//                            snapshot.data!.indexOf(item) <
+//                                    snapshot.data!.length - 1
+//                                ? Padding(
+//                                    padding: const EdgeInsets.only(
+//                                      top: 8,
+//                                      bottom: 8,
+//                                    ),
+//                                    child: Container(
+//                                      height: 20,
+//                                      width: 200,
+//                                      decoration: BoxDecoration(
+//                                        image: DecorationImage(
+//                                            image: AssetImage(divider),
+//                                            fit: BoxFit.cover),
+//                                      ),
+//                                    ),
+//                                  )
+//                                : Container(),
+//                          ],
+//                        ),
+//                      )
+//                      .toList(),
+//                ),
+//                const SizedBox(
+//                  height: 24,
+//                ),
+//                ClipRRect(
+//                  borderRadius: BorderRadius.circular(8.0),
+//                  child: (snapshot.hasData)
+//                      ? AppwriteImageMemory(
+//                          fileId: bgPhoto,
+//                        )
+//                      : Image.asset("assets/images/anchk-logo.PNG"),
+//                ),
+//              ],
+//            );
+//            //anchkOrganization(snapshot.data!);
+////            return Text("DATA: ${snapshot.data}");
+//          } else if (snapshot.hasError) {
+//            return Text("ERROR: ${snapshot.error}");
+//          } else {
+//            return const Text('None');
+//          }
+////          return introductionColumn();
+//        });
+//  }
 }

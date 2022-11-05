@@ -37,20 +37,8 @@ class ContactWidget extends StatelessWidget {
                 aspectRatio: 4 / 3,
                 child: Image.memory(
                   controller.contact.value.photoFile as Uint8List,
-//                      controller.contactListFile.value,
-//                  controller.preachersMessagePhotoFile.value,
                   fit: BoxFit.cover,
                 ),
-                //AppwriteImageMemory(
-                //  fileId: controller.contactPhoto.value,
-                //),
-                //Container(
-                //  decoration: BoxDecoration(
-                //      image: DecorationImage(
-                //          //                                  image: AssetImage(item.photo.toString()),
-                //          image: NetworkImage(bgPhoto),
-                //          fit: BoxFit.cover)),
-                //),
               ),
             ),
           ),
@@ -62,69 +50,65 @@ class ContactWidget extends StatelessWidget {
     });
   }
 
-  Future<FutureBuilder<Object>> newMethod() async {
-    return FutureBuilder<Object>(
-        future: controller.getPhoto("contactList").then((value) async {
-          bgPhoto = value;
-          await controller
-              .getContactList()
-              .then((value) => contactInfoItem = value);
-          return value;
-        }),
-        builder: (context, snapshot) {
-          return Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                    child: SizedBox(
-                      width: 750,
-                      child: AspectRatio(
-                        aspectRatio: 4 / 3,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  //                                  image: AssetImage(item.photo.toString()),
-                                  image: NetworkImage(bgPhoto),
-                                  fit: BoxFit.cover)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  ResponsiveWidget.isiPadScreen(context)
-                      ? _contactColumn()
-                      : _contactRow(),
-                ],
-              ),
-            ),
-          );
-        });
-  }
+//Future<FutureBuilder<Object>> newMethod() async {
+//  return FutureBuilder<Object>(
+//      future: controller.getPhoto("contactList").then((value) async {
+//        bgPhoto = value;
+//        await controller
+//            .getContactList()
+//            .then((value) => contactInfoItem = value);
+//        return value;
+//      }),
+//      builder: (context, snapshot) {
+//        return Expanded(
+//          child: SingleChildScrollView(
+//            child: Column(
+//              mainAxisAlignment: MainAxisAlignment.start,
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              children: [
+//                Padding(
+//                  padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+//                  child: SizedBox(
+//                    width: 750,
+//                    child: AspectRatio(
+//                      aspectRatio: 4 / 3,
+//                      child: Container(
+//                        decoration: BoxDecoration(
+//                            image: DecorationImage(
+//                                //                                  image: AssetImage(item.photo.toString()),
+//                                image: NetworkImage(bgPhoto),
+//                                fit: BoxFit.cover)),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//                ResponsiveWidget.isiPadScreen(context)
+//                    ? _contactColumn()
+//                    : _contactRow(),
+//              ],
+//            ),
+//          ),
+//        );
+//      });
+//}
 
   Widget _contactRow() => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
-        children: //contactInfoItem //
-//            controller.contactInfoItem
-            controller.contact.value.organizationInfo!
-                .map(
-                  (item) => _contactInfo(item),
-                )
-                .toList(),
+        children: controller.contact.value.organizationInfo!
+            .map(
+              (item) => _contactInfo(item),
+            )
+            .toList(),
       );
   Widget _contactColumn() => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
-        children: //contactInfoItem //
-            controller.contact.value.organizationInfo!
-                //controller.contactInfoItem
-                .map(
-                  (item) => _contactInfo(item),
-                )
-                .toList(),
+        children: controller.contact.value.organizationInfo!
+            .map(
+              (item) => _contactInfo(item),
+            )
+            .toList(),
       );
 
   Widget _contactInfo(dynamic item) => Padding(
@@ -139,11 +123,13 @@ class ContactWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: CustomText(
-                    text: item.name.toString(),
-                    size: standardTextSize,
-                    weight: FontWeight.bold,
-                    color: blackColor,
+                  child: SelectionArea(
+                    child: CustomText(
+                      text: item.name.toString(),
+                      size: standardTextSize,
+                      weight: FontWeight.bold,
+                      color: blackColor,
+                    ),
                   ),
                 ),
               ],
@@ -187,8 +173,6 @@ class ContactWidget extends StatelessWidget {
                       if (await canLaunchUrlString(item.url.toString())) {
                         await launchUrlString(
                           item.url.toString(),
-//                          forceSafariVC: true,
-//                          forceWebView: true,
                         );
                       } else {
                         throw 'Could not launch ${item.url.toString()}';
