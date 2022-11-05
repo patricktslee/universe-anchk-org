@@ -23,8 +23,6 @@ class PracticeWidget extends StatelessWidget {
   }
 
   Widget getPractice(BuildContext context) {
-//    controller.getPracticePlaceItem();
-//    controller.getPracticeTimeItem();
     controller.getPracticeInfo();
     return Obx(
       () {
@@ -88,21 +86,8 @@ class PracticeWidget extends StatelessWidget {
                                     aspectRatio: 16 / 9,
                                     child: Image.memory(
                                       controller.practice.value.photoFile!,
-//                                    controller.practicePhotoFile.value,
-//                  controller.preachersMessagePhotoFile.value,
                                       fit: BoxFit.cover,
                                     ),
-                                    //AppwriteImageMemory(
-                                    //  fileId: controller.practicePhoto.value,
-                                    //),
-                                    //Container(
-                                    //  width: 250,
-                                    //  decoration: BoxDecoration(
-                                    //      image: DecorationImage(
-                                    //          //                                  image: AssetImage(item.photo.toString()),
-                                    //          image: NetworkImage(bgPhoto),
-                                    //          fit: BoxFit.cover)),
-                                    //),
                                   ),
                                 ),
                                 CustomText(
@@ -123,258 +108,140 @@ class PracticeWidget extends StatelessWidget {
     );
   }
 
-//  Future<FutureBuilder<Object>> newMethod() async {
-//    return FutureBuilder<Object>(
-//        future: controller.getPracticePlaceItem().then((value) async {
-//          await controller.getPhoto("practicePlace").then((photo) {
-//            bgPhoto = photo;
-//          });
-//          await controller
-//              .getPracticeTimeItem()
-//              .then((value) => practiceTimeItem = value);
-//          practicePlaceItem = value;
-//          return value;
-//        }),
-//        builder: (context, snapshot) {
-//          return Expanded(
-//              child: SingleChildScrollView(
-//            child: Column(
-//              children: [
-//                Padding(
-//                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-//                  child: ResponsiveWidget.isSmallScreen(context)
-//                      ? Column(
-//                          crossAxisAlignment: CrossAxisAlignment.start,
-//                          children: [
-//                            _practiceTime(),
-//                            const SizedBox(
-//                              width: 16,
-//                            ),
-//                            _practicePlace(),
-//                          ],
-//                        )
-//                      : Row(
-//                          crossAxisAlignment: CrossAxisAlignment.start,
-//                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                          children: [
-//                            Expanded(child: _practiceTime()),
-//                            const SizedBox(
-//                              width: 16,
-//                            ),
-//                            Expanded(child: _practicePlace()),
-//                          ],
+//  Widget practiceColumn(BuildContext context) => Expanded(
+//          child: SingleChildScrollView(
+//        child: Column(
+//          children: [
+//            Padding(
+//              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+//              child: ResponsiveWidget.isSmallScreen(context)
+//                  ? Column(
+//                      crossAxisAlignment: CrossAxisAlignment.start,
+//                      children: [
+//                        _practiceTime(),
+//                        const SizedBox(
+//                          width: 16,
 //                        ),
-//                ),
-//                Padding(
-//                  padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-//                  child: Row(
-//                    crossAxisAlignment: CrossAxisAlignment.start,
-//                    mainAxisAlignment: MainAxisAlignment.start,
-//                    children: [
-//                      Expanded(
-//                        flex: 1,
-//                        child: SizedBox(
-//                          width: ResponsiveWidget.isSmallScreen(context)
-//                              ? 485
-//                              : 588,
-//                          height: ResponsiveWidget.isSmallScreen(context)
-//                              ? 314
-//                              : 400,
-//                          child: Column(
-//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                            crossAxisAlignment: CrossAxisAlignment.center,
-//                            mainAxisSize: MainAxisSize.max,
-//                            children: [
-//                              Expanded(
-//                                child: AspectRatio(
-//                                  aspectRatio: 16 / 9,
-//                                  child: Container(
-//                                    width: 250,
-//                                    decoration: BoxDecoration(
-//                                        image: DecorationImage(
-//                                            //                                  image: AssetImage(item.photo.toString()),
-//                                            image: NetworkImage(bgPhoto),
-//                                            fit: BoxFit.cover)),
-//                                  ),
-//                                ),
+//                        _practicePlace(),
+//                      ],
+//                    )
+//                  : Row(
+//                      crossAxisAlignment: CrossAxisAlignment.start,
+//                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                      children: [
+//                        Expanded(child: _practiceTime()),
+//                        const SizedBox(
+//                          width: 16,
+//                        ),
+//                        Expanded(child: _practicePlace()),
+//                      ],
+//                    ),
+//            ),
+//            Padding(
+//              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+//              child: Row(
+//                crossAxisAlignment: CrossAxisAlignment.start,
+//                mainAxisAlignment: MainAxisAlignment.start,
+//                children: [
+//                  Expanded(
+//                    flex: 1,
+//                    child: SizedBox(
+//                      width:
+//                          ResponsiveWidget.isSmallScreen(context) ? 485 : 588,
+//                      height:
+//                          ResponsiveWidget.isSmallScreen(context) ? 314 : 400,
+//                      child: Column(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        mainAxisSize: MainAxisSize.max,
+//                        children: [
+//                          Expanded(
+//                            child: AspectRatio(
+//                              aspectRatio: 16 / 9,
+//                              child: Container(
+//                                width: 250,
+//                                decoration: BoxDecoration(
+//                                    image: DecorationImage(
+//                                        //                                  image: AssetImage(item.photo.toString()),
+//                                        image: NetworkImage(bgPhoto),
+//                                        fit: BoxFit.cover)),
 //                              ),
-////                          Expanded(
-////                            flex: 1,
-////                            child: ClipRRect(
-////                              borderRadius: BorderRadius.circular(8.0),
-////                              child: Image.network(bgPhoto),
-////                              child: Image.asset(mapPhoto),
-////                            ),
-////                          ),
-//                              CustomText(
-//                                  text: "鳴謝宣道浸信會提供地圖相片",
-//                                  size: 12,
-//                                  color: dark,
-//                                  weight: FontWeight.normal),
-//                            ],
+//                            ),
 //                          ),
-//                        ),
+//                          CustomText(
+//                              text: "鳴謝宣道浸信會提供地圖相片",
+//                              size: 12,
+//                              color: dark,
+//                              weight: FontWeight.normal),
+//                        ],
 //                      ),
+//                    ),
+//                  ),
+//                ],
+//              ),
+//            ),
+//          ],
+//        ),
+//      ));
+//
+//  Widget practiceListView(BuildContext context) => Expanded(
+//          child: ListView(
+//        children: [
+//          Padding(
+//            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+//            child: ResponsiveWidget.isSmallScreen(context)
+//                ? Column(
+//                    crossAxisAlignment: CrossAxisAlignment.start,
+//                    children: [
+//                      _practiceTime(),
+//                      const SizedBox(
+//                        width: 16,
+//                      ),
+//                      _practicePlace(),
 //                    ],
+//                  )
+//                : Row(
+//                    crossAxisAlignment: CrossAxisAlignment.start,
+//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                    children: [
+//                      Expanded(child: _practiceTime()),
+//                      const SizedBox(
+//                        width: 16,
+//                      ),
+//                      Expanded(child: _practicePlace()),
+//                    ],
+//                  ),
+//          ),
+//          Padding(
+//            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+//            child: Row(
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              mainAxisAlignment: MainAxisAlignment.start,
+//              children: [
+//                Expanded(
+//                  flex: 1,
+//                  child: SizedBox(
+//                    width: ResponsiveWidget.isSmallScreen(context) ? 485 : 588,
+//                    height: ResponsiveWidget.isSmallScreen(context) ? 314 : 400,
+//                    child: Column(
+//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                      crossAxisAlignment: CrossAxisAlignment.center,
+//                      mainAxisSize: MainAxisSize.max,
+//                      children: [
+//                        CustomText(
+//                            text: "鳴謝宣道浸信會提供地圖相片",
+//                            size: 12,
+//                            color: dark,
+//                            weight: FontWeight.normal)
+//                      ],
+//                    ),
 //                  ),
 //                ),
 //              ],
 //            ),
-//          ));
-//          //return practiceColumn(context);
-//        });
-//  }
-
-  Widget practiceColumn(BuildContext context) => Expanded(
-          child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-              child: ResponsiveWidget.isSmallScreen(context)
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _practiceTime(),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        _practicePlace(),
-                      ],
-                    )
-                  : Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(child: _practiceTime()),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        Expanded(child: _practicePlace()),
-                      ],
-                    ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      width:
-                          ResponsiveWidget.isSmallScreen(context) ? 485 : 588,
-                      height:
-                          ResponsiveWidget.isSmallScreen(context) ? 314 : 400,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: AspectRatio(
-                              aspectRatio: 16 / 9,
-                              child: Container(
-                                width: 250,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        //                                  image: AssetImage(item.photo.toString()),
-                                        image: NetworkImage(bgPhoto),
-                                        fit: BoxFit.cover)),
-                              ),
-                            ),
-                          ),
-//                          Expanded(
-//                            flex: 1,
-//                            child: ClipRRect(
-//                              borderRadius: BorderRadius.circular(8.0),
-//                              child: Image.network(bgPhoto),
-//                              child: Image.asset(mapPhoto),
-//                            ),
-//                          ),
-                          CustomText(
-                              text: "鳴謝宣道浸信會提供地圖相片",
-                              size: 12,
-                              color: dark,
-                              weight: FontWeight.normal),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ));
-
-  Widget practiceListView(BuildContext context) => Expanded(
-          child: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-            child: ResponsiveWidget.isSmallScreen(context)
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _practiceTime(),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      _practicePlace(),
-                    ],
-                  )
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(child: _practiceTime()),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(child: _practicePlace()),
-                    ],
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    width: ResponsiveWidget.isSmallScreen(context) ? 485 : 588,
-                    height: ResponsiveWidget.isSmallScreen(context) ? 314 : 400,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-//                        Expanded(
-//                          flex: 1,
-//                          child: ClipRRect(
-//                            borderRadius: BorderRadius.circular(8.0),
-//                            child: Image.network(bgPhoto),
-//                            child: Image.asset(mapPhoto),
-//                          ),
-//                        ),
-                        CustomText(
-                            text: "鳴謝宣道浸信會提供地圖相片",
-                            size: 12,
-                            color: dark,
-                            weight: FontWeight.normal)
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ));
+//          ),
+//        ],
+//      ));
 
   Column _practicePlace() {
     return Column(
@@ -389,19 +256,19 @@ class PracticeWidget extends StatelessWidget {
         Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: //practicePlaceItem
-              controller.practice.value.practicePlace!
-                  //    controller.practicePlaceItem
-                  .map((item) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: CustomText(
-                          text: item.text.toString(),
-                          size: standardTextSize,
-                          weight: FontWeight.bold,
-                          color: blackColor,
-                        ),
-                      ))
-                  .toList(),
+          children: controller.practice.value.practicePlace!
+              .map((item) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: SelectionArea(
+                      child: CustomText(
+                        text: item.text.toString(),
+                        size: standardTextSize,
+                        weight: FontWeight.bold,
+                        color: blackColor,
+                      ),
+                    ),
+                  ))
+              .toList(),
         ),
       ],
     );
@@ -420,19 +287,19 @@ class PracticeWidget extends StatelessWidget {
         Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: //practiceTimeItem
-              controller.practice.value.practiceTime!
-//              controller.practiceTimeItem
-                  .map((item) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: CustomText(
-                          text: item.text.toString(),
-                          size: standardTextSize,
-                          weight: FontWeight.bold,
-                          color: blackColor,
-                        ),
-                      ))
-                  .toList(),
+          children: controller.practice.value.practiceTime!
+              .map((item) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: SelectionArea(
+                      child: CustomText(
+                        text: item.text.toString(),
+                        size: standardTextSize,
+                        weight: FontWeight.bold,
+                        color: blackColor,
+                      ),
+                    ),
+                  ))
+              .toList(),
         ),
       ],
     );

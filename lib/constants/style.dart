@@ -20,6 +20,8 @@ double smallestTextSize = 10;
 double smallTextSize = 11;
 double standardTextSize = 14;
 double headerTextSize = 18;
+//String defaultFont = 'NotoSans';
+String defaultFont = 'Roboto';
 
 EdgeInsets customMainTitleEdgeInsets() =>
     const EdgeInsets.fromLTRB(8, 75, 8, 8);

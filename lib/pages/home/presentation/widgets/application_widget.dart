@@ -6,6 +6,7 @@ import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/pages/home/presentation/controllers/home_controller.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:universe/widgets/custom_text.dart';
+
 //import 'package:url_launcher/url_launcher.dart';
 
 class ApplicationWidget extends StatelessWidget {
@@ -219,7 +220,7 @@ InputDecoration customInputDecoration(
     InputDecoration(
       hintText: customHintText,
       hintStyle: TextStyle(
-          fontFamily: 'NotoSans',
+          fontFamily: defaultFont,
           fontSize: ResponsiveWidget.isSmallScreen(context)
               ? 16
               : ResponsiveWidget.isMediumScreen(context)
@@ -228,7 +229,7 @@ InputDecoration customInputDecoration(
           color: dark, // default is Colors.black,
           fontWeight: FontWeight.normal),
       errorStyle: TextStyle(
-          fontFamily: 'NotoSans',
+          fontFamily: defaultFont,
           fontSize: ResponsiveWidget.isSmallScreen(context)
               ? 16
               : ResponsiveWidget.isMediumScreen(context)
@@ -261,7 +262,7 @@ class CustomTextFeildInput extends StatelessWidget {
       child: ListTile(
         leading: customIcon,
         title: TextFormField(
-          style: const TextStyle(fontFamily: 'NotoSans'),
+          style: TextStyle(fontFamily: defaultFont),
           validator: (value) {
             if (isRequired) {
               if (value == null || value.isEmpty) {
@@ -641,7 +642,7 @@ class MyRadioOption<T> extends StatelessWidget {
           //Text(
           //  value.toString(),
           //  style: TextStyle(
-          //    fontFamily: 'NotoSans',
+          //    fontFamily: defaultFont,
           //    color: isSelected ? Colors.white : dark,
           //    fontSize: ResponsiveWidget.isSmallScreen(context)
           //        ? 14
@@ -663,7 +664,7 @@ class MyRadioOption<T> extends StatelessWidget {
     //Text(
     //  text,
     //  style: TextStyle(
-    //    fontFamily: 'NotoSans',
+    //    fontFamily: defaultFont,
     //    color: Colors.black,
     //    fontSize: ResponsiveWidget.isSmallScreen(context)
     //        ? 16

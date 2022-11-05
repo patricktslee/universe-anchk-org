@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/constants/style.dart';
 
-class CustomText extends StatelessWidget {
+class SelectedCustomText extends StatelessWidget {
   final String text;
   final double size;
   final Color color;
@@ -10,7 +10,7 @@ class CustomText extends StatelessWidget {
   final TextAlign textAlign;
   final TextDecoration textDecoration;
 
-  const CustomText(
+  const SelectedCustomText(
       {Key? key,
       required this.text,
       this.size = 14,
@@ -40,16 +40,18 @@ class CustomText extends StatelessWidget {
 //        : ResponsiveWidget.isMediumScreen(context)
 //            ? size + 2
 //            : size + 4;
-    return Text(
-      text,
-      textAlign: textAlign,
-      style: TextStyle(
-          fontFamily: defaultFont,
-          fontSize: responsiveFontSize, // default is 16,
-          color: color, // default is Colors.black,
-          fontWeight: weight,
-          decoration: textDecoration,
-          height: 1.5), // default is FontWeight.normal
+    return SelectionArea(
+      child: Text(
+        text,
+        textAlign: textAlign,
+        style: TextStyle(
+            fontFamily: defaultFont,
+            fontSize: responsiveFontSize, // default is 16,
+            color: color, // default is Colors.black,
+            fontWeight: weight,
+            decoration: textDecoration,
+            height: 1.5), // default is FontWeight.normal
+      ),
     );
   }
 }

@@ -10,6 +10,7 @@ import 'package:universe/pages/home/bindings/home_binding.dart';
 import 'package:universe/pages/home/presentation/views/home_layout.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //void main() {
 //  runApp(const MyApp());
@@ -40,7 +41,12 @@ class MyApp extends StatelessWidget {
 //    final platform = Theme.of(context).platform;
 //    print("In main.dart The Platform is ${platform.toString()}");
 
-    return GetMaterialApp(
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context , child) {
+        return GetMaterialApp(
       initialRoute: rootRoute,
       unknownRoute: GetPage(
           name: '/not-found',
@@ -70,7 +76,11 @@ class MyApp extends StatelessWidget {
         }),
         primarySwatch: Colors.blue,
       ),
-      // home: AuthenticationPage(),
+      //      home: child,
+      //home: AuthenticationPage(),
+    );
+      },
+      child: HomeLayout(),
     );
   }
 }
