@@ -18,10 +18,13 @@ Color menuActiveColor = dark;
 Color menuColor = Colors.grey.shade100;
 double smallestTextSize = 10;
 double smallTextSize = 11;
-double standardTextSize = 14;
+//double standardTextSize = 14;
+double standardTextSize = 16;
 double headerTextSize = 18;
 //String defaultFont = 'NotoSans';
-String defaultFont = 'Roboto';
+//String defaultFont = 'Roboto';
+String defaultFont = 'Kaiu';
+//String defaultFont = 'SourceHanSansHC';
 
 EdgeInsets customMainTitleEdgeInsets() =>
     const EdgeInsets.fromLTRB(8, 75, 8, 8);

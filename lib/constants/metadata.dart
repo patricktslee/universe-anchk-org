@@ -14,5 +14,5 @@ String anchkorgBanner = "assets/images/anchkorg-banner.png";
 
 
 
-//https://appwrite.anchk.org/v1/storage/files/62148c5a23e6fe098547/download?project=61b0428203f09&mode=admin
-//https://appwrite.anchk.org/v1/storage/files/62148c5a23e6fe098547/view?project=61b0428203f09&mode=admin
+//${AppConstants.endpoint}/v1/storage/files/62148c5a23e6fe098547/download?project=61b0428203f09&mode=admin
+//${AppConstants.endpoint}/v1/storage/files/62148c5a23e6fe098547/view?project=61b0428203f09&mode=admin

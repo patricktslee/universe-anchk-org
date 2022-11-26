@@ -120,7 +120,7 @@ class HomeLayout extends GetResponsiveView<HomeController> {
                 border: Border.all(color: Colors.white, width: 10),
                 image: const DecorationImage(
                     image: NetworkImage(
-                        "https://appwrite.anchk.org/v1/storage/files/slogon/view?project=61b0428203f09&mode=admin"),
+                        "${AppConstants.endpoint}/v1/storage/files/slogon/view?project=61b0428203f09&mode=admin"),
                     fit: BoxFit.cover)),
           ),
         ),

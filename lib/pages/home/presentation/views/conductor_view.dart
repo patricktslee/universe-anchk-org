@@ -7,6 +7,7 @@ import 'package:universe/pages/home/presentation/controllers/home_controller.dar
 import 'package:universe/pages/home/presentation/widgets/main_title.dart';
 import 'package:universe/widgets/custom_text.dart';
 import 'package:get/get.dart';
+import 'package:universe/shared/app_constants.dart';
 
 class ConductorPage extends StatelessWidget {
   static HomeController controller = Get.find();
@@ -40,7 +41,7 @@ class ConductorPage extends StatelessWidget {
                               //                  child: Image.asset(
                               //                    mrIPPhoto,
                               child: Image.network(
-                                'https://appwrite.anchk.org/v1/storage/files/62148e3a9e00d52ee4e6/view?project=61b0428203f09&mode=admin',
+                                '${AppConstants.endpoint}/v1/storage/files/62148e3a9e00d52ee4e6/view?project=61b0428203f09&mode=admin',
                                 fit: BoxFit.cover,
                               )),
                         ],

@@ -6,6 +6,7 @@ import 'package:universe/pages/home/domain/entity/organization_info_model.dart';
 import 'package:universe/pages/home/domain/entity/paragraph_model.dart';
 import 'package:universe/pages/home/domain/entity/what_news_model.dart';
 import 'package:universe/pages/home/domain/entity/youtube_model.dart';
+import 'package:universe/shared/app_constants.dart';
 
 class InitialData {
   static List<ChatMessage> chatMessages = [
@@ -188,10 +189,10 @@ class InitialData {
       event: "深恩堂福音主日",
       place: "陳白沙中學",
       photo:
-          "https://appwrite.anchk.org/v1/storage/files/61b1cd2a06b53/view?project=61b0428203f09&mode=admin",
+          "${AppConstants.endpoint}/v1/storage/files/61b1cd2a06b53/view?project=61b0428203f09&mode=admin",
       isCompleted: true,
       bgPhoto:
-          "https://appwrite.anchk.org/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin",
+          "${AppConstants.endpoint}/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin",
     ),
     WhatNews(
       year: 2022,
@@ -200,10 +201,10 @@ class InitialData {
       event: "恆安浸信會聖樂主日",
       place: "恆安浸信會",
       photo:
-          "https://appwrite.anchk.org/v1/storage/files/61b1cd9f655c1/view?project=61b0428203f09&mode=admin",
+          "${AppConstants.endpoint}/v1/storage/files/61b1cd9f655c1/view?project=61b0428203f09&mode=admin",
       isCompleted: false,
       bgPhoto:
-          "https://appwrite.anchk.org/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin",
+          "${AppConstants.endpoint}/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin",
     ),
     WhatNews(
       year: 2021,
@@ -212,10 +213,10 @@ class InitialData {
       event: "中浸神學院培靈會",
       place: "學基浸信會",
       photo:
-          "https://appwrite.anchk.org/v1/storage/files/61b1ce100fcf2/view?project=61b0428203f09&mode=admin",
+          "${AppConstants.endpoint}/v1/storage/files/61b1ce100fcf2/view?project=61b0428203f09&mode=admin",
       isCompleted: true,
       bgPhoto:
-          "https://appwrite.anchk.org/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin",
+          "${AppConstants.endpoint}/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin",
     ),
     WhatNews(
       year: 2020,
@@ -224,10 +225,10 @@ class InitialData {
       event: "恆安浸信會聖樂主日",
       place: "恆安浸信會",
       photo:
-          "https://appwrite.anchk.org/v1/storage/files/61b1cd9f655c1/view?project=61b0428203f09&mode=admin",
+          "${AppConstants.endpoint}/v1/storage/files/61b1cd9f655c1/view?project=61b0428203f09&mode=admin",
       isCompleted: true,
       bgPhoto:
-          "https://appwrite.anchk.org/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin",
+          "${AppConstants.endpoint}/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin",
     ),
     WhatNews(
       year: 2019,
@@ -236,10 +237,10 @@ class InitialData {
       event: "海南島聖樂交流",
       place: "海南島",
       photo:
-          "https://appwrite.anchk.org/v1/storage/files/61b1cec5762dd/view?project=61b0428203f09&mode=admin",
+          "${AppConstants.endpoint}/v1/storage/files/61b1cec5762dd/view?project=61b0428203f09&mode=admin",
       isCompleted: true,
       bgPhoto:
-          "https://appwrite.anchk.org/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin",
+          "${AppConstants.endpoint}/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin",
     ),
   ];
 
@@ -299,55 +300,55 @@ class InitialData {
         youtubeTitle: "萬國宣道詠團30周年音樂會招募",
 //        thumbnailImage: "Hp8P_CXOQ68.jpg"),
         thumbnailImage:
-            "https://appwrite.anchk.org/v1/storage/files/61fa03501566e7c7e9f5/view?project=61b0428203f09&mode=admin"),
+            "${AppConstants.endpoint}/v1/storage/files/61fa03501566e7c7e9f5/view?project=61b0428203f09&mode=admin"),
     YoutubeModel(
         id: 2,
         youtubeId: 'b53oI2p-UrI',
         youtubeTitle: "朋友請聽 2019",
 //        thumbnailImage: "b53oI2p-UrI.jpg"),
         thumbnailImage:
-            "https://appwrite.anchk.org/v1/storage/files/61fa03b010bb5b1a9e37/view?project=61b0428203f09&mode=admin"),
+            "${AppConstants.endpoint}/v1/storage/files/61fa03b010bb5b1a9e37/view?project=61b0428203f09&mode=admin"),
     YoutubeModel(
         id: 3,
         youtubeId: 'ArJj0pMqJls',
         youtubeTitle: "同來讚美救主",
 //        thumbnailImage: "ArJj0pMqJls.jpg"),
         thumbnailImage:
-            "https://appwrite.anchk.org/v1/storage/files/61fa0413da27c99de0e2/view?project=61b0428203f09&mode=admin"),
+            "${AppConstants.endpoint}/v1/storage/files/61fa0413da27c99de0e2/view?project=61b0428203f09&mode=admin"),
     YoutubeModel(
         id: 4,
         youtubeId: 'UXP9sR0A0vQ',
         youtubeTitle: "全心全意愛上帝 2014年7月",
 //        thumbnailImage: "UXP9sR0A0vQ.jpg"),
         thumbnailImage:
-            "https://appwrite.anchk.org/v1/storage/files/61fa044fabb08c9ad763/view?project=61b0428203f09&mode=admin"),
+            "${AppConstants.endpoint}/v1/storage/files/61fa044fabb08c9ad763/view?project=61b0428203f09&mode=admin"),
     YoutubeModel(
         id: 5,
         youtubeId: 'C2szYJuQymI',
         youtubeTitle: "敬拜頌歌",
 //        thumbnailImage: "C2szYJuQymI.jpg"),
         thumbnailImage:
-            "https://appwrite.anchk.org/v1/storage/files/61fa049502e56e485502/view?project=61b0428203f09&mode=admin"),
+            "${AppConstants.endpoint}/v1/storage/files/61fa049502e56e485502/view?project=61b0428203f09&mode=admin"),
     YoutubeModel(
         id: 6,
         youtubeId: 'CkjbpbRrRYo',
         youtubeTitle: "靠近我 2014年7月",
 //        thumbnailImage: "CkjbpbRrRYo.jpg"),
         thumbnailImage:
-            "https://appwrite.anchk.org/v1/storage/files/61fa04d454a878685a54/view?project=61b0428203f09&mode=admin"),
+            "${AppConstants.endpoint}/v1/storage/files/61fa04d454a878685a54/view?project=61b0428203f09&mode=admin"),
     YoutubeModel(
         id: 7,
         youtubeId: 'gCwHitVRirI',
         youtubeTitle: "祝福",
 //        thumbnailImage: "gCwHitVRirI.jpg"),
         thumbnailImage:
-            "https://appwrite.anchk.org/v1/storage/files/61fa05204108db2edb40/view?project=61b0428203f09&mode=admin"),
+            "${AppConstants.endpoint}/v1/storage/files/61fa05204108db2edb40/view?project=61b0428203f09&mode=admin"),
     YoutubeModel(
         id: 8,
         youtubeId: '7pc4rNCmEqo',
         youtubeTitle: "不動搖的國度",
 //        thumbnailImage: "7pc4rNCmEqo.jpg"),
         thumbnailImage:
-            "https://appwrite.anchk.org/v1/storage/files/61fa0587498cdb051b57/view?project=61b0428203f09&mode=admin"),
+            "${AppConstants.endpoint}/v1/storage/files/61fa0587498cdb051b57/view?project=61b0428203f09&mode=admin"),
   ];
 }

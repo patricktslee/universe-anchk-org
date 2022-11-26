@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
+  static const String appTitle = '萬國宣道詠團';
+  static const bool debug = false;
   static const String project = "61b0428203f09";
   static const String endpoint = "https://appwrite.anchk.org/v1";
+//  static const String endpoint = "https://backend-02.anchk.org/v1";
 //  static const String endpoint = "https://backend.anchk.org/v1";
   static const String bgImage =
       "https://images.pexels.com/photos/3902882/pexels-photo-3902882.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940";

@@ -37,6 +37,14 @@ class WhatnewsGroupWidget extends StatelessWidget {
       double cardWidth, double bannerWidth, double bannerHeight) {
     HomeController controller = Get.find();
     controller.getWhatNews();
+    List<Shadow> shadow = const [
+      Shadow(
+        blurRadius: 10.0,
+//        color: Colors.teal,
+        color: Colors.white,
+        offset: Offset(5, 5),
+      )
+    ];
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -47,8 +55,6 @@ class WhatnewsGroupWidget extends StatelessWidget {
                 indexOfDivided++;
               }
             }
-            print(
-                "Test WhatNews indexOfDivided is ${indexOfDivided.toString()}");
             return (controller.whatNews.isEmpty)
                 ? const CustomText(
                     text: "數據加載中....",
@@ -116,12 +122,18 @@ class WhatnewsGroupWidget extends StatelessWidget {
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
-                                                child: CustomText(
-                                                  text: item.event.toString(),
-                                                  textAlign: TextAlign.center,
-                                                  size: standardTextSize,
-                                                  weight: FontWeight.bold,
-                                                  color: Colors.black,
+                                                child: Container(
+                                                  width: cardWidth * (1 / 2),
+                                                  color: Colors.white10
+                                                      .withOpacity(0.5),
+                                                  child: CustomText(
+                                                    text: item.event.toString(),
+                                                    textAlign: TextAlign.center,
+                                                    size: standardTextSize,
+                                                    weight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                    shadow: shadow,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -132,12 +144,18 @@ class WhatnewsGroupWidget extends StatelessWidget {
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
-                                                child: CustomText(
-                                                  text: item.place.toString(),
-                                                  textAlign: TextAlign.center,
-                                                  size: standardTextSize,
-                                                  weight: FontWeight.normal,
-                                                  color: Colors.black,
+                                                child: Container(
+                                                  width: cardWidth * (1 / 2),
+                                                  color: Colors.white10
+                                                      .withOpacity(0.5),
+                                                  child: CustomText(
+                                                    text: item.place.toString(),
+                                                    textAlign: TextAlign.center,
+                                                    size: standardTextSize,
+                                                    weight: FontWeight.normal,
+                                                    color: Colors.black,
+                                                    shadow: shadow,
+                                                  ),
                                                 ),
                                               ),
                                             ),

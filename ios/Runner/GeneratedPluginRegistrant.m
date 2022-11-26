@@ -18,10 +18,10 @@
 @import flutter_inappwebview;
 #endif
 
-#if __has_include(<flutter_web_auth/FlutterWebAuthPlugin.h>)
-#import <flutter_web_auth/FlutterWebAuthPlugin.h>
+#if __has_include(<flutter_web_auth_2/FlutterWebAuth2Plugin.h>)
+#import <flutter_web_auth_2/FlutterWebAuth2Plugin.h>
 #else
-@import flutter_web_auth;
+@import flutter_web_auth_2;
 #endif
 
 #if __has_include(<package_info_plus/FLTPackageInfoPlusPlugin.h>)
@@ -59,7 +59,7 @@
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [FLTDeviceInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTDeviceInfoPlusPlugin"]];
   [InAppWebViewFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"InAppWebViewFlutterPlugin"]];
-  [FlutterWebAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterWebAuthPlugin"]];
+  [FlutterWebAuth2Plugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterWebAuth2Plugin"]];
   [FLTPackageInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPackageInfoPlusPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
   [SentryFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"SentryFlutterPlugin"]];

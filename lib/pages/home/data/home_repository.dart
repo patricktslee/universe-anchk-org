@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:universe/pages/home/domain/entity/anchk_organization.dart';
+import 'package:universe/pages/home/domain/entity/appwrite_file.dart';
 import 'package:universe/pages/home/domain/entity/chat_message.dart';
 import 'package:universe/pages/home/domain/entity/chat_room.dart';
 import 'package:universe/pages/home/domain/entity/conductor.dart';
@@ -29,6 +30,7 @@ import '../domain/entity/cases_model.dart';
 import 'home_api_provider.dart';
 import 'package:logger/logger.dart';
 import 'initial_data.dart';
+import 'package:universe/shared/app_constants.dart';
 
 class HomeRepository implements IHomeRepository {
   HomeRepository({required this.provider});
@@ -54,7 +56,7 @@ class HomeRepository implements IHomeRepository {
   List<String> get apiLog => _apiLog;
 
   final box = GetStorage();
-  String get _sessionIDBox => box.read('sessionID') ?? "No session ID";
+  //String get _sessionIDBox => box.read('sessionID') ?? "No session ID";
   String get _providerBox => box.read('provider') ?? "No session ID";
   @override
   String get providerBox => _providerBox;
@@ -102,6 +104,8 @@ class HomeRepository implements IHomeRepository {
   //List<Paragraph> _anchkMission = InitialData.anchkMission;
   //@override
   //List<Paragraph> get anchkMission => _anchkMission;
+
+  List<AppwriteFile>? appwriteFilePool = [];
 
   late Document _currentChat;
   @override
@@ -261,56 +265,38 @@ class HomeRepository implements IHomeRepository {
     //_debug("2. login Appwrite connection using HomeRepository");
     _status = Status.authenticating;
     String loginInfo = "Initial";
-    await provider.apiService.get().then((value) async {
+
+    await provider.apiService.getAnonymousSession().then((value) async {
+      if (AppConstants.debug) {
+        _debug(
+            "appwriteLogin()** At ${DateTime.now()} running the result for value.runtimeType is ${value.runtimeType}");
+      }
+
       loginInfo = value;
-      _debug(
-          "At ${DateTime.now()} running the result for provider.apiService.get() is $loginInfo");
-      if (loginInfo == "401") {
-        //_debug("Running login");
-        //_debug("At ${DateTime.now()} running the createAnonymousSession");
+      if (AppConstants.debug) {
+        _debug(
+            "appwriteLogin()** At ${DateTime.now()} running the result for provider.apiService.get() is $loginInfo");
+      }
+      if (loginInfo == "error") {
+        if (AppConstants.debug) {
+          _debug(
+              "appwriteLogin()** At ${DateTime.now()} Running _loginAnonymous()");
+        }
         await _loginAnonymous();
       } else {
-        await getUserSession();
+        if (AppConstants.debug) {
+          _debug(
+              "appwriteLogin()** At ${DateTime.now()} Running getUserSession()");
+        }
+//        await getUserSession();
         dataLoading();
         _status = Status.authenticated;
         _apiLog = provider.apiService.apiLog;
         _isLogin = true;
-
-//        //_debug("Login Provider is $_providerBox");
-//        if (_providerBox == "anonymous") {
-//          //_debug(
-//          //    "At ${DateTime.now()} Running get data and logout first and running the createAnonymousSession");
-//          //_debug(
-//          //    "At ${DateTime.now()} Running get data only with sessionID $_sessionIDBox");
-//          _debug(
-//              "At ${DateTime.now()} Running get data only with sessionID $_sessionIDBox");
-//          await _loginAnonymous();
-//          _debug("At ${DateTime.now()} Running _loginAnonymous");
-//          //await provider.apiService
-//          //    .getSession(_sessionIDBox)
-//          //    .then((value) async {
-//          //  _debug(
-//          //      "At ${DateTime.now()} Running get provider.apiService.getSession result type ${value.runtimeType}");
-//          //  await _getInfo(value);
-//          //}).catchError((onError) {
-//          //  _debug(
-//          //      "At ${DateTime.now()} running provider.apiService.getSession error is ${onError.toString()}");
-//          //});
-////          await provider.apiService.logoutAll().then((value) async {
-////            await _loginAnonymous();
-////          });
-//        } else {
-//          await getUserSession();
-//          dataLoading();
-//          _status = Status.authenticated;
-//          _apiLog = provider.apiService.apiLog;
-//          _isLogin = true;
-//          //_debug(
-//          //    "At ${DateTime.now()} Running get data only with sessionID $_sessionIDBox");
-//          //await provider.apiService
-//          //    .getSession(_sessionIDBox)
-//          //    .then((value) async => await _getInfo(value));
-//        }
+        if (AppConstants.debug) {
+          _debug(
+              "appwriteLogin()** At ${DateTime.now()} completed  createAnonymousSession()");
+        }
       }
     });
     //_debug(
@@ -336,7 +322,7 @@ class HomeRepository implements IHomeRepository {
         dataLoading();
         _status = Status.authenticated;
         _apiLog = provider.apiService.apiLog;
-        await getSession(_sessionIDBox);
+        //await getSession(_sessionIDBox);
       } else {
         _error = e.message!;
         _status = Status.unauthenticated;
@@ -352,6 +338,8 @@ class HomeRepository implements IHomeRepository {
     _isLogin = true;
     box.write("sessionID", _session!.$id);
     box.write("provider", _session!.provider);
+    _debug(
+        "At ${DateTime.now()} Running _getInfo check _session!.provider ${_session!.provider} ");
     //await getSession(_sessionIDBox);
     await getUserSession();
     dataLoading();
@@ -534,7 +522,7 @@ class HomeRepository implements IHomeRepository {
     } else {
       if (Platform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-        deviceId = androidInfo.androidId!;
+        deviceId = androidInfo.id!;
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
         deviceId = iosInfo.identifierForVendor!;
@@ -556,7 +544,8 @@ class HomeRepository implements IHomeRepository {
   Future<String> getPhoto(String collectionName) async {
     _loading = true;
     String _photo =
-        "https://appwrite.anchk.org/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin";
+//        "${AppConstants.endpoint}/v1/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin";
+        "${AppConstants.endpoint}/storage/files/621441dad2b50285aa3d/view?project=61b0428203f09&mode=admin";
     try {
       await provider.apiService.getPhoto(collectionName).then((value) {
         //_debug(
@@ -612,118 +601,78 @@ class HomeRepository implements IHomeRepository {
 
   @override
   Future getWhatNewsDocument() async {
-    //logger.i(
-    //    "GetWhatNewsDocument Appwrite connection using HomeRepository at ${DateTime.now()}");
+    if (AppConstants.debug) {
+      _debug(
+          "getWhatNewsDocument()** At ${DateTime.now()} GetWhatNewsDocument Appwrite connection using HomeRepository");
+    }
     _loading = true;
-    //_debug(
-    //    "At ${DateTime.now()} _loading in getWhatNewsDocument() Start ${_loading.toString()}");
 
     List<WhatNews> _whatNewsTmp = [];
     try {
       await provider.apiService.getWhatNewsDocument().then((res) async {
-        //logger.i("Complete to get the getWhatNewsDocument from Appwrite");
-//        List<Uint8List> _files = [];
-        //_debug(
-        //    "At ${DateTime.now()} getWhatNews length res.documents length is ${res.documents.length.toString()} _whatNews is ${_whatNews.length.toString()}");
-//          _whatNews = [];
-//          _whatNews.clear();
-
+        if (AppConstants.debug) {
+          _debug(
+              "getWhatNewsDocument()** At ${DateTime.now()} provider.apiService.getWhatNewsDocument complete to get res data ${res.total.toString()}");
+        }
         for (var element in res.documents) {
           Uint8List _bgPhoto = Uint8List(0);
           Uint8List _photo = Uint8List(0);
-          //_debug(
-          //    "At ${DateTime.now()} res.documents.indexOf(element) ${res.documents.indexOf(element).toString()}");
-
-          if (_whatNews.length != res.documents.indexOf(element) &&
-              _whatNews[res.documents.indexOf(element)].bgPhotoId ==
-                  element.data['bgPhotoId']) {
-            _bgPhoto = _whatNews[res.documents.indexOf(element)].bgPhotoFile!;
-            //_debug(
-            //    "At ${DateTime.now()} res.documents.indexOf(element) at ${element.$id.toString()} _bgPhoto size is ${_bgPhoto.length}");
+          if (AppConstants.debug) {
+            _debug(
+                "getWhatNewsDocument()** ${element.$id} At ${DateTime.now()} provider.apiService.getWhatNewsDocument start checking ${element.$id} at ${res.documents.indexOf(element)}");
+          }
+          int bgPhotoIdCheckIndex = appwriteFilePool!
+              .indexWhere((checkId) => checkId.id == element.data['bgPhotoId']);
+          if (bgPhotoIdCheckIndex >= 0) {
+            _debug("GetFile ** Starting load file from appwriteFilePool");
+            _bgPhoto = appwriteFilePool![bgPhotoIdCheckIndex].file!;
           } else {
+            _debug("GetFile ** Starting load file from getFilePreview");
             await provider.apiService
-                .getFile(element.data['bgPhotoId'], quality: 5)
+                .getFile(element.data['bgPhotoId'])
                 .then((bgPhotofile) async {
               _bgPhoto = bgPhotofile;
-              //_debug(
-              //    "At ${DateTime.now()} res.documents.indexOf(element) at ${element.$id.toString()} _bgPhoto size is ${_bgPhoto.length}");
+              appwriteFilePool!.add(AppwriteFile(
+                  id: element.data['bgPhotoId'], file: bgPhotofile));
             });
           }
-
-          if (_whatNews.length != res.documents.indexOf(element) &&
-              _whatNews[res.documents.indexOf(element)].photoId ==
-                  element.data['photoId']) {
-            _photo = _whatNews[res.documents.indexOf(element)].photoFile!;
-            //_debug(
-            //    "At ${DateTime.now()} res.documents.indexOf(element) at ${element.$id.toString()} _photo size is ${_photo.length}");
+          int index = appwriteFilePool!
+              .indexWhere((checkId) => checkId.id == element.data['photoId']);
+          if (index >= 0) {
+            _debug("GetFile ** Starting load file from appwriteFilePool");
+            _photo = appwriteFilePool![index].file!;
           } else {
+            _debug("GetFile ** Starting load file from getFilePreview");
             await provider.apiService
-                .getFile(element.data['photoId'], quality: 5)
+                .getFile(element.data['photoId'])
                 .then((photoFile) {
               _photo = photoFile;
-              //_debug(
-              //    "At ${DateTime.now()} res.documents.indexOf(element) at ${element.$id.toString()} _photo size is ${_photo.length}");
             });
           }
-
-          //_debug(
-          //    "At ${DateTime.now()} getWhatNews length at ${element.$id.toString()} adding _whatNews ${_whatNews.length.toString()}");
           _whatNewsTmp.add(WhatNews.fromObject(
               map: element.data, bgPhotoFile: _bgPhoto, photoFile: _photo));
-          //_debug(
-          //    "At ${DateTime.now()} getWhatNews length added _whatNews ${_whatNews.length.toString()}");
-          //_debug("At ${DateTime.now()} getWhatNews length");
-          //_debug(
-          //    "At ${DateTime.now()} getWhatNewsDocument WhatNews ${res.documents.indexOf(element)} is ${_whatNews.last.event} and ${_whatNews.last.year}");
-
-          //await provider.apiService
-          //    .getFile(element.data['bgPhotoId'], quality: 5)
-          //    .then((bgPhotofile) async {
-          //  await provider.apiService
-          //      .getFile(element.data['photoId'], quality: 5)
-          //      .then((photoFile) {
-          //    _debug(
-          //        "At ${DateTime.now()} getWhatNews length adding _whatNews ${_whatNews.length.toString()}");
-          //    _whatNewsTmp.add(WhatNews.fromObject(
-          //        map: element.data,
-          //        bgPhotoFile: bgPhotofile,
-          //        photoFile: photoFile));
-          //    _debug(
-          //        "At ${DateTime.now()} getWhatNews length added _whatNews ${_whatNews.length.toString()}");
-          //    _debug("At ${DateTime.now()} getWhatNews length");
-          //    _debug(
-          //        "At ${DateTime.now()} getWhatNewsDocument WhatNews ${res.documents.indexOf(element)} is ${_whatNews.last.event} and ${_whatNews.last.year}");
-          //  });
-          //});
         }
-        //_debug(
-        //    "At ${DateTime.now()} getWhatNews Completed to Add new items to _WhatNewsTmp");
         _whatNews = _whatNewsTmp;
-        //_debug(
-        //    "At ${DateTime.now()} getWhatNews length _whatNews is ${_whatNews.length.toString()}");
-
-//        _whatNews = res.convertTo<WhatNews>((p0) {
-//          Uint8List _file = Uint8List(0);
-//
-//          provider.apiService
-//              .getFile(p0['bgPhotoId'])
-//              .then((file) => _file = file);
-//          return WhatNews.fromMap((Map<String, dynamic>.from(p0)), _file);
-//        });
-
-        //_whatNews = res.convertTo<WhatNews>(
-        //    (p0) => WhatNews.fromMap((Map<String, dynamic>.from(p0))));
-        //logger.i(            "Complete to load the getWhatNewsDocument " + _whatNews.toString());
-        //  logger.i(
-        //      "Completed to run GetWhatNewsDocument Appwrite connection using HomeRepository at ${DateTime.now()}");
+        if (AppConstants.debug) {
+          _debug(
+              "getWhatNewsDocument()** At ${DateTime.now()} provider.apiService.getWhatNewsDocument complete to update _whatNews");
+        }
       });
     } on AppwriteException catch (e) {
+      if (AppConstants.debug) {
+        _debug(
+            "getWhatNewsDocument()** At ${DateTime.now()} provider.apiService.getWhatNewsDocument error");
+      }
       _error = e.message!;
     } finally {
       _loading = false;
       _firstTimeLoading = false;
-      //_debug(
-      //    "At ${DateTime.now()} _loading in getWhatNewsDocument() finally ${_loading.toString()}");
+    }
+    _loading = false;
+    _firstTimeLoading = false;
+    if (AppConstants.debug) {
+      _debug(
+          "getWhatNewsDocument()** At ${DateTime.now()} provider.apiService.getWhatNewsDocument complete to load");
     }
   }
 

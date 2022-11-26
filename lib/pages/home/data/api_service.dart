@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:typed_data';
 
-import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/appwrite.dart' as appwrite;
 import 'package:appwrite/models.dart';
 //import 'package:get/state_manager.dart';
 import 'package:logger/logger.dart';
@@ -17,11 +18,11 @@ class ApiService {
     _apiLog.addAll(value);
   }
 
-  final Client client = Client();
-  Account? account;
-  Databases? db;
-  Avatars? avatars;
-  Storage? storage;
+  final appwrite.Client client = appwrite.Client();
+  appwrite.Account? account;
+  appwrite.Databases? db;
+  appwrite.Avatars? avatars;
+  appwrite.Storage? storage;
   final logger = Logger(
     printer: PrettyPrinter(
         methodCount: 1,
@@ -30,16 +31,16 @@ class ApiService {
         colors: true,
         printEmojis: true),
   );
-  Realtime? realtime;
+  appwrite.Realtime? realtime;
 
   ApiService._internal() {
     //_debug("At ${DateTime.now()} Initial Appwrite connection using ApiService");
     client.setEndpoint(AppConstants.endpoint).setProject(AppConstants.project);
-    account = Account(client);
-    db = Databases(client, databaseId: 'default');
-    avatars = Avatars(client);
-    storage = Storage(client);
-    realtime = Realtime(client);
+    account = appwrite.Account(client);
+    db = appwrite.Databases(client);
+    avatars = appwrite.Avatars(client);
+    storage = appwrite.Storage(client);
+    realtime = appwrite.Realtime(client);
   }
 
   static ApiService get instance {
@@ -141,19 +142,19 @@ class ApiService {
   }
 
   Future<File> uploadFile(
-      {required InputFile inFile,
-      required User user,
+      {required appwrite.InputFile inFile,
+      required Account user,
       required String bucketId,
       String fileId = "unique()"}) async {
     _debug(
         "At ${DateTime.now()} uploadFile() => Starting ApiService uploadFile");
-    return storage!.createFile(
+    return storage!
+        .createFile(
       bucketId: bucketId,
       fileId: fileId,
       file: inFile,
-      read: ['*'],
-      write: [user.email.isEmpty ? '*' : "user:${user.$id}", 'role:member'],
-    ).then((file) {
+    )
+        .then((file) {
       _debug("At ${DateTime.now()} uploadFile() => result ${file.toString()}");
       return file;
     }).catchError((exception, stackTrace) async {
@@ -172,8 +173,7 @@ class ApiService {
         "At ${DateTime.now()} createDocument() => Starting ApiService uploadFile");
     return db!
         .createDocument(
-      read: readPermission,
-      write: writePermission,
+      databaseId: 'default',
       collectionId: collectionId,
       data: data,
       documentId: documentId,
@@ -187,23 +187,18 @@ class ApiService {
     });
   }
 
-  Future<DocumentList> listDocuments(
-      {List<dynamic> orderTypes = const ['ASC', 'ASC', 'ASC', 'ASC'],
-      List<dynamic> orderAttributes = const [
-        'isCompleted',
-        'year',
-        'month',
-        'day'
-      ],
-      required String collectionId}) {
-    return db!
-        .listDocuments(
+  Future<DocumentList> listDocuments({required String collectionId}) {
+    return db!.listDocuments(
       collectionId: collectionId,
-      limit: 50,
-      orderAttributes: orderAttributes,
-      orderTypes: orderTypes,
-    )
-        .then((value) {
+      databaseId: 'default',
+      queries: [
+        appwrite.Query.limit(50),
+        appwrite.Query.orderAsc('isCompleted'),
+        appwrite.Query.orderAsc('year'),
+        appwrite.Query.orderAsc('month'),
+        appwrite.Query.orderAsc('day'),
+      ],
+    ).then((value) {
       return value;
     }).catchError((exception, stackTrace) async {
       await Sentry.captureException(
@@ -213,7 +208,7 @@ class ApiService {
     });
   }
 
-  Realtime getRealtime() {
+  appwrite.Realtime getRealtime() {
     return realtime!;
   }
 
@@ -238,7 +233,7 @@ class ApiService {
   //  subscription.close();
   //}
 
-  Future<User> getUserSession() async {
+  Future<Account> getUserSession() async {
     //_debug(
     //    "At ${DateTime.now()} getUserSession() => Starting ApiService getUserSession");
     return account!.get().then((value) {
@@ -249,25 +244,70 @@ class ApiService {
     });
   }
 
+  Future<String> getAnonymousSession() async {
+    //_debug("At ${DateTime.now()} get() => Starting ApiService get()");
+    String _result = "result";
+    try {
+      await account!.get().then((response) {
+        Account _response = response;
+        _result = _response.$id;
+        if (AppConstants.debug) {
+          _debug(
+              "appwriteLogin()** getAnonymousSession() response is ${_response.toMap().toString()} and _result is $_result");
+        }
+      });
+    } on appwrite.AppwriteException catch (e) {
+      _result = e.response["code"].toString();
+      if (AppConstants.debug) {
+        _debug(
+            "appwriteLogin()** getAnonymousSession() error is ${e.response}.\nget() status is ${e.response["code"]}\n_result is $_result");
+      }
+      try {
+        await account!.createAnonymousSession().then((loginAnonymousSession) {
+          if (AppConstants.debug) {
+            _debug(
+                "appwriteLogin()** getAnonymousSession() loginAnonymousSession is ${loginAnonymousSession.toString()}");
+          }
+          Session _session = loginAnonymousSession;
+          _result = _session.userId;
+        });
+      } on appwrite.AppwriteException catch (e) {
+        if (AppConstants.debug) {
+          _debug(
+              "appwriteLogin()** createAnonymousSession() error is ${e.response}.\nget() status is ${e.response["code"]}\n_result is $_result");
+        }
+        _result = "error";
+      }
+    }
+    return _result;
+  }
+
   Future<String> get() async {
     //_debug("At ${DateTime.now()} get() => Starting ApiService get()");
     String _result = "result";
     try {
       await account!.get().then((response) {
-        User _response = response;
+        Account _response = response;
         _result = _response.$id;
-        //_debug(
-        //    "get() response is ${_response.toMap().toString()}\n_result is $_result");
+        if (AppConstants.debug) {
+          _debug(
+              "appwriteLogin()** get() response is ${_response.toMap().toString()}\n_result is $_result");
+        }
       });
       //.catchError((error) {
       //  _result = error.response["code"].toString();
       //  _debug(
       //      "get() error is ${error.response}.\nget() status is ${error.response["code"]}\n_result is $_result");
       //});
-    } on AppwriteException catch (e) {
+    } on appwrite.AppwriteException catch (e) {
       _result = e.response["code"].toString();
-      //_debug(
-      //    "get() error is ${e.response}.\nget() status is ${e.response["code"]}\n_result is $_result");
+      if (AppConstants.debug) {
+        _debug(
+            "appwriteLogin()** get() error is ${e.response}.\nget() status is ${e.response["code"]}\n_result is $_result");
+      }
+    }
+    if (AppConstants.debug) {
+      _debug("appwriteLogin()** Final result vaule is $_result");
     }
     return _result;
   }
@@ -292,7 +332,7 @@ class ApiService {
       }).catchError((error) {
         _debug("getSessions() error is ${(error.response)}");
       });
-    } on AppwriteException catch (exception, stackTrace) {
+    } on appwrite.AppwriteException catch (exception, stackTrace) {
       _debug("getSession($sessionID) fail! on AppwriteException");
       _debug(stackTrace.toString());
       await Sentry.captureException(
@@ -316,7 +356,7 @@ class ApiService {
     //    "At ${DateTime.now()} getSessions() => Starting ApiService getSessions()");
     String _result = "result";
     try {
-      Future result = account!.getSessions();
+      Future result = account!.listSessions();
       //_debug("getSessions() result for count!.getSessions() is $result");
       result.then((response) {
         //_debug("getSessions() response is $response");
@@ -325,7 +365,7 @@ class ApiService {
       }).catchError((error) {
         //_debug("getSessions() error is ${(error.response)}");
       });
-    } on AppwriteException catch (e) {
+    } on appwrite.AppwriteException catch (e) {
       _result = e.response["code"].toString();
       //_debug(
       //    "getSessions() error is ${e.response}.\nget() status is ${e.response["code"]}\n_result is $_result");
@@ -378,20 +418,19 @@ class ApiService {
     });
   }
 
-  Future getFile(String fileId, {int quality = 100}) {
-//    _debug("At ${DateTime.now()} getPhoto($fileId) => Starting ApiService ");
+  Future<Uint8List> getFile(String fileId, {int quality = 100}) {
     return storage!
         .getFilePreview(bucketId: "default", fileId: fileId, quality: quality)
         .then((value) {
-//      _debug(
-//          "At ${DateTime.now()} getFile(String $fileId) , type is ${value.runtimeType}");
       return value;
     });
   }
 
   Future getPhoto(String collectionName) {
 //    _debug("At ${DateTime.now()} getPhoto() => Starting ApiService ");
-    return db!.listDocuments(collectionId: "photos").then((listDocuments) {
+    return db!
+        .listDocuments(collectionId: "photos", databaseId: 'default')
+        .then((listDocuments) {
 //      _debug(
 //          "At ${DateTime.now()} getPhoto() number ${listDocuments.sum.toString()} ");
       Iterable<Document> documentList = listDocuments.documents
@@ -404,24 +443,34 @@ class ApiService {
   }
 
   Future<DocumentList> getWhatNewsDocument() {
-    List<dynamic> orderTypes = ['ASC', 'ASC', 'ASC', 'ASC'];
-    List<dynamic> orderAttributes = ['isCompleted', 'year', 'month', 'day'];
+    if (AppConstants.debug) {
+      _debug(
+          "getWhatNewsDocument()** At ${DateTime.now()} getWhatNewsDocument in api_service");
+    }
+
     return db!
         .listDocuments(
+      databaseId: 'default',
+      queries: [
+        appwrite.Query.limit(50),
+        appwrite.Query.orderAsc('isCompleted'),
+        appwrite.Query.orderAsc('year'),
+        appwrite.Query.orderAsc('month'),
+        appwrite.Query.orderAsc('day'),
+      ],
       collectionId: '61b1cc5580c71',
-      limit: 50,
-      orderAttributes: orderAttributes,
-      orderTypes: orderTypes,
     )
         .then((value) {
-//      _debug("getWhatNewsDocument information " + value.sum.toString());
-//      _debug(value.documents
-//          .map((e) => print(e.data.toString()))
-//          .toList()
-//          .toString());
-//      _debug(value.toString());
+      if (AppConstants.debug) {
+        _debug(
+            "getWhatNewsDocument()** At ${DateTime.now()} getWhatNewsDocument in api_service return the value");
+      }
       return value;
     }).catchError((exception, stackTrace) async {
+      if (AppConstants.debug) {
+        _debug(
+            "getWhatNewsDocument()** At ${DateTime.now()} getWhatNewsDocument in api_service return the error");
+      }
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
@@ -430,12 +479,11 @@ class ApiService {
   }
 
   Future<DocumentList> getPracticePlaceDocument() {
-    return db!
-        .listDocuments(
+    return db!.listDocuments(
       collectionId: 'practicePlace',
-      limit: 50,
-    )
-        .then((value) {
+      databaseId: 'default',
+      queries: [appwrite.Query.limit(100)],
+    ).then((value) {
       //_debug("getPracticePlaceDocument information " + value.sum.toString());
       //_debug(value.documents.map((e) => _debug(e.data.toString())));
       //_debug(value);
@@ -450,12 +498,11 @@ class ApiService {
   }
 
   Future<DocumentList> getPracticeTimeDocument() {
-    return db!
-        .listDocuments(
+    return db!.listDocuments(
       collectionId: 'practiceTime',
-      limit: 50,
-    )
-        .then((value) {
+      databaseId: 'default',
+      queries: [appwrite.Query.limit(100)],
+    ).then((value) {
       //_debug("getpracticeTimeDocument information " + value.sum.toString());
       //_debug(value.documents.map((e) => _debug(e.data.toString())));
       //_debug(value);
@@ -470,12 +517,11 @@ class ApiService {
   }
 
   Future<DocumentList> getRequirementDocument() {
-    return db!
-        .listDocuments(
+    return db!.listDocuments(
       collectionId: 'requirement',
-      limit: 50,
-    )
-        .then((value) {
+      databaseId: 'default',
+      queries: [appwrite.Query.limit(100)],
+    ).then((value) {
       //_debug("getRequirementDocument information " + value.sum.toString());
       //_debug(value.documents.map((e) => _debug(e.data.toString())));
       //_debug(value);
@@ -490,12 +536,11 @@ class ApiService {
   }
 
   Future<DocumentList> getAnchkOrganizationDocument() {
-    return db!
-        .listDocuments(
+    return db!.listDocuments(
       collectionId: 'anchkOrganization',
-      limit: 50,
-    )
-        .then((value) {
+      databaseId: 'default',
+      queries: [appwrite.Query.limit(100)],
+    ).then((value) {
       //_debug(          "getAnchkOrganizationDocument information " + value.sum.toString());
       //_debug(value.documents.map((e) => _debug(e.data.toString())));
       //_debug(value);
@@ -510,12 +555,11 @@ class ApiService {
   }
 
   Future<DocumentList> getAnchkMissionDocument() {
-    return db!
-        .listDocuments(
+    return db!.listDocuments(
       collectionId: 'anchkMission',
-      limit: 50,
-    )
-        .then((value) {
+      databaseId: 'default',
+      queries: [appwrite.Query.limit(100)],
+    ).then((value) {
       //_debug("getAnchkMissionDocument information " + value.sum.toString());
       //_debug(value.documents.map((e) => _debug(e.data.toString())));
       //_debug(value);
@@ -530,12 +574,11 @@ class ApiService {
   }
 
   Future<DocumentList> getConductorMessage() {
-    return db!
-        .listDocuments(
+    return db!.listDocuments(
       collectionId: 'conductorMessage',
-      limit: 50,
-    )
-        .then((value) {
+      databaseId: 'default',
+      queries: [appwrite.Query.limit(100)],
+    ).then((value) {
       //_debug("getconductorMessage information " + value.sum.toString());
       //_debug(value.documents.map((e) => _debug(e.data.toString())));
       //_debug(value);
@@ -550,12 +593,11 @@ class ApiService {
   }
 
   Future<DocumentList> getPreachersMessage() {
-    return db!
-        .listDocuments(
+    return db!.listDocuments(
       collectionId: 'preachersMessage',
-      limit: 50,
-    )
-        .then((value) {
+      databaseId: 'default',
+      queries: [appwrite.Query.limit(100)],
+    ).then((value) {
       //_debug("getPreachersMessage information " + value.sum.toString());
       //_debug(value.documents.map((e) => _debug(e.data.toString())));
       //_debug(value);
@@ -570,12 +612,11 @@ class ApiService {
   }
 
   Future<DocumentList> getContactList() {
-    return db!
-        .listDocuments(
+    return db!.listDocuments(
       collectionId: 'contactList',
-      limit: 50,
-    )
-        .then((value) {
+      databaseId: 'default',
+      queries: [appwrite.Query.limit(100)],
+    ).then((value) {
       //_debug("getContactList information " + value.sum.toString());
       //_debug(value.documents.map((e) => _debug(e.data.toString())));
       //_debug(value);
@@ -590,12 +631,11 @@ class ApiService {
   }
 
   Future<DocumentList> getAnchkorgEventCategory() {
-    return db!
-        .listDocuments(
+    return db!.listDocuments(
       collectionId: 'category',
-      limit: 100,
-    )
-        .then((value) {
+      databaseId: 'default',
+      queries: [appwrite.Query.limit(100)],
+    ).then((value) {
       //_debug("getAnchkorgEventCategory information " + value.sum.toString());
       //_debug(value.documents.map((e) => _debug(e.data.toString())));
       //_debug(value);
@@ -610,12 +650,11 @@ class ApiService {
   }
 
   Future<DocumentList> getAnchkorgEvent() {
-    return db!
-        .listDocuments(
+    return db!.listDocuments(
+      databaseId: 'default',
       collectionId: 'event',
-      limit: 100,
-    )
-        .then((value) {
+      queries: [appwrite.Query.limit(100)],
+    ).then((value) {
       //_debug("getAnchkorgEvent information " + value.sum.toString());
       //_debug(value.documents.map((e) => _debug(e.data.toString())));
       //_debug(value);
@@ -630,16 +669,11 @@ class ApiService {
   }
 
   Future<DocumentList> getVideoList() {
-    List<dynamic> orderTypes = ['ASC'];
-    List<dynamic> orderAttributes = ['youtubeTitle'];
-    return db!
-        .listDocuments(
+    return db!.listDocuments(
+      databaseId: 'default',
       collectionId: 'videoList',
-      orderAttributes: orderAttributes,
-      orderTypes: orderTypes,
-      limit: 50,
-    )
-        .then((value) {
+      queries: [appwrite.Query.orderAsc('youtubeTitle')],
+    ).then((value) {
 //      _debug("getVideoList information " + value.sum.toString());
 //      _debug(value.documents.map((e) => _debug(e.data.toString())));
 //      _debug(value);
@@ -658,18 +692,19 @@ class ApiService {
     _debug("createApplication data is " + data.toString());
     String documentId = _generateUniquekey(10) + data["phone"].toString();
     _debug("createApplication documentId is " + documentId);
-    return db!.createDocument(
+    return db!
+        .createDocument(
+      databaseId: 'default',
       collectionId: 'applicationList',
       documentId: documentId,
       data: data,
-      read: ['role:all'],
-      write: ['role:all'],
-    ).then((response) {
+    )
+        .then((response) {
       _debug("createApplication data is " + response.data.toString());
       _debug("Finish createApplication");
     }).catchError((error) {
       print(error.message);
-    }, test: (e) => e is AppwriteException);
+    }, test: (e) => e is appwrite.AppwriteException);
     //catchError((exception, stackTrace) async {
     //  _debug("createApplication error is " + stackTrace);
     //  await Sentry.captureException(
@@ -705,8 +740,8 @@ class ApiService {
   Future<DocumentList> getChatRooms() {
     return db!
         .listDocuments(
+      databaseId: 'default',
       collectionId: 'chatRoom',
-      limit: 50,
     )
         .then((value) {
       //_debug("getChatRooms information " + value.total.toString());
@@ -724,19 +759,19 @@ class ApiService {
   Future<DocumentList> getChatMessages() {
     return db!
         .listDocuments(
+      databaseId: 'default',
       collectionId: 'chatMessage',
-      limit: 50,
     )
         .then((value) {
-      //_debug("getChatMessages information " + value.total.toString());
-      //_debug(value.toString());
+      _debug("getChatMessages information " + value.total.toString());
+      _debug(value.toString());
       return value;
     }).catchError((exception, stackTrace) async {
+      _debug("getChatMessages information Error" + stackTrace.toString());
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
     });
   }
 }

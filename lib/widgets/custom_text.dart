@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter/rendering.dart';
 import 'package:universe/helpers/responsiveness.dart';
 import 'package:universe/constants/style.dart';
 
@@ -9,16 +10,18 @@ class CustomText extends StatelessWidget {
   final FontWeight weight;
   final TextAlign textAlign;
   final TextDecoration textDecoration;
+  final List<Shadow> shadow;
 
-  const CustomText(
-      {Key? key,
-      required this.text,
-      this.size = 14,
-      this.color = Colors.black,
-      this.weight = FontWeight.normal,
-      this.textAlign = TextAlign.left,
-      this.textDecoration = TextDecoration.none})
-      : super(key: key);
+  const CustomText({
+    Key? key,
+    required this.text,
+    this.size = 14,
+    this.color = Colors.black,
+    this.weight = FontWeight.normal,
+    this.textAlign = TextAlign.left,
+    this.textDecoration = TextDecoration.none,
+    this.shadow = const [],
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,7 @@ class CustomText extends StatelessWidget {
 //        : ResponsiveWidget.isMediumScreen(context)
 //            ? size + 2
 //            : size + 4;
+
     return Text(
       text,
       textAlign: textAlign,
@@ -49,6 +53,7 @@ class CustomText extends StatelessWidget {
           color: color, // default is Colors.black,
           fontWeight: weight,
           decoration: textDecoration,
+          shadows: shadow,
           height: 1.5), // default is FontWeight.normal
     );
   }

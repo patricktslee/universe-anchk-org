@@ -22,6 +22,7 @@ import 'package:universe/pages/home/domain/entity/preacher.dart';
 import 'package:universe/pages/home/domain/entity/what_news_model.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:universe/pages/home/domain/entity/user.dart';
+import 'package:universe/shared/app_constants.dart';
 
 class HomeController extends SuperController<CasesModel> {
   HomeController({required this.homeRepository});
@@ -150,7 +151,7 @@ class HomeController extends SuperController<CasesModel> {
     //_debug("Starting onInit for subscribe");
     await subscribe();
     //_debug("Finished onInit for subscribe");
-    getLoginStatus();
+    //getLoginStatus();
     // show loading on start, data on success
     // and error message on error with 0 boilerplate
     //homeRepository.getCases().then((data) {
@@ -177,13 +178,19 @@ class HomeController extends SuperController<CasesModel> {
   subscribe() {
     //  homeRepository.subscribe();
     subscription = homeRepository.realtime.subscribe(['documents']);
-    _debug("At ${DateTime.now()} subscription subscribed");
+    if (AppConstants.debug) {
+      _debug("At ${DateTime.now()} subscription subscribed");
+    }
     subscription.printInfo();
     subscription.stream.listen((event) {
-      _debug("At ${DateTime.now()} subscription event start");
+      if (AppConstants.debug) {
+        _debug("At ${DateTime.now()} subscription event start");
+      }
       loadingData();
-      _debug(
-          "At ${DateTime.now()} subscription event completed to run loadingData()");
+      if (AppConstants.debug) {
+        _debug(
+            "At ${DateTime.now()} subscription event completed to run loadingData()");
+      }
     });
   }
 
@@ -276,48 +283,51 @@ class HomeController extends SuperController<CasesModel> {
   }
 
   void getLoginStatus() {
-//    _debug("Before getLoginStatus");
-//    _debug(loginStatus.value);
+    _debug("Before getLoginStatus");
+    _debug(loginStatus.value);
     loginStatus.value = homeRepository.status.toString();
-//    datalog.value = homeRepository.apiLog.last;
-//    _debug("getLoginStatus ${homeRepository.apiLog.last}");
-//    _debug("After getLoginStatus");
-//    _debug(lo          ginStatus.value);
+    datalog.value = homeRepository.apiLog.last;
+    _debug("getLoginStatus ${homeRepository.apiLog.last}");
+    _debug("After getLoginStatus");
+    _debug(loginStatus.value);
   }
 
   Future<void> appwriteLogin() async {
     bool isLogin = false;
-    //_debug("1.  The runtime classname is HomeController - Start login");
+    if (AppConstants.debug) {
+      _debug(
+          "appwriteLogin()** 1.  The runtime classname is HomeController - Start login");
+    }
     await homeRepository.createAnonymousSession().then((value) {
       isLogin = homeRepository.isLogin;
-      //_debug(
-      //    "At ${DateTime.now()} running A.  isLogin is " + isLogin.toString());
+      if (AppConstants.debug) {
+        _debug(
+            "appwriteLogin()** At ${DateTime.now()} running A.  isLogin is " +
+                isLogin.toString());
+      }
       datalog.value = "A.  isLogin is " + isLogin.toString();
       if (isLogin) {
-        //_debug(
-        //    "At ${DateTime.now()} Starting to run Logout when isLogin is ${isLogin.toString()}");
+        if (AppConstants.debug) {
+          _debug(
+              "appwriteLogin()** At ${DateTime.now()} Starting to run Logout when isLogin is ${isLogin.toString()}");
+        }
         loadingData();
         providerBox();
-//        sessionId.value = homeRepository.session.$id;
-        //_debug(
-        //    "At ${DateTime.now()} the currentUsername is ${currentUsername.value.toString()}");
-        //Timer(const Duration(seconds: 15), () async {
-        //  await homeRepository.logoutAll().then((response) {
-        //    getLoginStatus();
-        //    dataStatus.value = 'Status.authenticated';
-        //  }).catchError((error) {
-        //    _debug(error.response);
-        //  });
-        //});
       } else {
-        //_debug(
-        //    "At ${DateTime.now()} running Login error when isLogin is ${isLogin.toString()}");
+        if (AppConstants.debug) {
+          _debug(
+              "appwriteLogin()** At ${DateTime.now()} running Login error when isLogin is ${isLogin.toString()}");
+        }
         dataStatus.value = 'Status.unauthenticated';
-        //_debug(homeRepository.error);
+        if (AppConstants.debug) {
+          _debug("appwriteLogin()** " + homeRepository.error);
+        }
       }
     }).catchError((onError) {
-      //_debug(
-      //    "At ${DateTime.now()} running Login error when isLogin is ${onError.toString()}");
+      if (AppConstants.debug) {
+        _debug(
+            "appwriteLogin()** At ${DateTime.now()} running Login error when isLogin is ${onError.toString()}");
+      }
     });
   }
 
@@ -348,12 +358,19 @@ class HomeController extends SuperController<CasesModel> {
   }
 
   Future getWhatNews() async {
+    if (AppConstants.debug) {
+      _debug("appwriteLogin()** getWhatNews() At ${DateTime.now()} Started");
+    }
     await homeRepository.getWhatNewsDocument().then((value) {
-      //_debug(
-      //    "at ${DateTime.now()} Start getWhatNews length ${whatNews.length.toString()}");
+      if (AppConstants.debug) {
+        _debug(
+            "appwriteLogin()** getWhatNews() At ${DateTime.now()} Start getWhatNews length ${whatNews.length.toString()}");
+      }
       whatNews.value = homeRepository.whatNews;
-      //_debug(
-      //    "at ${DateTime.now()} Finished getWhatNews length ${whatNews.length.toString()}");
+      if (AppConstants.debug) {
+        _debug(
+            "appwriteLogin()** getWhatNews() At ${DateTime.now()} Finished getWhatNews length ${whatNews.length.toString()}");
+      }
     });
   }
 
@@ -540,28 +557,22 @@ class HomeController extends SuperController<CasesModel> {
   }
 
   Future getChatMessages() async {
-    _debug("At ${DateTime.now()} getChatMessages() started ");
+    if (AppConstants.debug) {
+      _debug("At ${DateTime.now()} getChatMessages() started ");
+    }
     return await homeRepository.getChatMessages().then((value) {
       chatMessages.clear();
       chatMessages.addAll(homeRepository.chatMessages.toList());
-      _debug("At ${DateTime.now()} getChatMessages() finished ");
+      if (AppConstants.debug) {
+        _debug("At ${DateTime.now()} getChatMessages() finished ");
+      }
       return homeRepository.chatRooms;
     });
   }
 
   Future<void> loadingData() async {
-    _debug("At ${DateTime.now()} running loading data");
     await getWhatNews();
-    //while (homeRepository.firstTimeLoading) {
-    //  _debug(
-    //      "At ${DateTime.now()} running loading firstTimeLoading dataStatus.value is ${dataStatus.value.toString()}");
-    //  if (whatNews.isNotEmpty) {
-    //    break;
-    //  }
-    //}
     dataStatus.value = 'Status.dataUpdated';
-    _debug(
-        "At ${DateTime.now()} running loading data and dataStatus.value is ${dataStatus.value.toString()}");
     getConductor();
     getPreacher();
     getAnchkOrganizationItem();
@@ -570,8 +581,10 @@ class HomeController extends SuperController<CasesModel> {
     getPracticeInfo();
     getContactList();
     videosList.addAll(homeRepository.videoList.toList());
-    getChatRooms();
-    getChatMessages();
+    if (_providerBox.value != "anonymous") {
+//      getChatRooms();
+//      getChatMessages();
+    }
 
 //    Timer(const Duration(seconds: 2), () async {
 //      whatNewsItem.addAll(homeRepository.whatNews.toList());

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:universe/constants/style.dart';
 //import 'package:universe/layout.dart';
@@ -11,6 +11,7 @@ import 'package:universe/pages/home/presentation/views/home_layout.dart';
 import 'package:universe/routing/routes.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:universe/shared/app_constants.dart';
 
 //void main() {
 //  runApp(const MyApp());
@@ -45,40 +46,42 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context , child) {
+      builder: (context, child) {
         return GetMaterialApp(
-      initialRoute: rootRoute,
-      unknownRoute: GetPage(
-          name: '/not-found',
-          page: () => const PageNotFound(),
-          transition: Transition.fadeIn),
-      getPages: [
-        GetPage(
-            name: rootRoute,
-            binding: HomeBinding(),
-            page: () {
-              return HomeLayout();
-              // SiteLayout();
+          initialRoute: rootRoute,
+          unknownRoute: GetPage(
+              name: '/not-found',
+              page: () => const PageNotFound(),
+              transition: Transition.fadeIn),
+          getPages: [
+            GetPage(
+                name: rootRoute,
+                binding: HomeBinding(),
+                page: () {
+                  return HomeLayout();
+                  // SiteLayout();
+                }),
+            GetPage(
+                name: authenticationPageRoute,
+                page: () => const AuthenticationPage()),
+          ],
+          debugShowCheckedModeBanner: false,
+          title: AppConstants.appTitle,
+          theme: ThemeData(
+            scaffoldBackgroundColor: oceanBlue,
+            fontFamily: defaultFont,
+//            textTheme:
+//                GoogleFonts.notoSansTextTheme(Theme.of(context).textTheme)
+//                    .apply(bodyColor: Colors.black),
+            pageTransitionsTheme: const PageTransitionsTheme(builders: {
+              TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
+              TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
             }),
-        GetPage(
-            name: authenticationPageRoute,
-            page: () => const AuthenticationPage()),
-      ],
-      debugShowCheckedModeBanner: false,
-      title: '萬國宣道詠團',
-      theme: ThemeData(
-        scaffoldBackgroundColor: oceanBlue,
-        textTheme: GoogleFonts.notoSansTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Colors.black),
-        pageTransitionsTheme: const PageTransitionsTheme(builders: {
-          TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
-          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-        }),
-        primarySwatch: Colors.blue,
-      ),
-      //      home: child,
-      //home: AuthenticationPage(),
-    );
+            primarySwatch: Colors.blue,
+          ),
+          //      home: child,
+          //home: AuthenticationPage(),
+        );
       },
       child: HomeLayout(),
     );

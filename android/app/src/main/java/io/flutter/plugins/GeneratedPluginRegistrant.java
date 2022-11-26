@@ -26,9 +26,9 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin flutter_inappwebview, com.pichillilorenzo.flutter_inappwebview.InAppWebViewFlutterPlugin", e);
     }
     try {
-      flutterEngine.getPlugins().add(new com.linusu.flutter_web_auth.FlutterWebAuthPlugin());
+      flutterEngine.getPlugins().add(new com.linusu.flutter_web_auth_2.FlutterWebAuth2Plugin());
     } catch(Exception e) {
-      Log.e(TAG, "Error registering plugin flutter_web_auth, com.linusu.flutter_web_auth.FlutterWebAuthPlugin", e);
+      Log.e(TAG, "Error registering plugin flutter_web_auth_2, com.linusu.flutter_web_auth_2.FlutterWebAuth2Plugin", e);
     }
     try {
       flutterEngine.getPlugins().add(new dev.fluttercommunity.plus.packageinfo.PackageInfoPlugin());
