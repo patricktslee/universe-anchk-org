@@ -15,6 +15,7 @@ import 'package:universe/pages/home/presentation/views/preachers_view.dart';
 import 'package:universe/pages/home/presentation/views/profile_view.dart';
 import 'package:universe/pages/home/presentation/views/requirement_view.dart';
 import 'package:universe/pages/home/presentation/views/video_view.dart';
+import 'package:universe/pages/home/presentation/views/video_view2.dart';
 import 'package:universe/pages/home/presentation/views/what_news_view.dart';
 import 'package:universe/routing/routes.dart';
 
@@ -38,6 +39,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(const HistoryPage());
     case videoPageRoute:
       return _getPageRoute(const VideoPage());
+    case videoPageRoute2:
+      return _getPageRoute(const VideoPage2());
     case practicePageRoute:
       return _getPageRoute(const PracticePage());
     case requirementPageRoute:

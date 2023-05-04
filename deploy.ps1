@@ -22,10 +22,10 @@ if($confirmation -eq "y") {
 
     Write-Output "checking the kube pod status";
     while (1) {
-        clear;
+        Clear-Host;
         kubectl get all -n uat-anchkorg;
-        sleep 5;
-    }
+        Start-Sleep 5;
+   }
 }
 else {
     Write-Output "Starting deployment for Production firebase";

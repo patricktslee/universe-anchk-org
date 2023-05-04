@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:appwrite/appwrite.dart' as appwrite;
+import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 //import 'package:get/state_manager.dart';
 import 'package:logger/logger.dart';
@@ -141,28 +142,50 @@ class ApiService {
 //    return _dynamic;
   }
 
-  Future<File> uploadFile(
+  Future<File?> uploadFile(
       {required appwrite.InputFile inFile,
-      required Account user,
+      required appwrite.Account user,
       required String bucketId,
       String fileId = "unique()"}) async {
     _debug(
         "At ${DateTime.now()} uploadFile() => Starting ApiService uploadFile");
-    return storage!
-        .createFile(
-      bucketId: bucketId,
-      fileId: fileId,
-      file: inFile,
-    )
-        .then((file) {
-      _debug("At ${DateTime.now()} uploadFile() => result ${file.toString()}");
-      return file;
-    }).catchError((exception, stackTrace) async {
-      _debug("uploadFile fail!");
-    });
+    //File file = File($id: $id, bucketId: bucketId, $createdAt: $createdAt, $updatedAt: $updatedAt, $permissions: $permissions, name: name, signature: signature, mimeType: mimeType, sizeOriginal: sizeOriginal, chunksTotal: chunksTotal, chunksUploaded: chunksUploaded);
+    try {
+      return await storage!
+          .createFile(
+        bucketId: bucketId,
+        fileId: fileId,
+        file: inFile,
+      )
+          .then((file) {
+        _debug(
+            "At ${DateTime.now()} uploadFile() => result ${file.toString()}");
+        return file;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: uploadFile fail!");
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+      return null;
+    }
+
+    //return storage!
+    //    .createFile(
+    //  bucketId: bucketId,
+    //  fileId: fileId,
+    //  file: inFile,
+    //)
+    //    .then((file) {
+    //  _debug("At ${DateTime.now()} uploadFile() => result ${file.toString()}");
+    //  return file;
+    //}).catchError((exception, stackTrace) async {
+    //  _debug("uploadFile fail!");
+    //});
   }
 
-  Future<Document> createDocument({
+  Future<Document?> createDocument({
     required String collectionId,
     required Map<String, dynamic> data,
     String documentId = "unique()",
@@ -171,41 +194,86 @@ class ApiService {
   }) async {
     _debug(
         "At ${DateTime.now()} createDocument() => Starting ApiService uploadFile");
-    return db!
-        .createDocument(
-      databaseId: 'default',
-      collectionId: collectionId,
-      data: data,
-      documentId: documentId,
-    )
-        .then((document) {
-      _debug(
-          "At ${DateTime.now()} createDocument() => result ${document.toString()}");
-      return document;
-    }).catchError((exception, stackTrace) async {
-      _debug("createDocument fail!");
-    });
-  }
-
-  Future<DocumentList> listDocuments({required String collectionId}) {
-    return db!.listDocuments(
-      collectionId: collectionId,
-      databaseId: 'default',
-      queries: [
-        appwrite.Query.limit(50),
-        appwrite.Query.orderAsc('isCompleted'),
-        appwrite.Query.orderAsc('year'),
-        appwrite.Query.orderAsc('month'),
-        appwrite.Query.orderAsc('day'),
-      ],
-    ).then((value) {
-      return value;
-    }).catchError((exception, stackTrace) async {
+    try {
+      return await db!
+          .createDocument(
+        databaseId: 'default',
+        collectionId: collectionId,
+        data: data,
+        documentId: documentId,
+      )
+          .then((document) {
+        _debug(
+            "At ${DateTime.now()} createDocument() => result ${document.toString()}");
+        return document;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: createDocument fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-    });
+      return null;
+    }
+
+    //return db!
+    //    .createDocument(
+    //  databaseId: 'default',
+    //  collectionId: collectionId,
+    //  data: data,
+    //  documentId: documentId,
+    //)
+    //    .then((document) {
+    //  _debug(
+    //      "At ${DateTime.now()} createDocument() => result ${document.toString()}");
+    //  return document;
+    //}).catchError((exception, stackTrace) async {
+    //  _debug("createDocument fail!");
+    //});
+  }
+
+  Future<DocumentList?> listDocuments({required String collectionId}) async {
+    try {
+      return await db!.listDocuments(
+        collectionId: collectionId,
+        databaseId: 'default',
+        queries: [
+          appwrite.Query.limit(50),
+          appwrite.Query.orderAsc('isCompleted'),
+          appwrite.Query.orderAsc('year'),
+          appwrite.Query.orderAsc('month'),
+          appwrite.Query.orderAsc('day'),
+        ],
+      ).then((value) {
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: listDocuments fail!");
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+      return null;
+    }
+
+    //return db!.listDocuments(
+    //  collectionId: collectionId,
+    //  databaseId: 'default',
+    //  queries: [
+    //    appwrite.Query.limit(50),
+    //    appwrite.Query.orderAsc('isCompleted'),
+    //    appwrite.Query.orderAsc('year'),
+    //    appwrite.Query.orderAsc('month'),
+    //    appwrite.Query.orderAsc('day'),
+    //  ],
+    //).then((value) {
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //});
   }
 
   appwrite.Realtime getRealtime() {
@@ -233,15 +301,28 @@ class ApiService {
   //  subscription.close();
   //}
 
-  Future<Account> getUserSession() async {
+  Future<User?> getUserSession() async {
     //_debug(
     //    "At ${DateTime.now()} getUserSession() => Starting ApiService getUserSession");
-    return account!.get().then((value) {
-      //_debug("GetUserSession success!");
-      return value;
-    }).catchError((exception, stackTrace) async {
-      _debug("GetUserSession fail!");
-    });
+    try {
+      return account!.get().then((value) {
+        //_debug("GetUserSession success!");
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: listDocuments fail!");
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+      return null;
+    }
+    //return account!.get().then((value) {
+    //  //_debug("GetUserSession success!");
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  _debug("GetUserSession fail!");
+    //});
   }
 
   Future<String> getAnonymousSession() async {
@@ -249,7 +330,7 @@ class ApiService {
     String _result = "result";
     try {
       await account!.get().then((response) {
-        Account _response = response;
+        User _response = response;
         _result = _response.$id;
         if (AppConstants.debug) {
           _debug(
@@ -287,7 +368,7 @@ class ApiService {
     String _result = "result";
     try {
       await account!.get().then((response) {
-        Account _response = response;
+        User _response = response;
         _result = _response.$id;
         if (AppConstants.debug) {
           _debug(
@@ -375,47 +456,86 @@ class ApiService {
     return _result;
   }
 
-  Future updatePrefs(Map<String, dynamic> data) {
+  Future updatePrefs(Map<String, dynamic> data) async {
     //_debug("At ${DateTime.now()} updatePrefs() => Starting ApiService ");
-    return account!.updatePrefs(prefs: data).then((value) {
-      //_debug("updatePrefs() success!");
-      return value;
-    }).catchError((exception, stackTrace) async {
-      //_debug("updatePrefs() fail!");
+    try {
+      return account!.updatePrefs(prefs: data).then((value) {
+        //_debug("updatePrefs() success!");
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: updatePrefs fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-    });
+      return null;
+    }
+    //return account!.updatePrefs(prefs: data).then((value) {
+    //  //_debug("updatePrefs() success!");
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  //_debug("updatePrefs() fail!");
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //});
   }
 
-  Future getInitialsAvatar(String name) {
+  Future getInitialsAvatar(String name) async {
     //_debug(
     //    "At ${DateTime.now()} getInitialsAvatar($name) => Starting ApiService ");
-    return avatars!.getInitials(name: name, width: 200).then((value) {
-      //_debug("getInitialsAvatar($name) success!");
-      return value;
-    }).catchError((exception, stackTrace) async {
-      //_debug("getInitialsAvatar($name) fail!");
+    try {
+      return avatars!.getInitials(name: name, width: 200).then((value) {
+        //_debug("getInitialsAvatar($name) success!");
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getInitialsAvatar fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-    });
+      return null;
+    }
+    //return avatars!.getInitials(name: name, width: 200).then((value) {
+    //  //_debug("getInitialsAvatar($name) success!");
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  //_debug("getInitialsAvatar($name) fail!");
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //});
   }
 
-  Future getPrefs() {
+  Future getPrefs() async {
     //_debug("At ${DateTime.now()} getPrefs() => Starting ApiService ");
-    return account!.getPrefs().then((value) {
-      //_debug("getPrefs() success!");
-      return value;
-    }).catchError((exception, stackTrace) async {
-      //_debug("getPrefs() fail!");
+    try {
+      return account!.getPrefs().then((value) {
+        //_debug("getPrefs() success!");
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getPrefs fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-    });
+      return null;
+    }
+    //return account!.getPrefs().then((value) {
+    //  //_debug("getPrefs() success!");
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  //_debug("getPrefs() fail!");
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //});
   }
 
   Future<Uint8List> getFile(String fileId, {int quality = 100}) {
@@ -442,249 +562,488 @@ class ApiService {
     });
   }
 
-  Future<DocumentList> getWhatNewsDocument() {
+  Future<DocumentList?> getWhatNewsDocument() async {
     if (AppConstants.debug) {
       _debug(
           "getWhatNewsDocument()** At ${DateTime.now()} getWhatNewsDocument in api_service");
     }
-
-    return db!
-        .listDocuments(
-      databaseId: 'default',
-      queries: [
-        appwrite.Query.limit(50),
-        appwrite.Query.orderAsc('isCompleted'),
-        appwrite.Query.orderAsc('year'),
-        appwrite.Query.orderAsc('month'),
-        appwrite.Query.orderAsc('day'),
-      ],
-      collectionId: '61b1cc5580c71',
-    )
-        .then((value) {
-      if (AppConstants.debug) {
-        _debug(
-            "getWhatNewsDocument()** At ${DateTime.now()} getWhatNewsDocument in api_service return the value");
-      }
-      return value;
-    }).catchError((exception, stackTrace) async {
-      if (AppConstants.debug) {
-        _debug(
-            "getWhatNewsDocument()** At ${DateTime.now()} getWhatNewsDocument in api_service return the error");
-      }
+    try {
+      return db!
+          .listDocuments(
+        databaseId: 'default',
+        queries: [
+          appwrite.Query.limit(50),
+          appwrite.Query.orderAsc('isCompleted'),
+          appwrite.Query.orderAsc('year'),
+          appwrite.Query.orderAsc('month'),
+          appwrite.Query.orderAsc('day'),
+        ],
+        collectionId: '61b1cc5580c71',
+      )
+          .then((value) {
+        if (AppConstants.debug) {
+          _debug(
+              "getWhatNewsDocument()** At ${DateTime.now()} getWhatNewsDocument in api_service return the value");
+          _debug(
+              "getWhatNewsDocument()** At ${DateTime.now()} getWhatNewsDocument in api_service return the value is ${value.total.toString()}");
+        }
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getWhatNewsDocument fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-    });
+      return null;
+    }
+    //return db!
+    //    .listDocuments(
+    //  databaseId: 'default',
+    //  queries: [
+    //    appwrite.Query.limit(50),
+    //    appwrite.Query.orderAsc('isCompleted'),
+    //    appwrite.Query.orderAsc('year'),
+    //    appwrite.Query.orderAsc('month'),
+    //    appwrite.Query.orderAsc('day'),
+    //  ],
+    //  collectionId: '61b1cc5580c71',
+    //)
+    //    .then((value) {
+    //  if (AppConstants.debug) {
+    //    _debug(
+    //        "getWhatNewsDocument()** At ${DateTime.now()} getWhatNewsDocument in api_service return the value");
+    //  }
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  if (AppConstants.debug) {
+    //    _debug(
+    //        "getWhatNewsDocument()** At ${DateTime.now()} getWhatNewsDocument in api_service return the error");
+    //  }
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //});
   }
 
-  Future<DocumentList> getPracticePlaceDocument() {
-    return db!.listDocuments(
-      collectionId: 'practicePlace',
-      databaseId: 'default',
-      queries: [appwrite.Query.limit(100)],
-    ).then((value) {
-      //_debug("getPracticePlaceDocument information " + value.sum.toString());
-      //_debug(value.documents.map((e) => _debug(e.data.toString())));
-      //_debug(value);
-      return value;
-    }).catchError((exception, stackTrace) async {
+  Future<DocumentList?> getPracticePlaceDocument() async {
+    try {
+      return db!.listDocuments(
+        collectionId: 'practicePlace',
+        databaseId: 'default',
+        queries: [appwrite.Query.limit(100)],
+      ).then((value) {
+        //_debug("getPracticePlaceDocument information " + value.sum.toString());
+        //_debug(value.documents.map((e) => _debug(e.data.toString())));
+        //_debug(value);
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getPracticePlaceDocument fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!.listDocuments(
+    //  collectionId: 'practicePlace',
+    //  databaseId: 'default',
+    //  queries: [appwrite.Query.limit(100)],
+    //).then((value) {
+    //  //_debug("getPracticePlaceDocument information " + value.sum.toString());
+    //  //_debug(value.documents.map((e) => _debug(e.data.toString())));
+    //  //_debug(value);
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
-  Future<DocumentList> getPracticeTimeDocument() {
-    return db!.listDocuments(
-      collectionId: 'practiceTime',
-      databaseId: 'default',
-      queries: [appwrite.Query.limit(100)],
-    ).then((value) {
-      //_debug("getpracticeTimeDocument information " + value.sum.toString());
-      //_debug(value.documents.map((e) => _debug(e.data.toString())));
-      //_debug(value);
-      return value;
-    }).catchError((exception, stackTrace) async {
+  Future<DocumentList?> getPracticeTimeDocument() async {
+    try {
+      return db!.listDocuments(
+        collectionId: 'practiceTime',
+        databaseId: 'default',
+        queries: [appwrite.Query.limit(100)],
+      ).then((value) {
+        //_debug("getpracticeTimeDocument information " + value.sum.toString());
+        //_debug(value.documents.map((e) => _debug(e.data.toString())));
+        //_debug(value);
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getPracticeTimeDocument fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!.listDocuments(
+    //  collectionId: 'practiceTime',
+    //  databaseId: 'default',
+    //  queries: [appwrite.Query.limit(100)],
+    //).then((value) {
+    //  //_debug("getpracticeTimeDocument information " + value.sum.toString());
+    //  //_debug(value.documents.map((e) => _debug(e.data.toString())));
+    //  //_debug(value);
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
-  Future<DocumentList> getRequirementDocument() {
-    return db!.listDocuments(
-      collectionId: 'requirement',
-      databaseId: 'default',
-      queries: [appwrite.Query.limit(100)],
-    ).then((value) {
-      //_debug("getRequirementDocument information " + value.sum.toString());
-      //_debug(value.documents.map((e) => _debug(e.data.toString())));
-      //_debug(value);
-      return value;
-    }).catchError((exception, stackTrace) async {
+  Future<DocumentList?> getRequirementDocument() async {
+    try {
+      return db!.listDocuments(
+        collectionId: 'requirement',
+        databaseId: 'default',
+        queries: [appwrite.Query.limit(100)],
+      ).then((value) {
+        //_debug("getRequirementDocument information " + value.sum.toString());
+        //_debug(value.documents.map((e) => _debug(e.data.toString())));
+        //_debug(value);
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getRequirementDocument fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!.listDocuments(
+    //  collectionId: 'requirement',
+    //  databaseId: 'default',
+    //  queries: [appwrite.Query.limit(100)],
+    //).then((value) {
+    //  //_debug("getRequirementDocument information " + value.sum.toString());
+    //  //_debug(value.documents.map((e) => _debug(e.data.toString())));
+    //  //_debug(value);
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
-  Future<DocumentList> getAnchkOrganizationDocument() {
-    return db!.listDocuments(
-      collectionId: 'anchkOrganization',
-      databaseId: 'default',
-      queries: [appwrite.Query.limit(100)],
-    ).then((value) {
-      //_debug(          "getAnchkOrganizationDocument information " + value.sum.toString());
-      //_debug(value.documents.map((e) => _debug(e.data.toString())));
-      //_debug(value);
-      return value;
-    }).catchError((exception, stackTrace) async {
+  Future<DocumentList?> getAnchkOrganizationDocument() async {
+    try {
+      return db!.listDocuments(
+        collectionId: 'anchkOrganization',
+        databaseId: 'default',
+        queries: [appwrite.Query.limit(100)],
+      ).then((value) {
+        //_debug(          "getAnchkOrganizationDocument information " + value.sum.toString());
+        //_debug(value.documents.map((e) => _debug(e.data.toString())));
+        //_debug(value);
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getAnchkOrganizationDocument fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!.listDocuments(
+    //  collectionId: 'anchkOrganization',
+    //  databaseId: 'default',
+    //  queries: [appwrite.Query.limit(100)],
+    //).then((value) {
+    //  //_debug(          "getAnchkOrganizationDocument information " + value.sum.toString());
+    //  //_debug(value.documents.map((e) => _debug(e.data.toString())));
+    //  //_debug(value);
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
-  Future<DocumentList> getAnchkMissionDocument() {
-    return db!.listDocuments(
-      collectionId: 'anchkMission',
-      databaseId: 'default',
-      queries: [appwrite.Query.limit(100)],
-    ).then((value) {
-      //_debug("getAnchkMissionDocument information " + value.sum.toString());
-      //_debug(value.documents.map((e) => _debug(e.data.toString())));
-      //_debug(value);
-      return value;
-    }).catchError((exception, stackTrace) async {
+  Future<DocumentList?> getAnchkMissionDocument() async {
+    try {
+      return db!.listDocuments(
+        collectionId: 'anchkMission',
+        databaseId: 'default',
+        queries: [appwrite.Query.limit(100)],
+      ).then((value) {
+        //_debug("getAnchkMissionDocument information " + value.sum.toString());
+        //_debug(value.documents.map((e) => _debug(e.data.toString())));
+        //_debug(value);
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getAnchkMissionDocument fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!.listDocuments(
+    //  collectionId: 'anchkMission',
+    //  databaseId: 'default',
+    //  queries: [appwrite.Query.limit(100)],
+    //).then((value) {
+    //  //_debug("getAnchkMissionDocument information " + value.sum.toString());
+    //  //_debug(value.documents.map((e) => _debug(e.data.toString())));
+    //  //_debug(value);
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
-  Future<DocumentList> getConductorMessage() {
-    return db!.listDocuments(
-      collectionId: 'conductorMessage',
-      databaseId: 'default',
-      queries: [appwrite.Query.limit(100)],
-    ).then((value) {
-      //_debug("getconductorMessage information " + value.sum.toString());
-      //_debug(value.documents.map((e) => _debug(e.data.toString())));
-      //_debug(value);
-      return value;
-    }).catchError((exception, stackTrace) async {
+  Future<DocumentList?> getConductorMessage() async {
+    try {
+      return db!.listDocuments(
+        collectionId: 'conductorMessage',
+        databaseId: 'default',
+        queries: [appwrite.Query.limit(100)],
+      ).then((value) {
+        //_debug("getconductorMessage information " + value.sum.toString());
+        //_debug(value.documents.map((e) => _debug(e.data.toString())));
+        //_debug(value);
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getConductorMessage fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!.listDocuments(
+    //  collectionId: 'conductorMessage',
+    //  databaseId: 'default',
+    //  queries: [appwrite.Query.limit(100)],
+    //).then((value) {
+    //  //_debug("getconductorMessage information " + value.sum.toString());
+    //  //_debug(value.documents.map((e) => _debug(e.data.toString())));
+    //  //_debug(value);
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
-  Future<DocumentList> getPreachersMessage() {
-    return db!.listDocuments(
-      collectionId: 'preachersMessage',
-      databaseId: 'default',
-      queries: [appwrite.Query.limit(100)],
-    ).then((value) {
-      //_debug("getPreachersMessage information " + value.sum.toString());
-      //_debug(value.documents.map((e) => _debug(e.data.toString())));
-      //_debug(value);
-      return value;
-    }).catchError((exception, stackTrace) async {
+  Future<DocumentList?> getPreachersMessage() async {
+    try {
+      return db!.listDocuments(
+        collectionId: 'preachersMessage',
+        databaseId: 'default',
+        queries: [appwrite.Query.limit(100)],
+      ).then((value) {
+        //_debug("getPreachersMessage information " + value.sum.toString());
+        //_debug(value.documents.map((e) => _debug(e.data.toString())));
+        //_debug(value);
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getPreachersMessage fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!.listDocuments(
+    //  collectionId: 'preachersMessage',
+    //  databaseId: 'default',
+    //  queries: [appwrite.Query.limit(100)],
+    //).then((value) {
+    //  //_debug("getPreachersMessage information " + value.sum.toString());
+    //  //_debug(value.documents.map((e) => _debug(e.data.toString())));
+    //  //_debug(value);
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
-  Future<DocumentList> getContactList() {
-    return db!.listDocuments(
-      collectionId: 'contactList',
-      databaseId: 'default',
-      queries: [appwrite.Query.limit(100)],
-    ).then((value) {
-      //_debug("getContactList information " + value.sum.toString());
-      //_debug(value.documents.map((e) => _debug(e.data.toString())));
-      //_debug(value);
-      return value;
-    }).catchError((exception, stackTrace) async {
+  Future<DocumentList?> getContactList() async {
+    try {
+      return db!.listDocuments(
+        collectionId: 'contactList',
+        databaseId: 'default',
+        queries: [appwrite.Query.limit(100)],
+      ).then((value) {
+        //_debug("getContactList information " + value.sum.toString());
+        //_debug(value.documents.map((e) => _debug(e.data.toString())));
+        //_debug(value);
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getContactList fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!.listDocuments(
+    //  collectionId: 'contactList',
+    //  databaseId: 'default',
+    //  queries: [appwrite.Query.limit(100)],
+    //).then((value) {
+    //  //_debug("getContactList information " + value.sum.toString());
+    //  //_debug(value.documents.map((e) => _debug(e.data.toString())));
+    //  //_debug(value);
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
-  Future<DocumentList> getAnchkorgEventCategory() {
-    return db!.listDocuments(
-      collectionId: 'category',
-      databaseId: 'default',
-      queries: [appwrite.Query.limit(100)],
-    ).then((value) {
-      //_debug("getAnchkorgEventCategory information " + value.sum.toString());
-      //_debug(value.documents.map((e) => _debug(e.data.toString())));
-      //_debug(value);
-      return value;
-    }).catchError((exception, stackTrace) async {
+  Future<DocumentList?> getAnchkorgEventCategory() async {
+    try {
+      return db!.listDocuments(
+        collectionId: 'category',
+        databaseId: 'default',
+        queries: [appwrite.Query.limit(100)],
+      ).then((value) {
+        //_debug("getAnchkorgEventCategory information " + value.sum.toString());
+        //_debug(value.documents.map((e) => _debug(e.data.toString())));
+        //_debug(value);
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getAnchkorgEventCategory fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!.listDocuments(
+    //  collectionId: 'category',
+    //  databaseId: 'default',
+    //  queries: [appwrite.Query.limit(100)],
+    //).then((value) {
+    //  //_debug("getAnchkorgEventCategory information " + value.sum.toString());
+    //  //_debug(value.documents.map((e) => _debug(e.data.toString())));
+    //  //_debug(value);
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
-  Future<DocumentList> getAnchkorgEvent() {
-    return db!.listDocuments(
-      databaseId: 'default',
-      collectionId: 'event',
-      queries: [appwrite.Query.limit(100)],
-    ).then((value) {
-      //_debug("getAnchkorgEvent information " + value.sum.toString());
-      //_debug(value.documents.map((e) => _debug(e.data.toString())));
-      //_debug(value);
-      return value;
-    }).catchError((exception, stackTrace) async {
+  Future<DocumentList?> getAnchkorgEvent() async {
+    try {
+      return db!.listDocuments(
+        databaseId: 'default',
+        collectionId: 'event',
+        queries: [appwrite.Query.limit(100)],
+      ).then((value) {
+        //_debug("getAnchkorgEvent information " + value.sum.toString());
+        //_debug(value.documents.map((e) => _debug(e.data.toString())));
+        //_debug(value);
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getAnchkorgEvent fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!.listDocuments(
+    //  databaseId: 'default',
+    //  collectionId: 'event',
+    //  queries: [appwrite.Query.limit(100)],
+    //).then((value) {
+    //  //_debug("getAnchkorgEvent information " + value.sum.toString());
+    //  //_debug(value.documents.map((e) => _debug(e.data.toString())));
+    //  //_debug(value);
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
-  Future<DocumentList> getVideoList() {
-    return db!.listDocuments(
-      databaseId: 'default',
-      collectionId: 'videoList',
-      queries: [appwrite.Query.orderAsc('youtubeTitle')],
-    ).then((value) {
+  Future<DocumentList?> getVideoList() async {
+    try {
+      return db!.listDocuments(
+        databaseId: 'default',
+        collectionId: 'videoList',
+//        queries: [appwrite.Query.orderAsc('youtubeTitle')],
+        queries: [appwrite.Query.orderDesc('\$id')],
+      ).then((value) {
 //      _debug("getVideoList information " + value.sum.toString());
 //      _debug(value.documents.map((e) => _debug(e.data.toString())));
 //      _debug(value);
-      return value;
-    }).catchError((exception, stackTrace) async {
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getVideoList fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!.listDocuments(
+    //  databaseId: 'default',
+    //  collectionId: 'videoList',
+    //  queries: [appwrite.Query.orderAsc('youtubeTitle')],
+    //).then((value) {
+//  //    _debug("getVideoList information " + value.sum.toString());
+//  //    _debug(value.documents.map((e) => _debug(e.data.toString())));
+//  //    _debug(value);
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
   Future createApplication(Map<dynamic, dynamic> data) {
@@ -737,41 +1096,79 @@ class ApiService {
     });
   }
 
-  Future<DocumentList> getChatRooms() {
-    return db!
-        .listDocuments(
-      databaseId: 'default',
-      collectionId: 'chatRoom',
-    )
-        .then((value) {
-      //_debug("getChatRooms information " + value.total.toString());
-      //_debug(value.toString());
-      return value;
-    }).catchError((exception, stackTrace) async {
+  Future<DocumentList?> getChatRooms() async {
+    try {
+      return db!
+          .listDocuments(
+        databaseId: 'default',
+        collectionId: 'chatRoom',
+      )
+          .then((value) {
+        //_debug("getChatRooms information " + value.total.toString());
+        //_debug(value.toString());
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getChatRooms fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-      //_debug(stackTrace);
-    });
+      return null;
+    }
+    //return db!
+    //    .listDocuments(
+    //  databaseId: 'default',
+    //  collectionId: 'chatRoom',
+    //)
+    //    .then((value) {
+    //  //_debug("getChatRooms information " + value.total.toString());
+    //  //_debug(value.toString());
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //  //_debug(stackTrace);
+    //});
   }
 
-  Future<DocumentList> getChatMessages() {
-    return db!
-        .listDocuments(
-      databaseId: 'default',
-      collectionId: 'chatMessage',
-    )
-        .then((value) {
-      _debug("getChatMessages information " + value.total.toString());
-      _debug(value.toString());
-      return value;
-    }).catchError((exception, stackTrace) async {
-      _debug("getChatMessages information Error" + stackTrace.toString());
+  Future<DocumentList?> getChatMessages() async {
+    try {
+      return db!
+          .listDocuments(
+        databaseId: 'default',
+        collectionId: 'chatMessage',
+      )
+          .then((value) {
+        _debug("getChatMessages information " + value.total.toString());
+        _debug(value.toString());
+        return value;
+      });
+    } on AppwriteException catch (exception, stackTrace) {
+      _debug("AppwriteException: getChatMessages fail!");
       await Sentry.captureException(
         exception,
         stackTrace: stackTrace,
       );
-    });
+      return null;
+    }
+    //return db!
+    //    .listDocuments(
+    //  databaseId: 'default',
+    //  collectionId: 'chatMessage',
+    //)
+    //    .then((value) {
+    //  _debug("getChatMessages information " + value.total.toString());
+    //  _debug(value.toString());
+    //  return value;
+    //}).catchError((exception, stackTrace) async {
+    //  _debug("getChatMessages information Error" + stackTrace.toString());
+    //  await Sentry.captureException(
+    //    exception,
+    //    stackTrace: stackTrace,
+    //  );
+    //});
   }
 }

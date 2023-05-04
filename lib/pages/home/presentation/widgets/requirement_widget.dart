@@ -8,14 +8,18 @@ import 'package:universe/pages/home/presentation/controllers/home_controller.dar
 import 'package:universe/widgets/custom_text.dart';
 
 class RequirementWidget extends StatelessWidget {
-  const RequirementWidget({Key? key}) : super(key: key);
+  RequirementWidget({Key? key}) : super(key: key);
   static HomeController controller = Get.find();
   static String bgPhoto = "";
   static List requirementItem = [];
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    return getRequirement(context);
+    return SelectableRegion(
+        focusNode: _focusNode,
+        selectionControls: materialTextSelectionControls,
+        child: getRequirement(context));
   }
 
   Widget getRequirement(BuildContext context) {
@@ -24,20 +28,6 @@ class RequirementWidget extends StatelessWidget {
       return _requirementWidget(context);
     });
   }
-
-//  Future<FutureBuilder<Object>> newMethod() async {
-//    return FutureBuilder<Object>(
-//        future: controller.getPhoto("requirement").then((value) async {
-//          bgPhoto = value;
-//          await controller
-//              .getRequirementItem()
-//              .then((value) => requirementItem = value);
-//          return value;
-//        }),
-//        builder: (context, snapshot) {
-//          return _requirementWidget(context);
-//        });
-//  }
 
   Widget _requirementWidget(BuildContext context) => Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -77,40 +67,47 @@ class RequirementWidget extends StatelessWidget {
                 .map((item) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           controller.requirement.value.message!.indexOf(item) ==
                                   controller.requirement.value.message!.length -
                                       1
                               ? Row(
                                   children: [
-                                    const SizedBox(
-                                      width: 32,
-                                    ),
+                                    //const SizedBox(
+                                    //  width: 28,
+                                    //),
                                     Icon(Icons.star_border_sharp,
                                         size: 22, color: blackColor),
+                                    const SizedBox(
+                                      width: 24,
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  children: [
+                                    CustomText(
+                                      text:
+                                          '${(controller.requirement.value.message!.indexOf(item) + 1).toString()}.  ',
+                                      size: standardTextSize,
+                                      weight: FontWeight.bold,
+                                      color: blackColor,
+                                    ),
                                     const SizedBox(
                                       width: 8,
                                     ),
                                   ],
-                                )
-                              : SelectionArea(
-                                  child: CustomText(
-                                    text:
-                                        '${(controller.requirement.value.message!.indexOf(item) + 1).toString()}.  ',
-                                    size: standardTextSize,
-                                    weight: FontWeight.bold,
-                                    color: blackColor,
-                                  ),
                                 ),
                           Expanded(
-                            child: SelectionArea(
-                              child: CustomText(
-                                text: item.text.toString(),
-                                size: standardTextSize,
-                                weight: FontWeight.bold,
-                                color: blackColor,
-                              ),
+                            flex: 1,
+                            child: CustomText(
+                              text: item.text.toString(),
+                              size: standardTextSize,
+                              weight: FontWeight.bold,
+                              color: blackColor,
+                              textAlign: TextAlign.left,
                             ),
                           ),
                         ],

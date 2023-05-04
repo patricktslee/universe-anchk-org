@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppConstants {
   static const String appTitle = '萬國宣道詠團';
-  static const bool debug = false;
+  static const String version = '1.0.7';
+  static const bool debug = true;
   static const String project = "61b0428203f09";
   static const String endpoint = "https://appwrite.anchk.org/v1";
 //  static const String endpoint = "https://backend-02.anchk.org/v1";
@@ -12,6 +13,7 @@ class AppConstants {
   static const String countryPath = '/home/country';
   static const String profilePath = '/profile';
   static const Color defaultTextColor = Colors.black;
+  static Color defaultSubTextColor = Colors.grey.withOpacity(0.7);
   static const TextStyle desktopTextStyle = TextStyle(
     fontWeight: FontWeight.bold,
     color: Colors.black,

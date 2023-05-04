@@ -6,7 +6,9 @@ import 'package:universe/pages/home/presentation/controllers/home_controller.dar
 //import 'package:universe/pages/home/presentation/controllers/menu_controller.dart1';
 //import 'package:universe/pages/home/presentation/controllers/navigation_controller.dart';
 import 'package:universe/routing/routes.dart';
+import 'package:universe/shared/app_constants.dart';
 import 'package:universe/widgets/custom_box_decoration.dart';
+import 'package:universe/widgets/custom_text.dart';
 import 'package:universe/widgets/organization_text.dart';
 import 'package:universe/widgets/side_menu_item.dart';
 import 'package:get/get.dart';
@@ -90,20 +92,48 @@ class MenuList extends StatelessWidget {
     final HomeController controller = Get.find();
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: sideMenuItemRoutes
-          .map((item) => SideMenuItem(
-              itemName: item.name,
-              onTap: () {
-                if (item.route == authenticationPageRoute) {
-                  Get.offAllNamed(authenticationPageRoute);
-                } else if (!controller.isActive(item.name)) {
-                  controller.changeActiveItemTo(item.name);
-                  if (ResponsiveWidget.isSmallScreen(context)) Get.back();
-                  controller.navigateTo(item.route);
-                }
-              }))
-          .toList(),
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: sideMenuItemRoutes
+              .map((item) => SideMenuItem(
+                  itemName: item.name,
+                  onTap: () {
+                    if (item.route == authenticationPageRoute) {
+                      Get.offAllNamed(authenticationPageRoute);
+                    } else if (!controller.isActive(item.name)) {
+                      controller.changeActiveItemTo(item.name);
+                      if (ResponsiveWidget.isSmallScreen(context)) Get.back();
+                      controller.navigateTo(item.route);
+                    }
+                  }))
+              .toList(),
+        ),
+        const SizedBox(
+          height: 160,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: ResponsiveWidget.isSmallScreen(context)
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: ResponsiveWidget.isSmallScreen(context) ? 0 : 40,
+            ),
+            CustomText(
+              text: "版本：${AppConstants.version}",
+              color: AppConstants.defaultSubTextColor,
+              size: 12,
+              weight: FontWeight.bold,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -1,0 +1,45 @@
+{
+    "projectId": "61b0428203f09",
+    "projectName": "anchkorg",
+    "functions": [
+        {
+            "$id": "applicantNotify",
+            "name": "applicantNotify",
+            "runtime": "dart-2.17",
+            "path": "functions/applicantNotify",
+            "entrypoint": "lib/main.dart",
+            "execute": [],
+            "events": [
+                "databases.*.collections.*.documents.*.create"
+            ],
+            "schedule": "",
+            "timeout": 15
+        },
+        {
+            "$id": "anonymousAccountCleanup",
+            "name": "anonymous account cleanup",
+            "runtime": "dart-2.17",
+            "path": "functions/anonymous account cleanup",
+            "entrypoint": "lib/main.dart",
+            "execute": [],
+            "events": [],
+            "schedule": "0 0 * * *",
+            "timeout": 15
+        },
+        {
+            "$id": "63f338385a0f1d7815fd",
+            "name": "Applicant test account cleanup",
+            "runtime": "dart-2.17",
+            "path": "functions/Applicant test account cleanup",
+            "entrypoint": "lib/main.dart",
+            "ignore": [
+                ".packages",
+                ".dart_tool"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "0 0 * * *",
+            "timeout": 15
+        }
+    ]
+}

@@ -20,8 +20,8 @@ class RequirementPage extends StatelessWidget {
     return Padding(
       padding: customMainTitleEdgeInsets(),
       child: Column(
-        children: const [
-          MainTitle(),
+        children: [
+          const MainTitle(),
           Expanded(
             child: SingleChildScrollView(
               child: RequirementWidget(),

@@ -30,6 +30,9 @@ const historyPageRoute = "/history";
 const videoPageDisplayName = "詠團影片";
 const videoPageRoute = "/video";
 
+const videoPageDisplayName2 = "詠團影片";
+const videoPageRoute2 = "/video2";
+
 const practicePageDisplayName = "詠團練習";
 const practicePageRoute = "/practice";
 
@@ -87,7 +90,8 @@ List<CustomMenuItem> sideMenuItemRoutes = [
 //  CustomMenuItem(conductorPageDisplayName, conductorPageRoute),
 //  CustomMenuItem(preachersPageDisplayName, preachersPageRoute),
   CustomMenuItem(historyPageDisplayName, historyPageRoute),
-  CustomMenuItem(videoPageDisplayName, videoPageRoute),
+//  CustomMenuItem(videoPageDisplayName, videoPageRoute),
+  CustomMenuItem(videoPageDisplayName2, videoPageRoute2),
   CustomMenuItem(practicePageDisplayName, practicePageRoute),
   CustomMenuItem(requirementPageDisplayName, requirementPageRoute),
   CustomMenuItem(applicationtPageDisplayName, applicationPageRoute),

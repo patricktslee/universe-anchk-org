@@ -49,6 +49,7 @@ class HomeController extends SuperController<CasesModel> {
   RxString sessionId = ''.obs;
   var activeItem = whatNewsPageDisplayName.obs;
   final RxString _username = ''.obs;
+  final RxInt _currentVideo = 0.obs;
 
   var hoverItem = "".obs;
   var selectedIndex = 2.obs;
@@ -78,6 +79,10 @@ class HomeController extends SuperController<CasesModel> {
   get currentSession {
     _currentSession = homeRepository.session;
     return _currentSession;
+  }
+
+  RxInt get currentVideo {
+    return _currentVideo;
   }
 
   RxString get currentUsername {
@@ -204,6 +209,10 @@ class HomeController extends SuperController<CasesModel> {
   }
 
   goBack() => navigatorKey.currentState!.pop();
+
+  updateCurrentVideo(int value) {
+    _currentVideo.value = value;
+  }
 
   changeSelectedIndex(int index) {
     selectedIndex.value = index;
@@ -366,6 +375,7 @@ class HomeController extends SuperController<CasesModel> {
         _debug(
             "appwriteLogin()** getWhatNews() At ${DateTime.now()} Start getWhatNews length ${whatNews.length.toString()}");
       }
+      dataStatus.value = 'Status.dataUpdated';
       whatNews.value = homeRepository.whatNews;
       if (AppConstants.debug) {
         _debug(

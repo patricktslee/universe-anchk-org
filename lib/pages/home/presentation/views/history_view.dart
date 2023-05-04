@@ -10,8 +10,8 @@ class HistoryPage extends StatelessWidget {
     return Padding(
       padding: customMainTitleEdgeInsets(),
       child: Column(
-        children: const [
-          MainTitle(),
+        children: [
+          const MainTitle(),
           HistoryWidget(),
         ],
       ),

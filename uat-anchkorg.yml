@@ -39,7 +39,7 @@ spec:
       kind: Rule
       services:
         - name: uat-anchkorg-service
-          port: 8080
+          port: 80
   tls:
     secretName: devops-anchk-org-tls
 
@@ -74,7 +74,7 @@ spec:
       kind: Rule
       services:
         - name: uat-anchkorg-service
-          port: 8080
+          port: 80
   tls:
     secretName: uat-anchk-org-tls
 
@@ -106,7 +106,7 @@ spec:
       kind: Rule
       services:
         - name: uat-anchkorg-service
-          port: 8080
+          port: 80
       middlewares:
         - name: https-redirect
 
@@ -126,7 +126,7 @@ spec:
       kind: Rule
       services:
         - name: uat-anchkorg-service
-          port: 8080
+          port: 80
       middlewares:
         - name: https-redirect
 
@@ -141,8 +141,8 @@ metadata:
 spec:
   ports:
   - name: http
-    port: 8080
-    targetPort: 8080
+    port: 80
+    targetPort: 80
     protocol: TCP
   selector:
     app: uat-anchkorg-app
@@ -177,4 +177,4 @@ spec:
             memory: 512Mi
             cpu: "0.2"
         ports:
-        - containerPort: 8080
+        - containerPort: 80

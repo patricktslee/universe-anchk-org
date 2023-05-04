@@ -426,7 +426,7 @@ class HomeRepository implements IHomeRepository {
         writePermission: writePermission,
       )
           .then((res) {
-        _currentChat = res;
+        _currentChat = res!;
         _debug('4.2 _session updated.');
       });
     } on AppwriteException catch (e) {
@@ -481,7 +481,7 @@ class HomeRepository implements IHomeRepository {
         //logger.i("Loading the data from res \$id " + res.$id.toString());
         //logger.i("Loading the data from res registration " +            res.registration.toString());
 
-        _user = LoginUser.fromMap(res.toMap());
+        _user = LoginUser.fromMap(res!.toMap());
         //logger.i('5.1.3 _user info ' + _user.toString());
         _saveUserPrefs();
         _status = Status.authenticated;
@@ -522,7 +522,7 @@ class HomeRepository implements IHomeRepository {
     } else {
       if (Platform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-        deviceId = androidInfo.id!;
+        deviceId = androidInfo.id;
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
         deviceId = iosInfo.identifierForVendor!;
@@ -612,9 +612,9 @@ class HomeRepository implements IHomeRepository {
       await provider.apiService.getWhatNewsDocument().then((res) async {
         if (AppConstants.debug) {
           _debug(
-              "getWhatNewsDocument()** At ${DateTime.now()} provider.apiService.getWhatNewsDocument complete to get res data ${res.total.toString()}");
+              "getWhatNewsDocument()** At ${DateTime.now()} provider.apiService.getWhatNewsDocument complete to get res data ${res!.total.toString()}");
         }
-        for (var element in res.documents) {
+        for (var element in res!.documents) {
           Uint8List _bgPhoto = Uint8List(0);
           Uint8List _photo = Uint8List(0);
           if (AppConstants.debug) {
@@ -682,7 +682,7 @@ class HomeRepository implements IHomeRepository {
     try {
       await provider.apiService.getPracticePlaceDocument().then((res) {
         //logger.i("Complete to get the practicePlace from Appwrite");
-        _practicePlace = res.convertTo<Paragraph>(
+        _practicePlace = res!.convertTo<Paragraph>(
             (p0) => Paragraph.fromMap((Map<String, dynamic>.from(p0))));
         //logger.i(            "Complete to load the practicePlace " + _practicePlace.toString());
       });
@@ -698,7 +698,7 @@ class HomeRepository implements IHomeRepository {
     //logger.i(        "6.3 getPracticeTimeDocument Appwrite connection using HomeRepository");
     try {
       await provider.apiService.getPracticeTimeDocument().then((res) {
-        _practiceTime = res.convertTo<Paragraph>(
+        _practiceTime = res!.convertTo<Paragraph>(
             (p0) => Paragraph.fromMap((Map<String, dynamic>.from(p0))));
         //logger.i("Complete to load the practiceTime " + _practiceTime.toString());
       });
@@ -722,10 +722,10 @@ class HomeRepository implements IHomeRepository {
     Uint8List _photoFile = Uint8List(0);
     try {
       await provider.apiService.getPracticeTimeDocument().then((res) async {
-        _practiceTimeTmp = res.convertTo<Paragraph>(
+        _practiceTimeTmp = res!.convertTo<Paragraph>(
             (p0) => Paragraph.fromMap((Map<String, dynamic>.from(p0))));
         await provider.apiService.getPracticePlaceDocument().then((res) {
-          _practicePlaceTmp = res.convertTo<Paragraph>(
+          _practicePlaceTmp = res!.convertTo<Paragraph>(
               (p0) => Paragraph.fromMap((Map<String, dynamic>.from(p0))));
         });
         await provider.apiService.getPhoto("practicePlace").then((value) async {
@@ -773,7 +773,7 @@ class HomeRepository implements IHomeRepository {
           }
           _tmp = AnchkOrganization(
             name: "Requirement",
-            message: res
+            message: res!
                 .convertTo<Paragraph>(
                     (p0) => Paragraph.fromMap((Map<String, dynamic>.from(p0))))
                 .toList(),
@@ -835,7 +835,7 @@ class HomeRepository implements IHomeRepository {
           }
           _tmp = AnchkOrganization(
             name: "Introduction",
-            message: res
+            message: res!
                 .convertTo<Paragraph>(
                     (p0) => Paragraph.fromMap((Map<String, dynamic>.from(p0))))
                 .toList(),
@@ -896,7 +896,7 @@ class HomeRepository implements IHomeRepository {
           }
           _tmp = AnchkOrganization(
             name: "Mission",
-            message: res
+            message: res!
                 .convertTo<Paragraph>(
                     (p0) => Paragraph.fromMap((Map<String, dynamic>.from(p0))))
                 .toList(),
@@ -938,7 +938,7 @@ class HomeRepository implements IHomeRepository {
         //logger.i("getConductorMessage is " +            res.documents[0].data['text'].toString());
         Conductor _conductorTmp = Conductor();
         Uint8List _conductorFile = Uint8List(0);
-        if (_conductor.photo == res.documents[0].data['photo']) {
+        if (_conductor.photo == res!.documents[0].data['photo']) {
           _conductorFile = _conductor.photoFile!;
         } else {
           await provider.apiService
@@ -981,7 +981,7 @@ class HomeRepository implements IHomeRepository {
 
         Preacher _preacherTmp = Preacher();
         Uint8List _preacherFile = Uint8List(0);
-        if (_preacher.photo == res.documents[0].data['photo']) {
+        if (_preacher.photo == res!.documents[0].data['photo']) {
           _preacherFile = _preacher.photoFile!;
         } else {
           await provider.apiService
@@ -1033,7 +1033,7 @@ class HomeRepository implements IHomeRepository {
             });
           }
           _contactTmp = ContactInfo(
-            organizationInfo: res.convertTo<OrganizationInfo>((p0) =>
+            organizationInfo: res!.convertTo<OrganizationInfo>((p0) =>
                 OrganizationInfo.fromMap((Map<String, dynamic>.from(p0)))),
             photo: value['fileId'],
             photoFile: _photoFile,
@@ -1064,11 +1064,11 @@ class HomeRepository implements IHomeRepository {
           List<EventCategory> _anchkorgEventCategory;
 
           _anchkorgEventCategory =
-              categoryRes.convertTo<EventCategory>((eventCategoryP0) {
+              categoryRes!.convertTo<EventCategory>((eventCategoryP0) {
             EventCategory _eventCategory;
             String _name;
             _name = eventCategoryP0['name'].toString();
-            List<EventHistory> _anchkEventHostory = eventRes.convertTo(
+            List<EventHistory> _anchkEventHostory = eventRes!.convertTo(
                 (p0) => EventHistory.fromMap((Map<String, dynamic>.from(p0))));
             _eventCategory =
                 EventCategory.byCategoryName(_name, _anchkEventHostory);
@@ -1100,11 +1100,11 @@ class HomeRepository implements IHomeRepository {
           List<EventCategory> _anchkorgEventCategory;
 
           _anchkorgEventCategory =
-              categoryRes.convertTo<EventCategory>((eventCategoryP0) {
+              categoryRes!.convertTo<EventCategory>((eventCategoryP0) {
             EventCategory _eventCategory;
             String _name;
             _name = eventCategoryP0['name'].toString();
-            List<EventHistory> _anchkEventHostory = eventRes.convertTo(
+            List<EventHistory> _anchkEventHostory = eventRes!.convertTo(
                 (p0) => EventHistory.fromMap((Map<String, dynamic>.from(p0))));
             _eventCategory =
                 EventCategory.byCategoryName(_name, _anchkEventHostory);
@@ -1139,11 +1139,11 @@ class HomeRepository implements IHomeRepository {
           List<EventCategory> _anchkorgEventCategory;
 
           _anchkorgEventCategory =
-              categoryRes.convertTo<EventCategory>((eventCategoryP0) {
+              categoryRes!.convertTo<EventCategory>((eventCategoryP0) {
             EventCategory _eventCategory;
             String _name;
             _name = eventCategoryP0['name'].toString();
-            List<EventHistory> _anchkEventHostory = eventRes.convertTo(
+            List<EventHistory> _anchkEventHostory = eventRes!.convertTo(
                 (p0) => EventHistory.fromMap((Map<String, dynamic>.from(p0))));
             _eventCategory =
                 EventCategory.byCategoryName(_name, _anchkEventHostory);
@@ -1172,7 +1172,7 @@ class HomeRepository implements IHomeRepository {
     //logger.i("6.11 getVideoList Appwrite connection using HomeRepository");
     try {
       await provider.apiService.getVideoList().then((res) {
-        _videoList = res.convertTo<YoutubeModel>(
+        _videoList = res!.convertTo<YoutubeModel>(
             (p0) => YoutubeModel.fromMap((Map<String, dynamic>.from(p0))));
         //logger.i("Complete to load the contactList Document " +            _contactList.toString());
       });
@@ -1190,7 +1190,7 @@ class HomeRepository implements IHomeRepository {
 
     try {
       await provider.apiService.getChatRooms().then((res) async {
-        for (var element in res.documents) {
+        for (var element in res!.documents) {
           Uint8List _photoFile = Uint8List(0);
           await provider.apiService
               .getFile(element.data['imageURL'])
@@ -1213,7 +1213,7 @@ class HomeRepository implements IHomeRepository {
     List<ChatMessage> _chatMessageTmp = [];
     try {
       await provider.apiService.getChatMessages().then((res) async {
-        for (var element in res.documents) {
+        for (var element in res!.documents) {
           _chatMessageTmp.add(ChatMessage.fromMap(element.data));
         }
         //logger.i("Complete to load the contactList Document " +            _contactList.toString());

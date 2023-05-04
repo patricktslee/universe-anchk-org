@@ -11,6 +11,7 @@ class CustomText extends StatelessWidget {
   final TextAlign textAlign;
   final TextDecoration textDecoration;
   final List<Shadow> shadow;
+  final bool softWrap;
 
   const CustomText({
     Key? key,
@@ -21,6 +22,7 @@ class CustomText extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.textDecoration = TextDecoration.none,
     this.shadow = const [],
+    this.softWrap = true,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
+      softWrap: softWrap,
       style: TextStyle(
           fontFamily: defaultFont,
           fontSize: responsiveFontSize, // default is 16,

@@ -6,11 +6,12 @@ import 'package:universe/pages/home/presentation/controllers/home_controller.dar
 import 'package:universe/widgets/custom_text.dart';
 
 class HistoryWidget extends StatelessWidget {
-  const HistoryWidget({Key? key}) : super(key: key);
+  HistoryWidget({Key? key}) : super(key: key);
   static HomeController controller = Get.find();
   static List _eventHistoryItem = [];
   static List eventHistoryItem1 = [];
   static List eventHistoryItem2 = [];
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -24,42 +25,42 @@ class HistoryWidget extends StatelessWidget {
       item
           ? _eventHistoryItem = controller.eventHistoryItem1
           : _eventHistoryItem = controller.eventHistoryItem2;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-                //   snapshot.data! //              controller.eventHistoryItem1
-                _eventHistoryItem
-                    .map(
-                      (item) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SelectionArea(
-                              child: CustomText(
+      return SelectableRegion(
+        focusNode: _focusNode,
+        selectionControls: materialTextSelectionControls,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:
+                  //   snapshot.data! //              controller.eventHistoryItem1
+                  _eventHistoryItem
+                      .map(
+                        (item) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
                                 text: item.name.toString(),
                                 size: standardTextSize,
                                 weight: FontWeight.bold,
                                 color: strongpink,
                               ),
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: item.events
-                                  .map<Widget>(
-                                    (event) => Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 150,
-                                            child: SelectionArea(
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: item.events
+                                    .map<Widget>(
+                                      (event) => Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 150,
                                               child: CustomText(
                                                 text: event.year.toString(),
                                                 size: standardTextSize,
@@ -67,10 +68,8 @@ class HistoryWidget extends StatelessWidget {
                                                 color: blackColor,
                                               ),
                                             ),
-                                          ),
-                                          Expanded(
-//                                            flex: 1,
-                                            child: SelectionArea(
+                                            Expanded(
+                                              //                                            flex: 1,
                                               child: CustomText(
                                                 text: event.event.toString(),
                                                 size: standardTextSize,
@@ -78,20 +77,20 @@ class HistoryWidget extends StatelessWidget {
                                                 color: blackColor,
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ],
+                                    )
+                                    .toList(),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
-          ),
-        ],
+                      )
+                      .toList(),
+            ),
+          ],
+        ),
       );
     });
   }
